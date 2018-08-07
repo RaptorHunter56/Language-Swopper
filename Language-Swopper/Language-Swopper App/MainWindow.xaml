@@ -1,12 +1,27 @@
-﻿<Window x:Class="MainWindow"
+﻿<Window x:Class="Language_Swopper_App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Language_Swopper_App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="250" Width="525" WindowStyle="None" AllowsTransparency="True">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="25"/>
+    </WindowChrome.WindowChrome>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid VerticalAlignment="Top" Background="AliceBlue" Grid.Row="0">
+            <Label x:Name="NameLabel" Content="Name" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            <StackPanel Height="25" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Width="25" Content="" Name="MinimizeButton"/>
+                <Button Width="25" Content="[]" Name="MaximizeButton"/>
+                <Button Width="25" Content="X" Name="CloseButton"/>
+            </StackPanel>
+        </Grid>
+        <local:TextControl Grid.Row="1"/>
     </Grid>
 </Window>

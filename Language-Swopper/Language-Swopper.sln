@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Language-Swopper App", "Language-Swopper App\Language-Swopper App.vbproj", "{3E4F8CDC-1FB3-4923-A18B-E9FAA24DEF49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Language-Swopper App", "Language-Swopper App\Language-Swopper App.csproj", "{23FD19B6-06D2-4445-9828-4E79C5D51382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3E4F8CDC-1FB3-4923-A18B-E9FAA24DEF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E4F8CDC-1FB3-4923-A18B-E9FAA24DEF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E4F8CDC-1FB3-4923-A18B-E9FAA24DEF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E4F8CDC-1FB3-4923-A18B-E9FAA24DEF49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FD19B6-06D2-4445-9828-4E79C5D51382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FD19B6-06D2-4445-9828-4E79C5D51382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FD19B6-06D2-4445-9828-4E79C5D51382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FD19B6-06D2-4445-9828-4E79C5D51382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0348F644-3AA3-4CEA-889D-D95D8CE810AB}
 	EndGlobalSection
 EndGlobal
