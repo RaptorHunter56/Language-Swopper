@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -11,86 +14,145 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TextControl : UserControl
     {
-
         public Dictionary<string, Color> dictionary = new Dictionary<string, Color>();
 
         public TextControl()
         {
             InitializeComponent();
-            this.paragraph = new Paragraph();
-            MainRichTextBox.Document = new FlowDocument(paragraph);
-            dictionary.Add("hi", new Color() { A = 250, R = 0, G = 0, B = 250 });
         }
 
-        private List<Word> words = new List<Word>();
-        private Paragraph paragraph;
-        private bool stop = true;
-
-        private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        #region textbox
+        private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
-            if (stop)
+            if (MainRichTextBox.Document == null)
+                return;
+
+            TextRange documentRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
+            documentRange.ClearAllProperties();
+
+            TextPointer navigator = MainRichTextBox.Document.ContentStart;
+            while (navigator.CompareTo(MainRichTextBox.Document.ContentEnd) < 0)
             {
-                stop = false;
-                words.Clear();
-
-                int moveTo = -2 - MainRichTextBox.CaretPosition.GetOffsetToPosition(MainRichTextBox.CaretPosition.DocumentStart);
-                string largeText = "";
-
-                foreach (var TextColor in paragraph.Inlines)
+                TextPointerContext context = navigator.GetPointerContext(LogicalDirection.Backward);
+                if (context == TextPointerContext.ElementStart && navigator.Parent is Run)
                 {
-                    foreach (var TextWord in new TextRange(TextColor.ContentStart, TextColor.ContentEnd).Text)
+                    CheckWordsInRun((Run)navigator.Parent);
+                }
+                navigator = navigator.GetNextContextPosition(LogicalDirection.Forward);
+            }
+
+            Format();
+        }
+        new struct Tag
+        {
+            public TextPointer StartPosition;
+            public TextPointer EndPosition;
+            public string Word;
+
+        }
+        List<Tag> m_tags = new List<Tag>();
+        void Format()
+        {
+            MainRichTextBox.TextChanged -= this.TextChangedEventHandler;
+
+            for (int i = 0; i < m_tags.Count; i++)
+            {
+                TextRange range = new TextRange(m_tags[i].StartPosition, m_tags[i].EndPosition);
+                range.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Blue));
+                range.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+            }
+            m_tags.Clear();
+
+            MainRichTextBox.TextChanged += this.TextChangedEventHandler;
+        }
+
+        void CheckWordsInRun(Run run)
+        {
+            string text = run.Text + " ";
+
+            int sIndex = 0;
+            int eIndex = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (Char.IsWhiteSpace(text[i]) | JSSyntaxProvider.GetSpecials.Contains(text[i]))
+                {
+                    if (i > 0 && !(Char.IsWhiteSpace(text[i - 1]) | JSSyntaxProvider.GetSpecials.Contains(text[i - 1])))
                     {
-                        largeText += TextWord;
+                        eIndex = i - 1;
+                        string word = text.Substring(sIndex, eIndex - sIndex + 1);
+
+                        if (JSSyntaxProvider.IsKnownTag(word))
+                        {
+                            Tag t = new Tag();
+                            t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
+                            t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
+                            t.Word = word;
+                            m_tags.Add(t);
+                        }
                     }
+                    sIndex = i + 1;
                 }
-                foreach (var item in largeText.Split(' '))
-                {
-                    words.Add(new Word() { Text = item + " ", Color = new Color() { A = 250, R = 0, G = 0, B = 0 } });
-                }
-                words[words.Count - 1].Text = words[words.Count - 1].Text.Substring(0, (words[words.Count - 1].Text.Length - 1));
-                for (int i = 0; i < words.Count; i++)
-                {
-                    CheckWord(i);
-                }
+            }
 
-                paragraph.Inlines.Clear();
-                foreach (var word in words)
-                {
-                    paragraph.Inlines.Add(new Run(word.Text)
-                    {
-                        Foreground = new SolidColorBrush(word.Color)
-                    });
-                }
-
-                //if (moveTo != 0)
-                //    MainRichTextBox.CaretPosition = ;
-                //else
-                //    MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.DocumentEnd;
-                ////var from = "user1";
-                ////var text = "chat message goes here";
-                ////paragraph.Inlines.Add(new Run(from + ": ")
-                ////{
-                ////    Foreground = Brushes.Red
-                ////});
-                ////paragraph.Inlines.Add(text);
-                ////paragraph.Inlines.Add(new LineBreak());
-                this.DataContext = this;
-                stop = true;
+            string lastWord = text.Substring(sIndex, text.Length - sIndex);
+            if (JSSyntaxProvider.IsKnownTag(lastWord))
+            {
+                Tag t = new Tag();
+                t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
+                t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
+                t.Word = lastWord;
+                m_tags.Add(t);
             }
         }
+        #endregion
+    }
 
-        internal void CheckWord(int Position)
+    class JSSyntaxProvider
+    {
+        static List<string> tags = new List<string>();
+        static List<char> specials = new List<char>();
+        #region ctor
+        static JSSyntaxProvider()
         {
-            if (dictionary.ContainsKey(words[Position].Text))
-                words[Position].Color = dictionary[words[Position].Text];
-            else
-                words[Position].Color = new Color() { A = 250, R = 0, G = 0, B = 0 };
+            string[] strs = {
+                "for",
+                "open",
+                "push",
+                "reload"
+            };
+            tags = new List<string>(strs);
+
+            char[] chrs = {
+                '.',
+                ')',
+                '(',
+                '[',
+                ']',
+                '>',
+                '<',
+                ':',
+                ';',
+                '\n',
+                '\t'
+            };
+            specials = new List<char>(chrs);
         }
-
-        private class Word
+        #endregion
+        public static List<char> GetSpecials
         {
-            public string Text { get; set; }
-            public Color Color { get; set; } = new Color() { A = 250, R = 0, G = 0, B = 0};
+            get { return specials; }
+        }
+        public static List<string> GetTags
+        {
+            get { return tags; }
+        }
+        public static bool IsKnownTag(string tag)
+        {
+            return tags.Exists(delegate (string s) { return s.ToLower().Equals(tag.ToLower()); });
+        }
+        public static List<string> GetJSProvider(string tag)
+        {
+            return tags.FindAll(delegate (string s) { return s.ToLower().StartsWith(tag.ToLower()); });
         }
     }
 }
