@@ -150,6 +150,16 @@ namespace Language_Swopper_App
             MinimizeButton.Click += (s, c) => WindowState = WindowState.Minimized;
             MaximizeButton.Click += (s, c) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             CloseButton.Click += (s, c) => Close();
+            MainTextControl.Dictionary = PythodDictionary;
         }
+
+        public Dictionary<string, Color> PythodDictionary = new Dictionary<string, Color>()
+        {
+            { "for", new Color() { A = 255, R = 255, G = 0, B = 0 } },
+            { "open", new Color() { A = 255, R = 255, G = 0, B = 0 } },
+            { "push", new Color() { A = 255, R = 0, G = 255, B = 0 } },
+            { "reload", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
+        };
+
     }
 }

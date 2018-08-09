@@ -22,6 +22,6 @@
                 <Button Width="25" Content="X" Name="CloseButton"/>
             </StackPanel>
         </Grid>
-        <local:TextControl Grid.Row="1"/>
+        <local:TextControl x:Name="MainTextControl" Grid.Row="1"/>
     </Grid>
 </Window>
