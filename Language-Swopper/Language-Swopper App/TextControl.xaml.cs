@@ -25,6 +25,7 @@ namespace Language_Swopper_App
             {
                 ColorTags.ResetTags(new List<string>(value.Keys));
                 dictionary = value;
+                TextChangedMethod();
             }
         }
 
@@ -35,7 +36,7 @@ namespace Language_Swopper_App
         }
 
         #region textbox
-        private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
+        private void TextChangedMethod()
         {
             if (MainRichTextBox.Document == null)
                 return;
@@ -55,6 +56,10 @@ namespace Language_Swopper_App
             }
 
             Format();
+        }
+        private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
+        {
+            TextChangedMethod();
         }
         new struct Tag
         {

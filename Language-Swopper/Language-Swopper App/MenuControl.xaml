@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Language_Swopper_App.MenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Language_Swopper_App"
+             mc:Ignorable="d">
+    <Grid>
+        <Menu >
+            <MenuItem Header="File">
+                <MenuItem Header="New"/>
+                <MenuItem Header="Open"/>
+                <Separator/>
+                <MenuItem Header="Save"/>
+                <MenuItem Header="Save As"/>
+                <Separator/>
+                <MenuItem Header="Print"/>
+                <MenuItem Header="Print Preview"/>
+                <Separator/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo"/>
+                <MenuItem Header="Redo"/>
+                <Separator/>
+                <MenuItem Header="Cut"/>
+                <MenuItem Header="Copy"/>
+                <MenuItem Header="Paste"/>
+                <Separator/>
+                <MenuItem Header="Select All"/>
+            </MenuItem>
+            <MenuItem x:Name="LanguageMenu" Header="Language" StaysOpenOnClick="True">
+                <MenuItem x:Name="CSharpLanguageMenu" Header="C#" IsCheckable="True" Checked="MenuItem_Checked" IsChecked="True"/>
+                <MenuItem x:Name="VisualBasicLanguageMenu" Header="Visual Basic" IsCheckable="True" Checked="MenuItem_Checked"/>
+                <MenuItem x:Name="PythonLanguageMenu" Header="Python" IsCheckable="True" Checked="MenuItem_Checked"/>
+                <Separator/>
+                <MenuItem x:Name="MySqlLanguageMenu" Header="MySql" IsCheckable="True" Checked="MenuItem_Checked"/>
+                <MenuItem x:Name="SqlLanguageMenu" Header="Sql" IsCheckable="True" Checked="MenuItem_Checked"/>
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="Customize"/>
+                <MenuItem Header="Options"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Contents"/>
+                <MenuItem Header="Index"/>
+                <MenuItem Header="Search"/>
+                <Separator/>
+                <MenuItem Header="About..."/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

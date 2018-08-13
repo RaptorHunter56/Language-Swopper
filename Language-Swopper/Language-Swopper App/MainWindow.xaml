@@ -12,6 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid VerticalAlignment="Top" Background="AliceBlue" Grid.Row="0">
@@ -22,6 +23,7 @@
                 <Button Width="25" Content="X" Name="CloseButton"/>
             </StackPanel>
         </Grid>
-        <local:TextControl x:Name="MainTextControl" Grid.Row="1"/>
+        <local:MenuControl x:Name="MainMenuControl" Grid.Row="1"/>
+        <local:TextControl x:Name="MainTextControl" Grid.Row="2"/>
     </Grid>
 </Window>

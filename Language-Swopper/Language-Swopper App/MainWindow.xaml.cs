@@ -151,8 +151,16 @@ namespace Language_Swopper_App
             MaximizeButton.Click += (s, c) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             CloseButton.Click += (s, c) => Close();
             MainTextControl.Dictionary = PythodDictionary;
+            MainMenuControl.LanguageUpdated += LanguageUpdated;
         }
 
+        public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()
+        {
+            { "for", new Color() { A = 255, R = 255, G = 255, B = 0 } },
+            { "open", new Color() { A = 255, R = 255, G = 255, B = 0 } },
+            { "push", new Color() { A = 255, R = 0, G = 255, B = 255 } },
+            { "reload", new Color(){ A = 255, R = 255, G = 0, B = 255 } }
+        };
         public Dictionary<string, Color> PythodDictionary = new Dictionary<string, Color>()
         {
             { "for", new Color() { A = 255, R = 255, G = 0, B = 0 } },
@@ -161,5 +169,28 @@ namespace Language_Swopper_App
             { "reload", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
         };
 
+
+        #region Menu
+        public void LanguageUpdated()
+        {
+            switch (MainMenuControl.GetLanguage)
+            {
+                case "C#":
+                    MainTextControl.Dictionary = CSharpDictionary;
+                    break;
+                case "Visual Basic":
+                    break;
+                case "Python":
+                    MainTextControl.Dictionary = PythodDictionary;
+                    break;
+                case "MySql":
+                    break;
+                case "Sql":
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
     }
 }
