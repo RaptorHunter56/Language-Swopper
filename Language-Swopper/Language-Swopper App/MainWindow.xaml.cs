@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -150,13 +152,14 @@ namespace Language_Swopper_App
             MinimizeButton.Click += (s, c) => WindowState = WindowState.Minimized;
             MaximizeButton.Click += (s, c) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             CloseButton.Click += (s, c) => Close();
-            MainTextControl.Dictionary = PythodDictionary;
+            MainTextControl.Dictionary = CSharpDictionary;
             MainMenuControl.LanguageUpdated += LanguageUpdated;
+            MainMenuControl.MenuOpenClicked += MenuOpen;
         }
 
         public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()
         {
-            { "for", new Color() { A = 255, R = 255, G = 255, B = 0 } },
+            { "using", new Color() { A = 255, R = 255, G = 255, B = 0 } },
             { "open", new Color() { A = 255, R = 255, G = 255, B = 0 } },
             { "push", new Color() { A = 255, R = 0, G = 255, B = 255 } },
             { "reload", new Color(){ A = 255, R = 255, G = 0, B = 255 } }
@@ -171,6 +174,18 @@ namespace Language_Swopper_App
 
 
         #region Menu
+        public void MenuOpen()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = MainMenuControl.Filter;
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                MainMenuControl.Document = openFileDialog.FileName;
+                MainTextControl.MainRichTextBox.Document.Blocks.Clear();
+                MainTextControl.MainRichTextBox .AppendText(File.ReadAllText(openFileDialog.FileName));
+            }
+        }
         public void LanguageUpdated()
         {
             switch (MainMenuControl.GetLanguage)

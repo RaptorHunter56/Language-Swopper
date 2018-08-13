@@ -20,13 +20,14 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class MenuControl : UserControl
     {
-        private string document;
-        public string DocumentName { get { return document.Split("\\".ToCharArray()[0]).Last().Split('.').First(); } }
-        public string DocumentPath { get { string tempstring = ""; for (int i = 0; i < document.Split("\\".ToCharArray()[0]).Length - 2; i++) { tempstring += document.Split("\\".ToCharArray()[0])[i]; } return tempstring; } }
-        public string DocumentType { get { return $".{document.Split('.').Last()}"; } }
+        public string Document;
+        public string DocumentName { get { return Document.Split("\\".ToCharArray()[0]).Last().Split('.').First(); } }
+        public string DocumentPath { get { string tempstring = ""; for (int i = 0; i < Document.Split("\\".ToCharArray()[0]).Length - 2; i++) { tempstring += Document.Split("\\".ToCharArray()[0])[i]; } return tempstring; } }
+        public string DocumentType { get { return $".{Document.Split('.').Last()}"; } }
 
         private string Language { get { return language; } set { language = value; try { LanguageUpdated(); } catch { } } }
         public string GetLanguage { get { return language; } }
+        public string Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
         private string language;
 
         public delegate void LanguageUpdate();
@@ -48,6 +49,13 @@ namespace Language_Swopper_App
                         item.IsChecked = false;
                 }
             }
+        }
+
+        public delegate void MenuOpen();
+        public event MenuOpen MenuOpenClicked;
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try { MenuOpenClicked(); } catch { }
         }
     }
 }
