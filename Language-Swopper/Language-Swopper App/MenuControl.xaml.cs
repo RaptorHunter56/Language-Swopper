@@ -57,5 +57,12 @@ namespace Language_Swopper_App
         {
             try { MenuOpenClicked(); } catch { }
         }
+
+        public delegate void MenuSave();
+        public event MenuOpen MenuSaveClicked;
+        private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try { MenuSaveClicked(); } catch { }
+        }
     }
 }
