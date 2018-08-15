@@ -7,20 +7,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="250" Width="525" WindowStyle="None" AllowsTransparency="True">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="25"/>
+        <WindowChrome CaptionHeight="21"/>
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid VerticalAlignment="Top" Background="AliceBlue" Grid.Row="0">
-            <Label x:Name="NameLabel" Content="Name" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <StackPanel Height="25" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Width="25" Content="" Name="MinimizeButton"/>
-                <Button Width="25" Content="[]" Name="MaximizeButton"/>
-                <Button Width="25" Content="X" Name="CloseButton"/>
+            <Label x:Name="NameLabel" Content="Name" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+            <StackPanel Height="20" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Width="20" Content="_" Name="MinimizeButton" Padding="1,-2,1,1"/>
+                <Button Width="20" Content="[]" Name="MaximizeButton" Padding="1,-1,1,1"/>
+                <Button Width="20" Content="X" Name="CloseButton" Padding="1,0,1,1"/>
             </StackPanel>
         </Grid>
         <local:MenuControl x:Name="MainMenuControl" Grid.Row="1"/>

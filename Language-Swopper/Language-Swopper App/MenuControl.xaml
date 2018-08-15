@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Language_Swopper_App"
              mc:Ignorable="d">
     <Grid>
-        <Menu >
+        <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="New"/>
                 <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
