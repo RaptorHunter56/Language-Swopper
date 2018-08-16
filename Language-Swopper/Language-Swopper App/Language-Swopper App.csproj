@@ -34,7 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,12 +61,45 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MenuControl.xaml.cs">
+    <Compile Include="Cipher.cs" />
+    <Compile Include="FileContext.cs" />
+    <Compile Include="Controls\MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TextControl.xaml.cs">
+    <Compile Include="Migrations\201808152326223_Empty.cs" />
+    <Compile Include="Migrations\201808152326223_Empty.Designer.cs">
+      <DependentUpon>201808152326223_Empty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808160007405_Table-Create Folders.cs" />
+    <Compile Include="Migrations\201808160007405_Table-Create Folders.Designer.cs">
+      <DependentUpon>201808160007405_Table-Create Folders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808160045495_Table-Create Files.cs" />
+    <Compile Include="Migrations\201808160045495_Table-Create Files.Designer.cs">
+      <DependentUpon>201808160045495_Table-Create Files.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808160058515_Table-Create NameSpaces.cs" />
+    <Compile Include="Migrations\201808160058515_Table-Create NameSpaces.Designer.cs">
+      <DependentUpon>201808160058515_Table-Create NameSpaces.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808160106546_Table-Create Classes.cs" />
+    <Compile Include="Migrations\201808160106546_Table-Create Classes.Designer.cs">
+      <DependentUpon>201808160106546_Table-Create Classes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808160132069_Table-Create Highlights.cs" />
+    <Compile Include="Migrations\201808160132069_Table-Create Highlights.Designer.cs">
+      <DependentUpon>201808160132069_Table-Create Highlights.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Controls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tables\AutoComplete.cs" />
+    <Compile Include="Tables\Class.cs" />
+    <Compile Include="Tables\File.cs" />
+    <Compile Include="Tables\Folder.cs" />
+    <Compile Include="Tables\Highlight.cs" />
+    <Compile Include="Tables\NameSpace.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,11 +112,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MenuControl.xaml">
+    <Page Include="Controls\MenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TextControl.xaml">
+    <Page Include="Controls\TextControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -95,10 +135,29 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201808152326223_Empty.resx">
+      <DependentUpon>201808152326223_Empty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808160007405_Table-Create Folders.resx">
+      <DependentUpon>201808160007405_Table-Create Folders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808160045495_Table-Create Files.resx">
+      <DependentUpon>201808160045495_Table-Create Files.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808160058515_Table-Create NameSpaces.resx">
+      <DependentUpon>201808160058515_Table-Create NameSpaces.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808160106546_Table-Create Classes.resx">
+      <DependentUpon>201808160106546_Table-Create Classes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808160132069_Table-Create Highlights.resx">
+      <DependentUpon>201808160132069_Table-Create Highlights.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -107,5 +166,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
