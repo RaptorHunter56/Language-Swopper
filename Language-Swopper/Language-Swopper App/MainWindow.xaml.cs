@@ -156,6 +156,7 @@ namespace Language_Swopper_App
             MainMenuControl.LanguageUpdated += LanguageUpdated;
             MainMenuControl.MenuOpenClicked += MenuOpen;
             MainMenuControl.MenuSaveClicked += MenuSave;
+            MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
         }
 
         public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()
@@ -197,6 +198,10 @@ namespace Language_Swopper_App
                         MainTextControl.MainRichTextBox.Document.ContentStart,
                         MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
             }
+        }
+        public void MenuRefreshLanguage()
+        {
+            UpdateDatabase();
         }
         public void LanguageUpdated()
         {

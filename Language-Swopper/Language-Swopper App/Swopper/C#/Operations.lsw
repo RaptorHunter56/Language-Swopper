@@ -1,0 +1,16 @@
+using System;
+//using Language_Swopper_App.Classes;
+
+namespace Operations
+{
+    public class Plus
+    {
+        public static string Print(int One, int Two)
+        {
+			return $"{One} + {Two}";
+        }
+    }
+}
+
+####
++,255|0|0|205

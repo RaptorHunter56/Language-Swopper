@@ -38,6 +38,7 @@
                 <MenuItem x:Name="SqlLanguageMenu" Header="Sql" IsCheckable="True" Checked="MenuItem_Checked"/>
             </MenuItem>
             <MenuItem Header="Tools">
+                <MenuItem Header="Refresh Language" Click="RefreshLanguageMenuItem_Click"/>
                 <MenuItem Header="Customize"/>
                 <MenuItem Header="Options"/>
             </MenuItem>

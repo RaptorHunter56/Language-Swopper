@@ -64,5 +64,12 @@ namespace Language_Swopper_App
         {
             try { MenuSaveClicked(); } catch { }
         }
+
+        public delegate void MenuRefreshLanguage();
+        public event MenuOpen MenuRefreshLanguageClicked;
+        private void RefreshLanguageMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try { MenuRefreshLanguageClicked(); } catch { }
+        }
     }
 }
