@@ -61,7 +61,7 @@ namespace Language_Swopper_App
                             Name = singlefiledirectories.Split("\\".ToCharArray().First()).Last().Split('.').First()
                         });
                         _context.SaveChanges();
-                        string filetext = System.IO.File.ReadAllText(singlefiledirectories);
+                        string filetext = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[0];
                         int occurrencenumber = filetext.Split(new[] { "namespace" }, StringSplitOptions.None).Count();
                         for (int i = 1; i < occurrencenumber; i++)
                         {
@@ -79,6 +79,12 @@ namespace Language_Swopper_App
                                 });
                                 _context.SaveChanges();
                             }
+                        }
+                        var ColorList = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[1].Trim().Split(new[] { "\r\n" }, StringSplitOptions.None);
+                        foreach (var item in ColorList)
+                        {
+                            _context.Highlights.Add(new Highlight() { Text = item.Split(',')[0], Color = item.Split(',')[1] });
+                            _context.SaveChanges();
                         }
                     }
 
