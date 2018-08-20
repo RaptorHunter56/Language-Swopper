@@ -11,6 +11,12 @@ namespace Language_Swopper_App.Tables
     [Table("A")]
     class Folder
     {
+        public Folder()
+        {
+            Files = new List<File>();
+            Highlights = new List<Highlight>();
+        }
+
         [Key]
         [Display(Name = "A1")]
         [Column("A1")]
@@ -38,5 +44,8 @@ namespace Language_Swopper_App.Tables
             Name = FolderPath.Split("\\".ToCharArray().First()).Last();
             Path = FolderPath.TrimEnd(Name.ToCharArray());
         }
+        
+        public List<File> Files { get; set; }
+        public List<Highlight> Highlights { get; set; }
     }
 }

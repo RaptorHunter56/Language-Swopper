@@ -90,6 +90,26 @@
     <Compile Include="Migrations\201808160132069_Table-Create Highlights.Designer.cs">
       <DependentUpon>201808160132069_Table-Create Highlights.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808200219011_Table-Edit Files.cs" />
+    <Compile Include="Migrations\201808200219011_Table-Edit Files.Designer.cs">
+      <DependentUpon>201808200219011_Table-Edit Files.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808200228164_Table-Edit File.cs" />
+    <Compile Include="Migrations\201808200228164_Table-Edit File.Designer.cs">
+      <DependentUpon>201808200228164_Table-Edit File.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808200231536_Table-Edit NameSpace.cs" />
+    <Compile Include="Migrations\201808200231536_Table-Edit NameSpace.Designer.cs">
+      <DependentUpon>201808200231536_Table-Edit NameSpace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808200307467_Table-Edit Highlight.cs" />
+    <Compile Include="Migrations\201808200307467_Table-Edit Highlight.Designer.cs">
+      <DependentUpon>201808200307467_Table-Edit Highlight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808200315254_Table-Edit All.cs" />
+    <Compile Include="Migrations\201808200315254_Table-Edit All.Designer.cs">
+      <DependentUpon>201808200315254_Table-Edit All.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
@@ -152,6 +172,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808160132069_Table-Create Highlights.resx">
       <DependentUpon>201808160132069_Table-Create Highlights.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808200219011_Table-Edit Files.resx">
+      <DependentUpon>201808200219011_Table-Edit Files.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808200228164_Table-Edit File.resx">
+      <DependentUpon>201808200228164_Table-Edit File.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808200231536_Table-Edit NameSpace.resx">
+      <DependentUpon>201808200231536_Table-Edit NameSpace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808200307467_Table-Edit Highlight.resx">
+      <DependentUpon>201808200307467_Table-Edit Highlight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808200315254_Table-Edit All.resx">
+      <DependentUpon>201808200315254_Table-Edit All.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

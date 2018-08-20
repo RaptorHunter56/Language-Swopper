@@ -53,37 +53,54 @@ namespace Language_Swopper_App
                     temp.FullPath(singledirectories);
                     _context.Folders.Add(temp);
                     _context.SaveChanges();
+                    _context.Entry(temp).GetDatabaseValues();
                     List<string> filedirectories = System.IO.Directory.GetFiles(singledirectories).ToList();
                     foreach (var singlefiledirectories in filedirectories)
                     {
-                        _context.Files.Add(new File()
-                        {
-                            Name = singlefiledirectories.Split("\\".ToCharArray().First()).Last().Split('.').First()
-                        });
+                        var tempfile = new File() { Name = singlefiledirectories.Split("\\".ToCharArray().First()).Last().Split('.').First() };
+                        _context.Files.Add(tempfile);
                         _context.SaveChanges();
+
+                        _context.Entry(tempfile).GetDatabaseValues();
+                        var folder = _context.Folders.ToList().LastOrDefault();
+                        tempfile.Folder = folder;
+                        _context.SaveChanges();
+
                         string filetext = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[0];
                         int occurrencenumber = filetext.Split(new[] { "namespace" }, StringSplitOptions.None).Count();
                         for (int i = 1; i < occurrencenumber; i++)
                         {
-                            _context.NameSpaces.Add(new NameSpace()
-                            {
-                                Name = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(' ')[1].Replace("{", "").Trim()
-                            });
+                            var tempnamespaces = new NameSpace() { Name = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(' ')[1].Replace("{", "").Trim() };
+                            _context.NameSpaces.Add(tempnamespaces);
                             _context.SaveChanges();
+
+                            _context.Entry(tempnamespaces).GetDatabaseValues();
+                            var file = _context.Files.ToList().LastOrDefault();
+                            tempnamespaces.File = file;
+                            _context.SaveChanges();
+
                             int classoccurrencenumber = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(new[] { "class" }, StringSplitOptions.None).Count();
                             for (int j = 1; j < classoccurrencenumber; j++)
                             {
-                                _context.Classes.Add(new Class()
-                                {
-                                    Name = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(new[] { "class" }, StringSplitOptions.None)[j].Split(' ')[1].Replace("{", "").Trim()
-                                });
+                                var tempclass = new Class() { Name = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(new[] { "class" }, StringSplitOptions.None)[j].Split(' ')[1].Replace("{", "").Trim() };
+                                _context.Classes.Add(tempclass);
+                                _context.SaveChanges();
+
+                                _context.Entry(tempclass).GetDatabaseValues();
+                                var tnamespace = _context.NameSpaces.ToList().LastOrDefault();
+                                tempclass.NameSpace = tnamespace;
                                 _context.SaveChanges();
                             }
                         }
                         var ColorList = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[1].Trim().Split(new[] { "\r\n" }, StringSplitOptions.None);
                         foreach (var item in ColorList)
                         {
-                            _context.Highlights.Add(new Highlight() { Text = item.Split(',')[0], Color = item.Split(',')[1] });
+                            var temphighlight = new Highlight() { Text = item.Split(',')[0], Color = item.Split(',')[1] };
+                            _context.Highlights.Add(temphighlight);
+                            _context.SaveChanges();
+
+                            _context.Entry(temphighlight).GetDatabaseValues();
+                            temphighlight.Folder = folder;
                             _context.SaveChanges();
                         }
                     }

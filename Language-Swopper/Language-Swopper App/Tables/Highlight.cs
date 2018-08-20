@@ -33,5 +33,10 @@ namespace Language_Swopper_App.Tables
             get { return Cipher.Decrypt(ColorEncoded, "HighlightColor"); }
             set { ColorEncoded = Cipher.Encrypt(value, "HighlightColor"); }
         }
+
+        [Display(Name = "E4")]
+        [Column("E4")]
+        public int? FolderId { get; set; }
+        public Folder Folder { get; set; }
     }
 }

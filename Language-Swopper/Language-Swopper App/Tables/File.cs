@@ -11,6 +11,11 @@ namespace Language_Swopper_App.Tables
     [Table("B")]
     class File
     {
+        public File()
+        {
+            NameSpaces = new List<NameSpace>();
+        }
+
         [Key]
         [Display(Name = "B1")]
         [Column("B1")]
@@ -24,5 +29,12 @@ namespace Language_Swopper_App.Tables
             get { return Cipher.Decrypt(NameEncoded, "FileName"); }
             set { NameEncoded = Cipher.Encrypt(value, "FileName"); }
         }
+
+        [Display(Name = "B3")]
+        [Column("B3")]
+        public int? FolderId { get; set; }
+        public Folder Folder { get; set; }
+
+        public List<NameSpace> NameSpaces { get; set; }
     }
 }

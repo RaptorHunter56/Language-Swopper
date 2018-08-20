@@ -24,5 +24,10 @@ namespace Language_Swopper_App.Tables
             get { return Cipher.Decrypt(NameEncoded, "ClassName"); }
             set { NameEncoded = Cipher.Encrypt(value, "ClassName"); }
         }
+
+        [Display(Name = "D3")]
+        [Column("D3")]
+        public int? NameSpaceId { get; set; }
+        public NameSpace NameSpace { get; set; }
     }
 }
