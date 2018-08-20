@@ -42,7 +42,7 @@ namespace Language_Swopper_App
     {
         public static void UpdateDatabase()
         {
-            string pPath = @"C:\Users\Steven Bown\Source\Repos\Language-Swopper\Language-Swopper\Language-Swopper App\Swopper";
+            string pPath = @"...\...\Swopper";
             List<string> directories = System.IO.Directory.GetDirectories(pPath).ToList();
             using (FileContext _context = new FileContext())
             {
@@ -62,10 +62,23 @@ namespace Language_Swopper_App
                         });
                         _context.SaveChanges();
                         string filetext = System.IO.File.ReadAllText(singlefiledirectories);
-                        int occurrencenumber = filetext.Split("namespace".ToCharArray()).Count();
-                        for (int i = 0; i < occurrencenumber; i++)
+                        int occurrencenumber = filetext.Split(new[] { "namespace" }, StringSplitOptions.None).Count();
+                        for (int i = 1; i < occurrencenumber; i++)
                         {
-
+                            _context.NameSpaces.Add(new NameSpace()
+                            {
+                                Name = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(' ')[1].Replace("{", "").Trim()
+                            });
+                            _context.SaveChanges();
+                            int classoccurrencenumber = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(new[] { "class" }, StringSplitOptions.None).Count();
+                            for (int j = 1; j < classoccurrencenumber; j++)
+                            {
+                                _context.Classes.Add(new Class()
+                                {
+                                    Name = filetext.Split(new[] { "namespace" }, StringSplitOptions.None)[i].Split(new[] { "class" }, StringSplitOptions.None)[j].Split(' ')[1].Replace("{", "").Trim()
+                                });
+                                _context.SaveChanges();
+                            }
                         }
                     }
 

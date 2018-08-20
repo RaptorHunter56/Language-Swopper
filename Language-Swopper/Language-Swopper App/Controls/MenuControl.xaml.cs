@@ -27,8 +27,11 @@ namespace Language_Swopper_App
 
         private string Language { get { return language; } set { language = value; try { LanguageUpdated(); } catch { } } }
         public string GetLanguage { get { return language; } }
-        public string Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
         private string language;
+        public Dictionary<string, string> languageFilter = new Dictionary<string, string>()
+        {
+            { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
+        };
 
         public delegate void LanguageUpdate();
         public event LanguageUpdate LanguageUpdated;

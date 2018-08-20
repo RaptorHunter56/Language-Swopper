@@ -179,7 +179,7 @@ namespace Language_Swopper_App
         public void MenuOpen()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = MainMenuControl.Filter;
+            openFileDialog.Filter = MainMenuControl.languageFilter[MainMenuControl.GetLanguage];
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
