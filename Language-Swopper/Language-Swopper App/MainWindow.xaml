@@ -14,6 +14,7 @@
             <RowDefinition Height="22"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid VerticalAlignment="Top" Background="AliceBlue" Grid.Row="0">
             <Label x:Name="NameLabel" Content="Name" VerticalAlignment="Center" Margin="0,-2,0,0"/>
@@ -25,5 +26,8 @@
         </Grid>
         <local:MenuControl x:Name="MainMenuControl" Grid.Row="1"/>
         <local:TextControl x:Name="MainTextControl" Grid.Row="2"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <Button Content="Test" Click="TestButton_Click"></Button>
+        </StackPanel>
     </Grid>
 </Window>

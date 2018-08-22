@@ -25,7 +25,7 @@ namespace Language_Swopper_App
         public string DocumentPath { get { string tempstring = ""; for (int i = 0; i < Document.Split("\\".ToCharArray()[0]).Length - 2; i++) { tempstring += Document.Split("\\".ToCharArray()[0])[i]; } return tempstring; } }
         public string DocumentType { get { return $".{Document.Split('.').Last()}"; } }
 
-        private string Language { get { return language; } set { language = value; try { LanguageUpdated(); } catch { } } }
+        private string LsLanguage { get { return language; } set { language = value; try { LanguageUpdated(); } catch { } } }
         public string GetLanguage { get { return language; } }
         private string language;
         public Dictionary<string, string> languageFilter = new Dictionary<string, string>()
@@ -45,7 +45,7 @@ namespace Language_Swopper_App
         {
             if (((MenuItem)sender).IsChecked)
             {
-                Language = ((MenuItem)sender).Header.ToString();
+                LsLanguage = ((MenuItem)sender).Header.ToString();
                 foreach (MenuItem item in LanguageMenu.Items.OfType<MenuItem>())
                 {
                     if (item != sender)

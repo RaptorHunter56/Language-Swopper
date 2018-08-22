@@ -92,17 +92,20 @@ namespace Language_Swopper_App
                                 _context.SaveChanges();
                             }
                         }
-                        var ColorList = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[1].Trim().Split(new[] { "\r\n" }, StringSplitOptions.None);
-                        foreach (var item in ColorList)
+                        try
                         {
-                            var temphighlight = new Highlight() { Text = item.Split(',')[0], Color = item.Split(',')[1] };
-                            _context.Highlights.Add(temphighlight);
-                            _context.SaveChanges();
+                            var ColorList = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[1].Trim().Split(new[] { "\r\n" }, StringSplitOptions.None);
+                            foreach (var item in ColorList)
+                            {
+                                var temphighlight = new Highlight() { Text = item.Split(',')[0].TrimStart("//".ToCharArray()), Color = item.Split(',')[1] };
+                                _context.Highlights.Add(temphighlight);
+                                _context.SaveChanges();
 
-                            _context.Entry(temphighlight).GetDatabaseValues();
-                            temphighlight.Folder = folder;
-                            _context.SaveChanges();
-                        }
+                                _context.Entry(temphighlight).GetDatabaseValues();
+                                temphighlight.Folder = folder;
+                                _context.SaveChanges();
+                            }
+                        } catch (Exception) { }
                     }
 
                 }
