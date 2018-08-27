@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <!--<RichTextBox x:Name="MainRichTextBox" Margin="5" TextChanged="RichTextBox_TextChanged" />-->
-        <RichTextBox x:Name="MainRichTextBox" Margin="5" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextChanged="TextChangedEventHandler">
+        <RichTextBox x:Name="MainRichTextBox" Margin="5,0,5,5" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextChanged="TextChangedEventHandler" Padding="0,2,0,0" BorderThickness="1,0,1,1" BorderBrush="#FF707070" Background="White">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>

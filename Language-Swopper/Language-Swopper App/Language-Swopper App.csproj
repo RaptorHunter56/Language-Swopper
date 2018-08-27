@@ -62,6 +62,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Cipher.cs" />
+    <Compile Include="Controls\MultiTabControl.xaml.cs">
+      <DependentUpon>MultiTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TabButtonControl.xaml.cs">
+      <DependentUpon>TabButtonControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileContext.cs" />
     <Compile Include="Controls\MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>
@@ -120,6 +126,14 @@
     <Compile Include="Tables\Folder.cs" />
     <Compile Include="Tables\Highlight.cs" />
     <Compile Include="Tables\NameSpace.cs" />
+    <Page Include="Controls\MultiTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TabButtonControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

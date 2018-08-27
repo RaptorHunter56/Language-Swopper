@@ -25,7 +25,8 @@
             </StackPanel>
         </Grid>
         <local:MenuControl x:Name="MainMenuControl" Grid.Row="1"/>
-        <local:TextControl x:Name="MainTextControl" Grid.Row="2"/>
+        <!--<local:TextControl x:Name="MainTextControl" Grid.Row="2"/>-->
+        <local:MultiTabControl x:Name="MainMultiTabControl" Grid.Row="2"/>
         <StackPanel Orientation="Horizontal" Grid.Row="3">
             <Button Content="Test" Click="TestButton_Click"></Button>
         </StackPanel>

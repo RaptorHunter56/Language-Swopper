@@ -155,7 +155,7 @@ namespace Language_Swopper_App
             MinimizeButton.Click += (s, c) => WindowState = WindowState.Minimized;
             MaximizeButton.Click += (s, c) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             CloseButton.Click += (s, c) => Close();
-            MainTextControl.Dictionary = CSharpDictionary;
+            //MainTextControl.Dictionary = CSharpDictionary;
             MainMenuControl.LanguageUpdated += LanguageUpdated;
             MainMenuControl.MenuOpenClicked += MenuOpen;
             MainMenuControl.MenuSaveClicked += MenuSave;
@@ -187,19 +187,19 @@ namespace Language_Swopper_App
             if (openFileDialog.ShowDialog() == true)
             {
                 MainMenuControl.Document = openFileDialog.FileName;
-                MainTextControl.MainRichTextBox.Document.Blocks.Clear();
-                MainTextControl.MainRichTextBox.AppendText(File.ReadAllText(openFileDialog.FileName));
+                //MainTextControl.MainRichTextBox.Document.Blocks.Clear();
+                //MainTextControl.MainRichTextBox.AppendText(File.ReadAllText(openFileDialog.FileName));
             }
         }
         public void MenuSave()
         {
             if (MainMenuControl.Document != null)
             {
-                File.WriteAllText(
-                    MainMenuControl.Document, 
-                    new TextRange(
-                        MainTextControl.MainRichTextBox.Document.ContentStart,
-                        MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
+                //File.WriteAllText(
+                    //MainMenuControl.Document, 
+                    //new TextRange(
+                        //MainTextControl.MainRichTextBox.Document.ContentStart,
+                        //MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
             }
         }
         public void MenuRefreshLanguage()
@@ -211,12 +211,12 @@ namespace Language_Swopper_App
             switch (MainMenuControl.GetLanguage)
             {
                 case "C#":
-                    MainTextControl.Dictionary = CSharpDictionary;
+                    //MainTextControl.Dictionary = CSharpDictionary;
                     break;
                 case "Visual Basic":
                     break;
                 case "Python":
-                    MainTextControl.Dictionary = PythodDictionary;
+                    //MainTextControl.Dictionary = PythodDictionary;
                     break;
                 case "MySql":
                     break;
@@ -263,14 +263,14 @@ namespace Language_Swopper_App
             object o = results.CompiledAssembly.CreateInstance("LswString.Equals");
             MethodInfo mc = o.GetType().GetMethod("Read");
             //var returnValue = mc.Invoke(o, new object[] { "Name = 'some\"'" });
-            var returnValue = mc.Invoke(o, new object[] {
-                new TextRange(
-                    MainTextControl.MainRichTextBox.Document.ContentStart,
-                    MainTextControl.MainRichTextBox.Document.ContentEnd).Text});
-            mc = o.GetType().GetMethod("Print");
-            returnValue = mc.Invoke(o, new object[] { returnValue });
-            MainTextControl.MainRichTextBox.Document.Blocks.Clear();
-            MainTextControl.MainRichTextBox.AppendText(returnValue.ToString());
+            //var returnValue = mc.Invoke(o, new object[] {
+            //    new TextRange(
+            //        MainTextControl.MainRichTextBox.Document.ContentStart,
+            //        MainTextControl.MainRichTextBox.Document.ContentEnd).Text});
+            //mc = o.GetType().GetMethod("Print");
+            //returnValue = mc.Invoke(o, new object[] { returnValue });
+            //MainTextControl.MainRichTextBox.Document.Blocks.Clear();
+            //MainTextControl.MainRichTextBox.AppendText(returnValue.ToString());
         }
     }
 }
