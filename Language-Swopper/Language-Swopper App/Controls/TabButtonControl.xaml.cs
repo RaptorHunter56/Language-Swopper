@@ -29,7 +29,7 @@ namespace Language_Swopper_App
         public bool Open
         {
             get { return (bool)GetValue(OpenProperty); }
-            set { SetValue(OpenProperty, value); }
+            set { SetValue(OpenProperty, value); if (Open) ExitButton.Visibility = Visibility.Visible; else ExitButton.Visibility = Visibility.Hidden; }
         }
         public static readonly DependencyProperty OpenProperty = DependencyProperty.Register("Open", typeof(bool), typeof(TabButtonControl), new PropertyMetadata(false));
         public int TabFontSize
@@ -69,6 +69,22 @@ namespace Language_Swopper_App
             mainTextControl = GetTextControl;
         }
         public TextControl GetTextControl { get; set; }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ExitButton.Visibility = Visibility.Visible;
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!Open)
+             ExitButton.Visibility = Visibility.Hidden;
+        }
         //{
         //    get { return (TextControl)GetValue(GetTextControlProperty); }
         //    set { SetValue(GetTextControlProperty, value); }

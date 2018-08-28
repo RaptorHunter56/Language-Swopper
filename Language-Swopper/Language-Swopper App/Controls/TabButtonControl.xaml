@@ -8,7 +8,37 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="100">
     <Grid DataContext="{Binding ElementName=parent}">
-        <Button Content="{Binding Path=Title}" Tag="False" FontSize="{Binding Path=TabFontSize}" Padding="{Binding Path=TabPadding}" Click="Button_Click">
+        <Button Click="Button_Click" Padding="{Binding Path=TabPadding}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition>
+                        <ColumnDefinition.Style>
+                            <Style TargetType="ColumnDefinition">
+                                <Setter Property="Width" Value="10" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Title}" Value="+">
+                                        <Setter Property="Width" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ColumnDefinition.Style>
+                    </ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="{Binding Path=Title}" FontSize="{Binding Path=TabFontSize}" Grid.Column="0" Padding="1,0,0,0"/>
+                <Button x:Name="ExitButton" Content="x" Grid.Column="1" Height="10" Width="10" Padding="0,-6,0,0" Margin="0,2,-2,0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click_1">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Open}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
             <Button.Style>
                 <Style TargetType="Button">
                     <Style.Triggers>
