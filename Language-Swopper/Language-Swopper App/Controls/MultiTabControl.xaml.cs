@@ -32,8 +32,22 @@ namespace Language_Swopper_App
             InitializeComponent();
             SamSam.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
             SamName.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
+            Pluss.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked2);
         }
-
+        private void TabButtonControl_ControlClicked2(object sender, EventArgs e)
+        {
+            TabButtonControl buttonControl = new TabButtonControl();
+            buttonControl.Title = "NewDoc";
+            buttonControl.Name = "NewDoc";
+            buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
+            buttonControl.Open = true;
+            TabButtonControl_ControlClicked(buttonControl, new EventArgs());
+            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
+            {
+                item.Open = false;
+            }
+            TopPanel.Children.Insert(TopPanel.Children.Count - 1, buttonControl);
+        }
         private void TabButtonControl_ControlClicked(object sender, EventArgs e)
         {
             #region Try 1

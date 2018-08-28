@@ -32,6 +32,18 @@ namespace Language_Swopper_App
             set { SetValue(OpenProperty, value); }
         }
         public static readonly DependencyProperty OpenProperty = DependencyProperty.Register("Open", typeof(bool), typeof(TabButtonControl), new PropertyMetadata(false));
+        public int TabFontSize
+        {
+            get { return (int)GetValue(TabFontSizeProperty); }
+            set { SetValue(TabFontSizeProperty, value); }
+        }
+        public static readonly DependencyProperty TabFontSizeProperty = DependencyProperty.Register("TabFontSize", typeof(int), typeof(TabButtonControl), new PropertyMetadata(14));
+        public Thickness TabPadding
+        {
+            get { return (Thickness)GetValue(TabPaddingProperty); }
+            set { SetValue(TabPaddingProperty, value); }
+        }
+        public static readonly DependencyProperty TabPaddingProperty = DependencyProperty.Register("TabPadding", typeof(Thickness), typeof(TabButtonControl), new PropertyMetadata(new Thickness(3, -1, 3, 1)));
 
         public TabButtonControl()
         {
@@ -44,19 +56,18 @@ namespace Language_Swopper_App
         {
             if (ControlTabButtonClicked != null)
                 ControlTabButtonClicked(this, EventArgs.Empty);
-            Open = true;
+            if (Title != "+")
+                Open = true;
         }
 
         public TextControl GetTextControlT()
         {
             return GetTextControl;
         }
-
         public void Set(ref TextControl mainTextControl)
         {
             mainTextControl = GetTextControl;
         }
-
         public TextControl GetTextControl { get; set; }
         //{
         //    get { return (TextControl)GetValue(GetTextControlProperty); }

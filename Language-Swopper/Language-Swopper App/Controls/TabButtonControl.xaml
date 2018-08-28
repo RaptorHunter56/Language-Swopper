@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="100">
     <Grid DataContext="{Binding ElementName=parent}">
-        <Button Content="{Binding Path=Title}" Tag="False" FontSize="14" Padding="3,-1,3,1" Click="Button_Click">
+        <Button Content="{Binding Path=Title}" Tag="False" FontSize="{Binding Path=TabFontSize}" Padding="{Binding Path=TabPadding}" Click="Button_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Style.Triggers>

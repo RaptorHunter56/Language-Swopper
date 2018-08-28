@@ -16,8 +16,7 @@
             <StackPanel x:Name="TopPanel" Orientation="Horizontal" Grid.Row="0" Margin="0,1,0,-1">
                 <local:TabButtonControl x:Name="SamSam" Title="Sam" Open="True"/>
                 <local:TabButtonControl x:Name="SamName" Title="Bob" Open="False"/>
-                <Button Content="NewTab" Tag="False" FontSize="14" Padding="3,-1,3,1" BorderThickness="1,1,1,0" Background="White"/>
-                <Button Content="+" Padding="1,-4,1,1" FontSize="17" Tag="False" Background="#FFF1F1F1"/>
+                <local:TabButtonControl x:Name="Pluss" Title="+" Open="False" TabFontSize="17" TabPadding="1,-4,1,1"/>
             </StackPanel>
         </Border>
     </Grid>
