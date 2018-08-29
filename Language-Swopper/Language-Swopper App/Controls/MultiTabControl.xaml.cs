@@ -33,6 +33,24 @@ namespace Language_Swopper_App
             SamSam.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
             SamName.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
             Pluss.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked2);
+            SamSam.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
+            SamName.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
+        }
+        private void TabButtonClose_ControlClicked(object sender, EventArgs e)
+        {
+            if (((TabButtonControl)sender).Open && TopPanel.Children.Count > 2)
+            {
+                int rmin = 1;
+                if ((TopPanel.Children.IndexOf((TabButtonControl)sender) - 1) < 0)
+                    rmin = 0;
+                TabButtonControl_ControlClicked(TopPanel.Children[TopPanel.Children.IndexOf((TabButtonControl)sender) - rmin], new EventArgs());
+                ((TabButtonControl)TopPanel.Children[TopPanel.Children.IndexOf((TabButtonControl)sender) - rmin]).Open = true;
+            }
+            if (TopPanel.Children.Count == 2)
+            {
+                GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault());
+            }
+            TopPanel.Children.Remove((TabButtonControl)sender);
         }
         private void TabButtonControl_ControlClicked2(object sender, EventArgs e)
         {
@@ -40,6 +58,7 @@ namespace Language_Swopper_App
             buttonControl.Title = "NewDoc";
             buttonControl.Name = "NewDoc";
             buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
+            buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
             buttonControl.Open = true;
             TabButtonControl_ControlClicked(buttonControl, new EventArgs());
             foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
@@ -62,7 +81,7 @@ namespace Language_Swopper_App
                 item.Open = false;
             }
             tab = (TabButtonControl)sender;
-            GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault());
+            try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault()); } catch { }
             TextControl textControl = tab.GetTextControl;
             textControl.SetValue(Grid.RowProperty, 2);
             textControl.Margin = new Thickness(0, 1, 0, 0);

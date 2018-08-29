@@ -6,16 +6,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Language_Swopper_App"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="100">
+             d:DesignHeight="15" d:DesignWidth="45">
     <Grid DataContext="{Binding ElementName=parent}">
-        <Button Click="Button_Click" Padding="{Binding Path=TabPadding}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave">
+        <Button x:Name="BackButton" Click="Button_Click" Padding="{Binding Path=TabPadding}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition>
                         <ColumnDefinition.Style>
                             <Style TargetType="ColumnDefinition">
-                                <Setter Property="Width" Value="10" />
+                                <Setter Property="Width" Value="15" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=Title}" Value="+">
                                         <Setter Property="Width" Value="0"/>
@@ -24,11 +24,28 @@
                             </Style>
                         </ColumnDefinition.Style>
                     </ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Label Content="{Binding Path=Title}" FontSize="{Binding Path=TabFontSize}" Grid.Column="0" Padding="1,0,0,0"/>
-                <Button x:Name="ExitButton" Content="x" Grid.Column="1" Height="10" Width="10" Padding="0,-6,0,0" Margin="0,2,-2,0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click_1">
-                    <Button.Style>
-                        <Style TargetType="Button">
+                </Grid.ColumnDefinitions> <!--{Binding Path=Title}-->
+                <Label Content="{Binding Path=Title}" FontSize="{Binding Path=TabFontSize}" Grid.Column="0" Padding="2,0,0,0">
+                    <Label.Style>
+                        <Style TargetType="Label">
+                            <Setter Property="Margin" Value="0,0,0,0"/>
+                            <!--<Setter Property="Visibility" Value="Hidden"/>-->
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Open}" Value="True">
+                                    <Setter Property="Margin" Value="0,-1,0,0"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Title}" Value="+">
+                                    <Setter Property="Margin" Value="-1,-3,0,0"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="ExitButton" Content="x" Grid.Column="1" Width="15" Padding="0,0,-2,0" Background="{x:Null}" BorderBrush="{x:Null}" 
+                       MouseDown="Button_Click_1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,-5,-7,-4"
+                       MouseEnter="ExitButton_MouseEnter" MouseLeave="ExitButton_MouseLeave">
+                    <Label.Style>
+                        <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Hidden"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=Open}" Value="True">
@@ -36,21 +53,39 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Button.Style>
-                </Button>
+                    </Label.Style>
+                </Label>
             </Grid>
             <Button.Style>
                 <Style TargetType="Button">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=Open}" Value="False">
-                            <Setter Property="BorderThickness" Value="1,1,1,1"/>
-                            <Setter Property="Background" Value="#FFF1F1F1"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=Open}" Value="True">
-                            <Setter Property="BorderThickness" Value="1,1,1,0"/>
-                            <Setter Property="Background" Value="White"/>
-                        </DataTrigger>
-                    </Style.Triggers>
+                    <Setter Property="BorderThickness" Value="1,1,1,1"/>
+                    <!--<Setter Property="BorderBrush" Value="Green"/>-->
+                    <Setter Property="Background" Value="#FFF1F1F1"/>
+                    <Setter Property="Background" Value="#FFF1F1F1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="#FF707070">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Open}" Value="False">
+                                        <Setter Property="BorderThickness" Value="1,1,1,1"/>
+                                        <Setter Property="Background" Value="#FFF1F1F1"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Open}" Value="True">
+                                        <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="AliceBlue"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+
+                    </Setter>
+
                 </Style>
             </Button.Style>
         </Button>

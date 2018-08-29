@@ -160,6 +160,7 @@ namespace Language_Swopper_App
             MainMenuControl.MenuOpenClicked += MenuOpen;
             MainMenuControl.MenuSaveClicked += MenuSave;
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
+            MainMultiTabControl.SamName.GetTextControl.Dictionary = CSharpDictionary;
         }
 
         public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()

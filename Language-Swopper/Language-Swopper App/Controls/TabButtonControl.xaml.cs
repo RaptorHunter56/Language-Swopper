@@ -43,7 +43,7 @@ namespace Language_Swopper_App
             get { return (Thickness)GetValue(TabPaddingProperty); }
             set { SetValue(TabPaddingProperty, value); }
         }
-        public static readonly DependencyProperty TabPaddingProperty = DependencyProperty.Register("TabPadding", typeof(Thickness), typeof(TabButtonControl), new PropertyMetadata(new Thickness(3, -1, 3, 1)));
+        public static readonly DependencyProperty TabPaddingProperty = DependencyProperty.Register("TabPadding", typeof(Thickness), typeof(TabButtonControl), new PropertyMetadata(new Thickness(5, -1, 5, 1)));
 
         public TabButtonControl()
         {
@@ -70,9 +70,11 @@ namespace Language_Swopper_App
         }
         public TextControl GetTextControl { get; set; }
 
+        public event EventHandler CloseTabButtonClicked;
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            if (CloseTabButtonClicked != null)
+                CloseTabButtonClicked(this, EventArgs.Empty);
         }
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)
@@ -84,6 +86,16 @@ namespace Language_Swopper_App
         {
             if (!Open)
              ExitButton.Visibility = Visibility.Hidden;
+        }
+
+        private void ExitButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ExitButton.FontWeight = FontWeights.DemiBold;
+        }
+
+        private void ExitButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ExitButton.FontWeight = FontWeights.Normal;
         }
         //{
         //    get { return (TextControl)GetValue(GetTextControlProperty); }

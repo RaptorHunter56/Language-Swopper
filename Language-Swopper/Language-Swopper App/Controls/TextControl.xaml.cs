@@ -35,6 +35,18 @@ namespace Language_Swopper_App
             dictionary = new Dictionary<string, Color>();
         }
 
+        void RichTextBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var rtb = e.Source as RichTextBox;
+            if (rtb == null)
+                return;
+
+            if (!rtb.Selection.Start.Equals(rtb.Selection.End))
+            {
+                e.Handled = true;
+            }
+        }
+
         #region textbox
         private void TextChangedMethod()
         {

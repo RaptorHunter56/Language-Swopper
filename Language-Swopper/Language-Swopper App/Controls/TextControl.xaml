@@ -8,8 +8,41 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <!--<RichTextBox x:Name="MainRichTextBox" Margin="5" TextChanged="RichTextBox_TextChanged" />-->
-        <RichTextBox x:Name="MainRichTextBox" Margin="5,0,5,5" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TextChanged="TextChangedEventHandler" Padding="0,2,0,0" BorderThickness="1,0,1,1" BorderBrush="#FF707070" Background="White">
+        <RichTextBox x:Name="MainRichTextBox"
+                     FocusVisualStyle="{x:Null}" 
+                     Margin="5,0,5,5" 
+                     ScrollViewer.CanContentScroll="True" 
+                     ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                     AcceptsReturn="True" 
+                     TextChanged="TextChangedEventHandler" 
+                     Padding="0,2,0,0" 
+                     BorderThickness="1,0,1,1"
+                     Background="White" 
+                     LostFocus="RichTextBox_OnLostFocus">
+            <RichTextBox.Template>
+                <ControlTemplate>
+                    <Border BorderBrush="#FF707070" BorderThickness="1,0,1,1">
+
+                        <DockPanel LastChildFill="True">
+                            <Label Background="#FFF1F1F1" Width="10" HorizontalAlignment="Left"></Label>
+                            <ScrollViewer Margin="2"
+                                    x:Name="PART_ContentHost"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent"/>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </RichTextBox.Template>
             <RichTextBox.Resources>
+                <Style TargetType="{x:Type RichTextBox}">
+                    <Setter Property="BorderBrush" Value="#FF707070"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="#FF707070"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
                 </Style>
