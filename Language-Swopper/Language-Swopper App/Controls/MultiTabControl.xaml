@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Language_Swopper_App"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="400">
+             d:DesignHeight="200" d:DesignWidth="400" >
     <Grid Margin="0,4,0,0" x:Name="GroopGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -13,8 +13,9 @@
         </Grid.RowDefinitions>
         <local:TextControl x:Name="MainTextControl" Grid.Row="2" Margin="0,1,0,0" FocusVisualStyle="{x:Null}" />
         <Border BorderBrush="#FF707070" BorderThickness="0,0,0,1" Margin="5,0,5,-2" Padding="0" Panel.ZIndex="9000" >
-            <StackPanel x:Name="TopPanel" Orientation="Horizontal" Grid.Row="0" Margin="0,1,0,-1">
-                <local:TabButtonControl x:Name="SamSam" Title="Sam" Open="True"/>
+            <StackPanel x:Name="TopPanel" Orientation="Horizontal" Grid.Row="0" Margin="0,1,0,-1" AllowDrop="True" 
+                        PreviewMouseLeftButtonDown="sp_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="sp_PreviewMouseLeftButtonUp" PreviewMouseMove="sp_PreviewMouseMove" DragEnter="sp_DragEnter" Drop="sp_Drop">
+                <local:TabButtonControl x:Name="SamSam" Title="Sam" Open="True" />
                 <local:TabButtonControl x:Name="SamName" Title="Bob" Open="False"/>
                 <local:TabButtonControl x:Name="Pluss" Title="+" Open="False" TabFontSize="17" TabPadding="0"/>
             </StackPanel>

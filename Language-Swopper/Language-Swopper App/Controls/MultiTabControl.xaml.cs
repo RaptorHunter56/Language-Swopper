@@ -35,6 +35,9 @@ namespace Language_Swopper_App
             Pluss.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked2);
             SamSam.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
             SamName.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
+
+            TabMovementTimer.Tick += TabMovementTimer_Tick;
+            TabMovementTimer.Interval = new TimeSpan(0, 0, 1);
         }
         private void TabButtonClose_ControlClicked(object sender, EventArgs e)
         {
@@ -88,6 +91,123 @@ namespace Language_Swopper_App
             textControl.SetValue(Panel.ZIndexProperty, 0);
             GroopGrid.Children.Add(tab.GetTextControl);
             #endregion
+        }
+
+
+        private bool _isDown;
+        private bool _isDragging;
+        private Point _startPoint;
+        private UIElement _realDragSource;
+        private UIElement _dummyDragSource = new UIElement();
+        private UIElement _tickDragSource = new UIElement();
+
+        private void sp_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Source == this.TopPanel)
+            {
+            }
+            else
+            {
+                _isDown = true;
+                _startPoint = e.GetPosition(this.TopPanel);
+                TabMovementTimer.Start();
+            }
+        }
+
+        private void sp_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _isDown = false;
+            _isDragging = false;
+            _realDragSource.ReleaseMouseCapture();
+            TabMovementTimer.Stop();
+        }
+
+        private void sp_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isDown)
+            {
+                if ((_isDragging == false) && ((Math.Abs(e.GetPosition(this.TopPanel).X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
+                    (Math.Abs(e.GetPosition(this.TopPanel).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+                {
+                    _realDragSource = e.Source as UIElement;
+                    if (((TabButtonControl)_realDragSource).Title != "+")
+                    {
+                        _isDragging = true;
+                        _realDragSource.CaptureMouse();
+                        DragDrop.DoDragDrop(_dummyDragSource, new DataObject("UIElement", e.Source, true), DragDropEffects.Move);
+                    }
+                }
+            }
+        }
+
+        private void sp_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("UIElement"))
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+        System.Windows.Threading.DispatcherTimer TabMovementTimer = new System.Windows.Threading.DispatcherTimer();
+        
+        private void TabMovementTimer_Tick(object sender, EventArgs e)
+        {
+            //int droptargetIndex = -1, i = 0;
+            //foreach (UIElement element in this.TopPanel.Children)
+            //{
+            //    if (element.Equals(_tickDragSource))
+            //    {
+            //        droptargetIndex = i;
+            //        break;
+            //    }
+            //    i++;
+            //}
+            //if (droptargetIndex != -1)
+            //{
+            //    this.TopPanel.Children.Remove(_realDragSource);
+            //    if (droptargetIndex == TopPanel.Children.Count)
+            //    {
+            //        this.TopPanel.Children.Insert(droptargetIndex - 1, _realDragSource);
+            //    }
+            //    else
+            //    {
+            //        this.TopPanel.Children.Insert(droptargetIndex, _realDragSource);
+            //    }
+            //}
+        }
+
+        private void sp_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("UIElement"))
+            {
+                UIElement droptarget = e.Source as UIElement;
+                int droptargetIndex = -1, i = 0;
+                foreach (UIElement element in this.TopPanel.Children)
+                {
+                    if (element.Equals(droptarget))
+                    {
+                        droptargetIndex = i;
+                        break;
+                    }
+                    i++;
+                }
+                if (droptargetIndex != -1)
+                {
+                    this.TopPanel.Children.Remove(_realDragSource);
+                    if (droptargetIndex == TopPanel.Children.Count)
+                    {
+                        this.TopPanel.Children.Insert(droptargetIndex -1, _realDragSource);
+                    }
+                    else
+                    {
+                        this.TopPanel.Children.Insert(droptargetIndex, _realDragSource);
+                    }
+                }
+
+                _isDown = false;
+                _isDragging = false;
+                _realDragSource.ReleaseMouseCapture();
+            }
         }
     }
 }

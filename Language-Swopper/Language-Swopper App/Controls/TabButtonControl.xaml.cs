@@ -51,6 +51,17 @@ namespace Language_Swopper_App
             GetTextControl = new TextControl();
         }
 
+
+        public TabButtonControl(TabButtonControl t)
+        {
+            InitializeComponent();
+            this.Title = t.Title;
+            this.ControlTabButtonClicked = t.ControlTabButtonClicked;
+            this.CloseTabButtonClicked = t.CloseTabButtonClicked;
+            this.GetTextControl = t.GetTextControl;
+            Button_Click(BackButton, new RoutedEventArgs());
+        }
+
         public event EventHandler ControlTabButtonClicked;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -102,5 +113,6 @@ namespace Language_Swopper_App
         //    set { SetValue(GetTextControlProperty, value); }
         //}
         //public static readonly DependencyProperty GetTextControlProperty = DependencyProperty.Register("GetTextControl", typeof(TextControl), typeof(TabButtonControl), new PropertyMetadata(new TextControl()));
+        
     }
 }
