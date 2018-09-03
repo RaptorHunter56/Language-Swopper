@@ -203,6 +203,17 @@ namespace Language_Swopper_App
         }
         public void MenuSave()
         {
+            foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
+            {
+                if (item.Open == true)
+                {
+                    File.WriteAllText(
+                        item.Document,
+                        new TextRange(
+                        item.GetTextControl.MainRichTextBox.Document.ContentStart,
+                        item.GetTextControl.MainRichTextBox.Document.ContentEnd).Text);
+                }
+            }
             //if (MainMenuControl.Document != null)
             //{
             //    //File.WriteAllText(

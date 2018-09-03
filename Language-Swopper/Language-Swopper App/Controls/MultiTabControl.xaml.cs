@@ -47,7 +47,7 @@ namespace Language_Swopper_App
             {
                 int rmin = 1;
                 if ((TopPanel.Children.IndexOf((TabButtonControl)sender) - 1) < 0)
-                    rmin = 0;
+                    rmin = -1;
                 TabButtonControl_ControlClicked(TopPanel.Children[TopPanel.Children.IndexOf((TabButtonControl)sender) - rmin], new EventArgs());
                 ((TabButtonControl)TopPanel.Children[TopPanel.Children.IndexOf((TabButtonControl)sender) - rmin]).Open = true;
             }
@@ -228,7 +228,6 @@ namespace Language_Swopper_App
                 buttonControl.GetTextControl.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
             }
             buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";
-            buttonControl.Name = buttonControl.DocumentName;
         }
     }
 }
