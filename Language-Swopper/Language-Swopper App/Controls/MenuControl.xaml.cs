@@ -20,37 +20,25 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class MenuControl : UserControl
     {
-        public string Document;
-        public string DocumentName { get { return Document.Split("\\".ToCharArray()[0]).Last().Split('.').First(); } }
-        public string DocumentPath { get { string tempstring = ""; for (int i = 0; i < Document.Split("\\".ToCharArray()[0]).Length - 2; i++) { tempstring += Document.Split("\\".ToCharArray()[0])[i]; } return tempstring; } }
-        public string DocumentType { get { return $".{Document.Split('.').Last()}"; } }
-
-        private string LsLanguage { get { return language; } set { language = value; try { LanguageUpdated(); } catch { } } }
-        public string GetLanguage { get { return language; } }
-        private string language;
-        public Dictionary<string, string> languageFilter = new Dictionary<string, string>()
-        {
-            { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
-        };
-
-        public delegate void LanguageUpdate();
-        public event LanguageUpdate LanguageUpdated;
-
         public MenuControl()
         {
             InitializeComponent();
         }
-
+        public string language;
+        public delegate void languageChanged();
+        public event MenuOpen languageChangedClicked;
         private void MenuItem_Checked(object sender, RoutedEventArgs e)
         {
+            //To Do
             if (((MenuItem)sender).IsChecked)
             {
-                LsLanguage = ((MenuItem)sender).Header.ToString();
+                language = ((MenuItem)sender).Header.ToString();
                 foreach (MenuItem item in LanguageMenu.Items.OfType<MenuItem>())
                 {
                     if (item != sender)
                         item.IsChecked = false;
                 }
+                try { languageChangedClicked(); } catch { }
             }
         }
 

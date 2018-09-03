@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,20 +57,12 @@ namespace Language_Swopper_App
             }
             TopPanel.Children.Remove((TabButtonControl)sender);
         }
+
+        public event EventHandler AddTabButtonClicked;
         private void TabButtonControl_ControlClicked2(object sender, EventArgs e)
         {
-            TabButtonControl buttonControl = new TabButtonControl();
-            buttonControl.Title = "NewDoc";
-            buttonControl.Name = "NewDoc";
-            buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
-            buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
-            buttonControl.Open = true;
-            TabButtonControl_ControlClicked(buttonControl, new EventArgs());
-            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
-            {
-                item.Open = false;
-            }
-            TopPanel.Children.Insert(TopPanel.Children.Count - 1, buttonControl);
+            if (AddTabButtonClicked != null)
+                AddTabButtonClicked(this, EventArgs.Empty);
         }
         private void TabButtonControl_ControlClicked(object sender, EventArgs e)
         {
@@ -118,7 +112,7 @@ namespace Language_Swopper_App
         {
             _isDown = false;
             _isDragging = false;
-            _realDragSource.ReleaseMouseCapture();
+            try { _realDragSource.ReleaseMouseCapture(); } catch { }
             TabMovementTimer.Stop();
         }
 
@@ -208,6 +202,33 @@ namespace Language_Swopper_App
                 _isDragging = false;
                 _realDragSource.ReleaseMouseCapture();
             }
+        }
+
+        public void TabAdd(string langage, Dictionary<string, Color> keyValuePairs)
+        {
+            TabButtonControl buttonControl = new TabButtonControl();
+            buttonControl.LsLanguage = langage;
+            buttonControl.GetTextControl.Dictionary = keyValuePairs;
+            buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
+            buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
+            buttonControl.Open = true;
+            TabButtonControl_ControlClicked(buttonControl, new EventArgs());
+            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
+            {
+                item.Open = false;
+            }
+            TopPanel.Children.Insert(TopPanel.Children.Count - 1, buttonControl);
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = buttonControl.languageFilter[buttonControl.GetLanguage];
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                buttonControl.Document = openFileDialog.FileName;
+                buttonControl.GetTextControl.MainRichTextBox.Document.Blocks.Clear();
+                buttonControl.GetTextControl.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
+            }
+            buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";
+            buttonControl.Name = buttonControl.DocumentName;
         }
     }
 }

@@ -20,6 +20,24 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TabButtonControl : UserControl
     {
+        public string Document;
+        public string DocumentName { get { return Document.Split("\\".ToCharArray()[0]).Last().Split('.').First(); } }
+        public string DocumentPath { get { string tempstring = ""; for (int i = 0; i < Document.Split("\\".ToCharArray()[0]).Length - 2; i++) { tempstring += Document.Split("\\".ToCharArray()[0])[i]; } return tempstring; } }
+        public string DocumentType { get { return $".{Document.Split('.').Last()}"; } }
+
+        public string LsLanguage { get { return language; } set { language = value; try { LanguageUpdated(); } catch { } } }
+        public string GetLanguage { get { return language; } }
+        private string language;
+        public Dictionary<string, string> languageFilter = new Dictionary<string, string>()
+        {
+            { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
+        };
+
+        public delegate void LanguageUpdate();
+        public event LanguageUpdate LanguageUpdated;
+
+
+
         public string Title
         {
             get { return (string)GetValue(TitleProperty); }

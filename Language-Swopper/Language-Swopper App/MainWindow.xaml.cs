@@ -156,13 +156,14 @@ namespace Language_Swopper_App
             MaximizeButton.Click += (s, c) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             CloseButton.Click += (s, c) => Close();
             //MainTextControl.Dictionary = CSharpDictionary;
-            MainMenuControl.LanguageUpdated += LanguageUpdated;
+            MainMultiTabControl.AddTabButtonClicked += PlussClick;
+            //MainMenuControl.LanguageUpdated += LanguageUpdated;
             MainMenuControl.MenuOpenClicked += MenuOpen;
             MainMenuControl.MenuSaveClicked += MenuSave;
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
             MainMultiTabControl.SamName.GetTextControl.Dictionary = CSharpDictionary;
+            //MainMenuControl.languageChangedClicked += LanguageChangedClicked;
         }
-
         public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()
         {
             { "using", new Color() { A = 255, R = 255, G = 255, B = 0 } },
@@ -175,49 +176,22 @@ namespace Language_Swopper_App
             { "for", new Color() { A = 255, R = 255, G = 0, B = 0 } },
             { "open", new Color() { A = 255, R = 255, G = 0, B = 0 } },
             { "push", new Color() { A = 255, R = 0, G = 255, B = 0 } },
-            { "reload", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
+            { "Set", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
         };
 
 
         #region Menu
         public void MenuOpen()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = MainMenuControl.languageFilter[MainMenuControl.GetLanguage];
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (openFileDialog.ShowDialog() == true)
-            {
-                MainMenuControl.Document = openFileDialog.FileName;
-                //MainTextControl.MainRichTextBox.Document.Blocks.Clear();
-                //MainTextControl.MainRichTextBox.AppendText(File.ReadAllText(openFileDialog.FileName));
-            }
-        }
-        public void MenuSave()
-        {
-            if (MainMenuControl.Document != null)
-            {
-                //File.WriteAllText(
-                    //MainMenuControl.Document, 
-                    //new TextRange(
-                        //MainTextControl.MainRichTextBox.Document.ContentStart,
-                        //MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
-            }
-        }
-        public void MenuRefreshLanguage()
-        {
-            UpdateDatabase();
-        }
-        public void LanguageUpdated()
-        {
-            switch (MainMenuControl.GetLanguage)
+            switch (MainMenuControl.language)
             {
                 case "C#":
-                    //MainTextControl.Dictionary = CSharpDictionary;
+                    MainMultiTabControl.TabAdd(MainMenuControl.language, CSharpDictionary);
                     break;
                 case "Visual Basic":
                     break;
                 case "Python":
-                    //MainTextControl.Dictionary = PythodDictionary;
+                    MainMultiTabControl.TabAdd(MainMenuControl.language, PythodDictionary);
                     break;
                 case "MySql":
                     break;
@@ -226,6 +200,46 @@ namespace Language_Swopper_App
                 default:
                     break;
             }
+        }
+        public void MenuSave()
+        {
+            //if (MainMenuControl.Document != null)
+            //{
+            //    //File.WriteAllText(
+            //        //MainMenuControl.Document, 
+            //        //new TextRange(
+            //            //MainTextControl.MainRichTextBox.Document.ContentStart,
+            //            //MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
+            //}
+        }
+        public void MenuRefreshLanguage()
+        {
+            UpdateDatabase();
+        }
+        private void PlussClick(object sender, EventArgs e)
+        {
+            MenuOpen();
+        }
+
+        public void LanguageUpdated()
+        {
+            //switch (MainMenuControl.GetLanguage)
+            //{
+            //    case "C#":
+            //        //MainTextControl.Dictionary = CSharpDictionary;
+            //        break;
+            //    case "Visual Basic":
+            //        break;
+            //    case "Python":
+            //        //MainTextControl.Dictionary = PythodDictionary;
+            //        break;
+            //    case "MySql":
+            //        break;
+            //    case "Sql":
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
         #endregion
 
