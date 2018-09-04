@@ -144,6 +144,14 @@ namespace Language_Swopper_App
             { "push", new Color() { A = 255, R = 0, G = 255, B = 0 } },
             { "Set", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
         };
+        public Dictionary<string, Color> MySQLDictionary = new Dictionary<string, Color>()
+        {
+            { "create", new Color() { A = 255, R = 255, G = 0, B = 0 } },
+            { "table", new Color() { A = 255, R = 255, G = 0, B = 0 } },
+            { "database", new Color() { A = 255, R = 0, G = 255, B = 0 } },
+            { "primary", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
+        };
+
 
 
         #region Menu
@@ -160,6 +168,7 @@ namespace Language_Swopper_App
                     MainMultiTabControl.TabAdd(MainMenuControl.language, PythodDictionary);
                     break;
                 case "MySql":
+                    MainMultiTabControl.TabAdd(MainMenuControl.language, MySQLDictionary);
                     break;
                 case "Sql":
                     break;
