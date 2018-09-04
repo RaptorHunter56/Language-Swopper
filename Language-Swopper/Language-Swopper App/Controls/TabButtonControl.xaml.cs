@@ -30,7 +30,8 @@ namespace Language_Swopper_App
         private string language;
         public Dictionary<string, string> languageFilter = new Dictionary<string, string>()
         {
-            { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
+            { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
+            { "MySql", "MySQL files (*.sql)|*.sql|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
         };
 
         public delegate void LanguageUpdate();
