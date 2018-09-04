@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Language_Swopper_App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="250" Width="525" WindowStyle="None" AllowsTransparency="True">
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="21"/>
+        Title="MainWindow" Height="250" Width="525" WindowStyle="None" AllowsTransparency="True" MinWidth="500" MinHeight="250" SizeChanged="Window_SizeChanged">
+    <WindowChrome.WindowChrome >
+        <WindowChrome CaptionHeight="21" />
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>

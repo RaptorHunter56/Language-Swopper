@@ -11,13 +11,20 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <local:TextControl x:Name="MainTextControl" Grid.Row="2" Margin="0,1,0,0" FocusVisualStyle="{x:Null}" />
+        <Grid Grid.Row="2">
+            <local:TextControl x:Name="MainTextControl" Grid.Row="0" Margin="0,1,0,0" FocusVisualStyle="{x:Null}" Visibility="Collapsed"/>
+            <local:SplitTextControl x:Name="MainSplitTextControl" Grid.Row="1" Margin="0,1,0,0" Visibility="Visible"/>
+        </Grid>
         <Border BorderBrush="#FF707070" BorderThickness="0,0,0,1" Margin="5,0,5,-2" Padding="0" Panel.ZIndex="9000" >
-            <StackPanel x:Name="TopPanel" Orientation="Horizontal" Grid.Row="0" Margin="0,1,0,-1" AllowDrop="True" 
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,1,0,-1">
+                <Button Content="&lt;" BorderBrush="#FF707070" Background="#FFF1F1F1" BorderThickness="1,1,0,0" Margin="0" Padding="1,1,1,2" Visibility="Visible"/>
+                <StackPanel x:Name="TopPanel" Orientation="Horizontal" Grid.Row="0" AllowDrop="True" 
                         PreviewMouseLeftButtonDown="sp_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="sp_PreviewMouseLeftButtonUp" PreviewMouseMove="sp_PreviewMouseMove" DragEnter="sp_DragEnter" Drop="sp_Drop">
-                <local:TabButtonControl x:Name="SamSam" Title="Sam" Open="True" />
-                <local:TabButtonControl x:Name="SamName" Title="Bob" Open="False"/>
-                <local:TabButtonControl x:Name="Pluss" Title="+" Open="False" TabFontSize="17" TabPadding="0"/>
+                    <local:TabButtonControl x:Name="SamSam" Title="Sam" Open="True" />
+                    <local:TabButtonControl x:Name="SamName" Title="Bob" Open="False"/>
+                    <local:TabButtonControl x:Name="Pluss" Title="+" Open="False" TabFontSize="17" TabPadding="0"/>
+                </StackPanel>
+                <Button Content=">" BorderBrush="#FF707070" Background="#FFF1F1F1" Visibility="Visible" HorizontalAlignment="Right"/>
             </StackPanel>
         </Border>
     </Grid>
