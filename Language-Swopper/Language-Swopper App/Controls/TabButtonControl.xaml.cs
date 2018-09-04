@@ -33,7 +33,7 @@ namespace Language_Swopper_App
             { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
             { "MySql", "MySQL files (*.sql)|*.sql|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
         };
-
+        //had to restart needed a change to save this can be deleted later
         public delegate void LanguageUpdate();
         public event LanguageUpdate LanguageUpdated;
 
