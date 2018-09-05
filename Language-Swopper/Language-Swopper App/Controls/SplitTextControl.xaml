@@ -15,8 +15,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
-        <local:TextControl Grid.Column="0" Grid.ColumnSpan="2"/>
+        <local:TextControl x:Name="Left" Grid.Column="0" Grid.ColumnSpan="2"/>
         <GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch"/>
-        <local:TextControl Grid.Column="3" Grid.ColumnSpan="2"/>
+        <local:TextControl x:Name="Right" Grid.Column="3" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

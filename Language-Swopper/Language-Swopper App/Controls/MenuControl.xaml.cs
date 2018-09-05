@@ -62,5 +62,13 @@ namespace Language_Swopper_App
         {
             try { MenuRefreshLanguageClicked(); } catch { }
         }
+
+
+        public delegate void Split();
+        public event Split Split_Clicked;
+        private void Split_Click(object sender, RoutedEventArgs e)
+        {
+            try { Split_Clicked(); } catch { }
+        }
     }
 }

@@ -20,6 +20,8 @@
                 <MenuItem Header="Exit"/>
             </MenuItem>
             <MenuItem Header="Edit">
+                <MenuItem Header="Split" Click="Split_Click"/>
+                <Separator/>
                 <MenuItem Header="Undo"/>
                 <MenuItem Header="Redo"/>
                 <Separator/>

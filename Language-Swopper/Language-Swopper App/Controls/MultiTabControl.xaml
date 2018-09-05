@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:Language_Swopper_App"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="400" >
-    <Grid Margin="0,4,0,0" x:Name="GroopGrid">
+    <Grid Margin="0,4,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" x:Name="GroopGrid">
             <local:TextControl x:Name="MainTextControl" Grid.Row="0" Margin="0,1,0,0" FocusVisualStyle="{x:Null}" Visibility="Collapsed"/>
             <local:SplitTextControl x:Name="MainSplitTextControl" Grid.Row="1" Margin="0,1,0,0" Visibility="Visible"/>
         </Grid>

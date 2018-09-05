@@ -40,7 +40,36 @@ namespace Language_Swopper_App
 
             TabMovementTimer.Tick += TabMovementTimer_Tick;
             TabMovementTimer.Interval = new TimeSpan(0, 0, 1);
+            SamSam.IsSplit = true;
+            SamSam.splitChanged += new TabButtonControl.SplitChanged(this.SplitChanged);
+            SamName.splitChanged += new TabButtonControl.SplitChanged(this.SplitChanged);
         }
+
+        public void SplitChanged(object sender)
+        {
+            if (((TabButtonControl)sender).Open)
+            {
+                switch (((TabButtonControl)sender).IsSplit)
+                {
+                    case true:
+                        GroopGrid.Children[0].Visibility = Visibility.Collapsed;
+                        GroopGrid.Children[1].Visibility = Visibility.Visible;
+                        ((TabButtonControl)sender).GetTextControl = GroopGrid.Children.OfType<TextControl>().FirstOrDefault();
+                        ((TabButtonControl)sender).GetSplitTextControl = GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault();
+                        Copy.CopyProperties(((TabButtonControl)sender).GetTextControl.MainRichTextBox, ((TabButtonControl)sender).GetSplitTextControl.Left.MainRichTextBox);
+                        break;
+                    case false:
+                    default:
+                        GroopGrid.Children[0].Visibility = Visibility.Visible;
+                        GroopGrid.Children[1].Visibility = Visibility.Collapsed;
+                        ((TabButtonControl)sender).GetTextControl = GroopGrid.Children.OfType<TextControl>().FirstOrDefault();
+                        ((TabButtonControl)sender).GetSplitTextControl = GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault();
+                        Copy.CopyProperties(((TabButtonControl)sender).GetSplitTextControl.Left.MainRichTextBox, ((TabButtonControl)sender).GetTextControl.MainRichTextBox);
+                        break;
+                }
+            }
+        }
+
         private void TabButtonClose_ControlClicked(object sender, EventArgs e)
         {
             if (((TabButtonControl)sender).Open && TopPanel.Children.Count > 2)
@@ -54,6 +83,7 @@ namespace Language_Swopper_App
             if (TopPanel.Children.Count == 2)
             {
                 GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault());
+                GroopGrid.Children.Remove(GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault());
             }
             TopPanel.Children.Remove((TabButtonControl)sender);
         }
@@ -74,16 +104,35 @@ namespace Language_Swopper_App
                 if (item.Open)
                 {
                     item.GetTextControl = GroopGrid.Children.OfType<TextControl>().FirstOrDefault();
+                    item.GetSplitTextControl = GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault();
                 }
                 item.Open = false;
             }
             tab = (TabButtonControl)sender;
             try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault()); } catch { }
+            try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault()); } catch { }
             TextControl textControl = tab.GetTextControl;
-            textControl.SetValue(Grid.RowProperty, 2);
+            textControl.SetValue(Grid.RowProperty, 0);
             textControl.Margin = new Thickness(0, 1, 0, 0);
             textControl.SetValue(Panel.ZIndexProperty, 0);
             GroopGrid.Children.Add(tab.GetTextControl);
+            SplitTextControl splitTextControl = tab.GetSplitTextControl;
+            splitTextControl.SetValue(Grid.RowProperty, 1);
+            splitTextControl.Margin = new Thickness(0, 1, 0, 0);
+            splitTextControl.SetValue(Panel.ZIndexProperty, 0);
+            GroopGrid.Children.Add(tab.GetSplitTextControl);
+            switch (tab.IsSplit)
+            {
+                case true:
+                    GroopGrid.Children[0].Visibility = Visibility.Collapsed;
+                    GroopGrid.Children[1].Visibility = Visibility.Visible;
+                    break;
+                case false:
+                default:
+                    GroopGrid.Children[0].Visibility = Visibility.Visible;
+                    GroopGrid.Children[1].Visibility = Visibility.Collapsed;
+                    break;
+            }
             #endregion
         }
 
@@ -209,6 +258,8 @@ namespace Language_Swopper_App
             TabButtonControl buttonControl = new TabButtonControl();
             buttonControl.LsLanguage = langage;
             buttonControl.GetTextControl.Dictionary = keyValuePairs;
+            buttonControl.GetSplitTextControl.Left.Dictionary = keyValuePairs;
+            buttonControl.GetSplitTextControl.Right.Dictionary = keyValuePairs;
             buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
             buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
             buttonControl.Open = true;
@@ -226,6 +277,8 @@ namespace Language_Swopper_App
                 buttonControl.Document = openFileDialog.FileName;
                 buttonControl.GetTextControl.MainRichTextBox.Document.Blocks.Clear();
                 buttonControl.GetTextControl.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
+                buttonControl.GetSplitTextControl.Left.MainRichTextBox.Document.Blocks.Clear();
+                buttonControl.GetSplitTextControl.Left.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
             }
             buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";
         }

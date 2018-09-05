@@ -71,6 +71,7 @@
     <Compile Include="Controls\TabButtonControl.xaml.cs">
       <DependentUpon>TabButtonControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Copy.cs" />
     <Compile Include="FileContext.cs" />
     <Compile Include="Controls\MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>

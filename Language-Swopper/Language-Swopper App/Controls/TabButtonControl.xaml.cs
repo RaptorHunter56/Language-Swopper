@@ -20,6 +20,11 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TabButtonControl : UserControl
     {
+        public bool IsSplit { get { return isSplit; } set { isSplit = value; try { splitChanged(this); } catch (Exception e) { MessageBox.Show(e.Message); } } }
+        private bool isSplit = false;
+        public delegate void SplitChanged(object sender);
+        public event SplitChanged splitChanged;
+
         public string Document;
         public string DocumentName { get { return Document.Split("\\".ToCharArray()[0]).Last().Split('.').First(); } }
         public string DocumentPath { get { string tempstring = ""; for (int i = 0; i < Document.Split("\\".ToCharArray()[0]).Length - 2; i++) { tempstring += Document.Split("\\".ToCharArray()[0])[i]; } return tempstring; } }
@@ -68,6 +73,7 @@ namespace Language_Swopper_App
         {
             InitializeComponent();
             GetTextControl = new TextControl();
+            GetSplitTextControl = new SplitTextControl();
         }
 
 
@@ -78,6 +84,7 @@ namespace Language_Swopper_App
             this.ControlTabButtonClicked = t.ControlTabButtonClicked;
             this.CloseTabButtonClicked = t.CloseTabButtonClicked;
             this.GetTextControl = t.GetTextControl;
+            this.GetSplitTextControl = t.GetSplitTextControl;
             Button_Click(BackButton, new RoutedEventArgs());
         }
 
@@ -99,6 +106,18 @@ namespace Language_Swopper_App
             mainTextControl = GetTextControl;
         }
         public TextControl GetTextControl { get; set; }
+
+
+
+        public SplitTextControl GetSplitTextControlT()
+        {
+            return GetSplitTextControl;
+        }
+        public void Set(ref SplitTextControl mainSplitTextControl)
+        {
+            mainSplitTextControl = GetSplitTextControl;
+        }
+        public SplitTextControl GetSplitTextControl { get; set; }
 
         public event EventHandler CloseTabButtonClicked;
         private void Button_Click_1(object sender, RoutedEventArgs e)

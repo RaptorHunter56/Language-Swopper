@@ -129,7 +129,21 @@ namespace Language_Swopper_App
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
             MainMultiTabControl.SamName.GetTextControl.Dictionary = CSharpDictionary;
             //MainMenuControl.languageChangedClicked += LanguageChangedClicked;
+            MainMenuControl.Split_Clicked += MenuSplit;
         }
+
+        private void MenuSplit()
+        {
+            foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
+            {
+
+                if (item.Open)
+                {
+                    item.IsSplit = !item.IsSplit;
+                }
+            }
+        }
+
         public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()
         {
             { "using", new Color() { A = 255, R = 255, G = 255, B = 0 } },
