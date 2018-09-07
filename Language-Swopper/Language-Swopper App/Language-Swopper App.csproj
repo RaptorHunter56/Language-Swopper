@@ -62,6 +62,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Cipher.cs" />
+    <Compile Include="Controler.cs" />
     <Compile Include="Controls\MultiTabControl.xaml.cs">
       <DependentUpon>MultiTabControl.xaml</DependentUpon>
     </Compile>

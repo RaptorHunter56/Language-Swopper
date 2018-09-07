@@ -1,9 +1,9 @@
 using System;
 using Base;
 
-namespace LswString
+namespace LswPython
 {
-    public class Equals
+    public class lswStringPath
     {
         public static string Print(object One)
         {
@@ -56,3 +56,5 @@ namespace LswString
 
 //########
 //=,255|0|0|205
+//",255|0|205|0
+//',255|0|205|0

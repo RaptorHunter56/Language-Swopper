@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Language_Swopper_App
 {
-    class FileContext : DbContext
+    public class FileContext : DbContext
     {
         public DbSet<Folder> Folders { get; set; }
         public DbSet<File> Files { get; set; }

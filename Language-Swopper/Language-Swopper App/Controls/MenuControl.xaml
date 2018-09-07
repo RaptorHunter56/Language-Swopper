@@ -8,28 +8,28 @@
     <Grid>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="New"/>
+                <MenuItem Header="New" Visibility="Collapsed"/>
                 <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
                 <Separator/>
                 <MenuItem Header="Save" Click="SaveMenuItem_Click"/>
-                <MenuItem Header="Save As"/>
-                <Separator/>
-                <MenuItem Header="Print"/>
-                <MenuItem Header="Print Preview"/>
-                <Separator/>
-                <MenuItem Header="Exit"/>
+                <MenuItem Header="Save As"  Visibility="Collapsed"/>
+                <Separator  Visibility="Collapsed"/>
+                <MenuItem Header="Print"  Visibility="Collapsed"/>
+                <MenuItem Header="Print Preview"  Visibility="Collapsed"/>
+                <Separator  Visibility="Collapsed"/>
+                <MenuItem Header="Exit"  Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Split" Click="Split_Click"/>
-                <Separator/>
-                <MenuItem Header="Undo"/>
-                <MenuItem Header="Redo"/>
-                <Separator/>
-                <MenuItem Header="Cut"/>
-                <MenuItem Header="Copy"/>
-                <MenuItem Header="Paste"/>
-                <Separator/>
-                <MenuItem Header="Select All"/>
+                <Separator Visibility="Collapsed"/>
+                <MenuItem Header="Undo" Visibility="Collapsed"/>
+                <MenuItem Header="Redo" Visibility="Collapsed"/>
+                <Separator Visibility="Collapsed"/>
+                <MenuItem Header="Cut" Visibility="Collapsed"/>
+                <MenuItem Header="Copy" Visibility="Collapsed"/>
+                <MenuItem Header="Paste" Visibility="Collapsed"/>
+                <Separator Visibility="Collapsed"/>
+                <MenuItem Header="Select All" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="LanguageMenu" Header="Language" StaysOpenOnClick="True">
                 <MenuItem x:Name="CSharpLanguageMenu" Header="C#" IsCheckable="True" Checked="MenuItem_Checked" IsChecked="True"/>
@@ -41,10 +41,10 @@
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="Refresh Language" Click="RefreshLanguageMenuItem_Click"/>
-                <MenuItem Header="Customize"/>
-                <MenuItem Header="Options"/>
+                <MenuItem Header="Customize" Visibility="Collapsed"/>
+                <MenuItem Header="Options" Visibility="Collapsed"/>
             </MenuItem>
-            <MenuItem Header="Help">
+            <MenuItem Header="Help" Visibility="Collapsed">
                 <MenuItem Header="Contents"/>
                 <MenuItem Header="Index"/>
                 <MenuItem Header="Search"/>
