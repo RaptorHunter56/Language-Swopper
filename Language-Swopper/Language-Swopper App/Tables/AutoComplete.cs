@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Language_Swopper_App.Tables
 {
-    class AutoComplete
+    public class AutoComplete
     {
         //TODO::
     }

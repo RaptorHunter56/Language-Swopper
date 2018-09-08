@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Language_Swopper_App.Tables
 {
     [Table("A")]
-    class Folder
+    public class Folder
     {
         public Folder()
         {

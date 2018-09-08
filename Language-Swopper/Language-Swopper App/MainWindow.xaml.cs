@@ -245,47 +245,63 @@ namespace Language_Swopper_App
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            DirectoryInfo d = new DirectoryInfo(@"...\...\Swopper\Python");
-            List<string> dList = new List<string>();
-            foreach (var file in d.GetFiles("*.cs"))
+            Controler controler = new Controler();
+            string[] vs;
+            MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
+            foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
             {
-                dList.Add($@"{file.Directory.ToString()}\{file.Name}");
+                if (item.Open && item.IsSplit)
+                {
+                    TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd );
+                    vs = textRange.Text.Split(new[] { Environment.NewLine } , StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string singleline in vs)
+                    {
+                        MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.line(singleline));
+                    }
+                }
             }
-            d = new DirectoryInfo(@"...\...\Swopper\Base");
-            foreach (var file in d.GetFiles("*.cs"))
-            {
-                dList.Add($@"{file.Directory.ToString()}\{file.Name}");
-            }
-
-            Dictionary<string, string> providerOptions = new Dictionary<string, string>
-            {
-                {"CompilerVersion", "v3.5"}
-            };
-            CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
-
-            CompilerParameters compilerParams = new CompilerParameters
-            {
-                GenerateInMemory = true,
-                GenerateExecutable = false
-            };
-
-            //CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, source);
-            CompilerResults results = provider.CompileAssemblyFromFile(compilerParams, dList.ToArray());
-
-            if (results.Errors.Count != 0)
-                throw new Exception("Mission failed!");
-
-            object o = results.CompiledAssembly.CreateInstance("LswString.Equals");
-            MethodInfo mc = o.GetType().GetMethod("Read");
-            //var returnValue = mc.Invoke(o, new object[] { "Name = 'some\"'" });
-            //var returnValue = mc.Invoke(o, new object[] {
-            //    new TextRange(
-            //        MainTextControl.MainRichTextBox.Document.ContentStart,
-            //        MainTextControl.MainRichTextBox.Document.ContentEnd).Text});
-            //mc = o.GetType().GetMethod("Print");
-            //returnValue = mc.Invoke(o, new object[] { returnValue });
-            //MainTextControl.MainRichTextBox.Document.Blocks.Clear();
-            //MainTextControl.MainRichTextBox.AppendText(returnValue.ToString());
+            controler.Dispose();
+            ///DirectoryInfo d = new DirectoryInfo(@"...\...\Swopper\Python");
+            ///List<string> dList = new List<string>();
+            ///foreach (var file in d.GetFiles("*.cs"))
+            ///{
+            ///    dList.Add($@"{file.Directory.ToString()}\{file.Name}");
+            ///}
+            ///d = new DirectoryInfo(@"...\...\Swopper\Base");
+            ///foreach (var file in d.GetFiles("*.cs"))
+            ///{
+            ///    dList.Add($@"{file.Directory.ToString()}\{file.Name}");
+            ///}
+            ///
+            ///Dictionary<string, string> providerOptions = new Dictionary<string, string>
+            ///{
+            ///    {"CompilerVersion", "v3.5"}
+            ///};
+            ///CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
+            ///
+            ///CompilerParameters compilerParams = new CompilerParameters
+            ///{
+            ///    GenerateInMemory = true,
+            ///    GenerateExecutable = false
+            ///};
+            ///
+            ///CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, source);
+            ///CompilerResults results = provider.CompileAssemblyFromFile(compilerParams, dList.ToArray());
+            ///
+            ///if (results.Errors.Count != 0)
+            ///    throw new Exception("Mission failed!");
+            ///
+            ///object o = results.CompiledAssembly.CreateInstance("LswString.Equals");
+            ///MethodInfo mc = o.GetType().GetMethod("Read");
+            ///var returnValue = mc.Invoke(o, new object[] { "Name = 'some\"'" });
+            ///var returnValue = mc.Invoke(o, new object[] {
+            ///    new TextRange(
+            ///        MainTextControl.MainRichTextBox.Document.ContentStart,
+            ///        MainTextControl.MainRichTextBox.Document.ContentEnd).Text});
+            ///mc = o.GetType().GetMethod("Print");
+            ///returnValue = mc.Invoke(o, new object[] { returnValue });
+            ///MainTextControl.MainRichTextBox.Document.Blocks.Clear();
+            ///MainTextControl.MainRichTextBox.AppendText(returnValue.ToString());
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

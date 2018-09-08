@@ -1,34 +1,36 @@
 ﻿using System;
-using LswPython;
+using Base;
+using System.Text;
+using System.Text.RegularExpressions;
 
-namespace Base
+namespace LswPython
 {
-    public static class Controler
+    public class PythonControler
     {
-        public Lsw In = Lsw.Python;
-        public Lsw Out = Lsw.Python;
-        public static enum Lsw
+        public object In(string InLine)
         {
-            Python
+            Regex stringrgx = new Regex(@"\w+ {0,}= {0,}""{1}[^""]+""{1}|\w+ {0,}= {0,}""{3}.+""{3}|\w+ {0,}= {0,}'{1}[^']+'{1}");
+            Regex defoltrgx = new Regex(@"\w+ {0,}= {0,}\w+");
+            if (stringrgx.Match(InLine).Success)
+                return lswStringPath.Read(InLine);
+            if (defoltrgx.Match(InLine).Success)
+                return lswStringPath.Read(InLine);
+            else
+                return new LsString("Name", "Value");
         }
-        public string line(string Line)
+
+        public string Out(object OutLine)
         {
-            object InLine;
-            switch (In)
+            try
             {
-                case Lsw.Python:
-                    
-                    break;
-                default:
-                    break;
+                if (((LsString)OutLine).lsType == "LsString")
+                    return lswStringPath.Write(OutLine) + "\r";
+                else
+                    return "Default Type out" + "\r";
             }
-            string OutLine;
-            switch (Out)
+            catch (Exception e)
             {
-                case Lsw.Python:
-                    break;
-                default:
-                    break;
+                return e.Message;
             }
         }
     }

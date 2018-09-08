@@ -3,9 +3,9 @@ using Base;
 
 namespace LswPython
 {
-    public class lswStringPath
+    public static class lswStringPath
     {
-        public static string Print(object One)
+        public static string Write(object One)
         {
             LsString Two = (LsString)One;
             string temp = "";

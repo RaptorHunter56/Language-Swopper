@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Language_Swopper_App.Tables
 {
     [Table("D")]
-    class Class
+    public class Class
     {
         [Key]
         [Display(Name = "D1")]

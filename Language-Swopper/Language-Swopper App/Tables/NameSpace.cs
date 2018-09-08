@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Language_Swopper_App.Tables
 {
     [Table("C")]
-    class NameSpace
+    public class NameSpace
     {
         public NameSpace()
         {

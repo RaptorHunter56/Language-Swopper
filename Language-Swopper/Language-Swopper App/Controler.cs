@@ -10,24 +10,34 @@ using System.Threading.Tasks;
 
 namespace Language_Swopper_App
 {
-    public class Controler
+    public class Controler : IDisposable
     {
-        public Controler(FileContext fileContext)
+        public Controler(/*FileContext fileContext*/)
         {
-
+            resetList();
+            addAssembly();
+            resetResults();
         }
-        public string In = "Python";
-        public string Out = "Python";
-        public string line(string Line)
+        List<string> dList = new List<string>();
+        public Controler(string lin, string lout)
         {
-            object InLine;
-            string OutLine;
+            In = lin;
+            Out = lout;
+            addAssembly();
+            resetResults();
+            //context = fileContext;
         }
+        //FileContext context;
 
-        private void LoadIn()
+        public void resetList()
         {
-            DirectoryInfo d = new DirectoryInfo(@"...\...\Swopper\Python");
-            List<string> dList = new List<string>();
+            dList.Clear();
+            DirectoryInfo d = new DirectoryInfo($@"...\...\Swopper\{In}");
+            foreach (var file in d.GetFiles("*.cs"))
+            {
+                dList.Add($@"{file.Directory.ToString()}\{file.Name}");
+            }
+            d = new DirectoryInfo($@"...\...\Swopper\{Out}");
             foreach (var file in d.GetFiles("*.cs"))
             {
                 dList.Add($@"{file.Directory.ToString()}\{file.Name}");
@@ -37,36 +47,54 @@ namespace Language_Swopper_App
             {
                 dList.Add($@"{file.Directory.ToString()}\{file.Name}");
             }
+        }
+        public void addAssembly()
+        {
+            compilerParams.ReferencedAssemblies.Add(typeof(System.Text.RegularExpressions.Regex).Assembly.Location);
+        }
+        public void resetResults()
+        {
+            results = provider.CompileAssemblyFromFile(compilerParams, dList.ToArray());
+        }
 
-            Dictionary<string, string> providerOptions = new Dictionary<string, string>
-            {
-                {"CompilerVersion", "v3.5"}
-            };
-            CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
+        public string _In { get { return In; } set { In = value; resetList(); resetResults(); } }
+        public string _Out { get { return Out; } set { Out = value; resetList(); resetResults(); } }
+        private string In = "Python";
+        private string Out = "Python";
 
-            CompilerParameters compilerParams = new CompilerParameters
-            {
-                GenerateInMemory = true,
-                GenerateExecutable = false
-            };
+        private static CompilerParameters compilerParams = new CompilerParameters { GenerateInMemory = true, GenerateExecutable = false };
+        private static Dictionary<string, string> providerOptions = new Dictionary<string, string> { {"CompilerVersion", "v3.5"} };
+        private CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
+        private CompilerResults results;
 
-            //CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, source);
-            CompilerResults results = provider.CompileAssemblyFromFile(compilerParams, dList.ToArray());
+        public string line(string Line)
+        {
+            return LoadOut(LoadIn(Line));
+        }
 
+        private object LoadIn(string Line)
+        {
             if (results.Errors.Count != 0)
                 throw new Exception("Mission failed!");
 
-            object o = results.CompiledAssembly.CreateInstance("LswString.Equals");
-            MethodInfo mc = o.GetType().GetMethod("Read");
-            //var returnValue = mc.Invoke(o, new object[] { "Name = 'some\"'" });
-            //var returnValue = mc.Invoke(o, new object[] {
-            //    new TextRange(
-            //        MainTextControl.MainRichTextBox.Document.ContentStart,
-            //        MainTextControl.MainRichTextBox.Document.ContentEnd).Text});
-            //mc = o.GetType().GetMethod("Print");
-            //returnValue = mc.Invoke(o, new object[] { returnValue });
-            //MainTextControl.MainRichTextBox.Document.Blocks.Clear();
-            //MainTextControl.MainRichTextBox.AppendText(returnValue.ToString());
+            object o = results.CompiledAssembly.CreateInstance($"Lsw{In}.{In}Controler");
+            MethodInfo mc = o.GetType().GetMethod("In");
+            return mc.Invoke(o, new object[] { Line });
+        }
+        private string LoadOut(object Line)
+        {
+            if (results.Errors.Count != 0)
+                throw new Exception("Mission failed!");
+
+            object o = results.CompiledAssembly.CreateInstance($"Lsw{Out}.{Out}Controler");
+            MethodInfo mc = o.GetType().GetMethod("Out");
+            return (string)(mc.Invoke(o, new object[] { Line }));
+        }
+
+        public void Dispose()
+        {
+            provider.Dispose();
+            //context.Dispose();
         }
     }
 }
