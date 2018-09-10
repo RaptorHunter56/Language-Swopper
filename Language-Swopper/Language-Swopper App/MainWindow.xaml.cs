@@ -165,6 +165,13 @@ namespace Language_Swopper_App
             { "database", new Color() { A = 255, R = 0, G = 255, B = 0 } },
             { "primary", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
         };
+        public Dictionary<string, Color> VisualBasicLDictionary = new Dictionary<string, Color>()
+        {
+            { "create", new Color() { A = 255, R = 255, G = 0, B = 0 } },
+            { "table", new Color() { A = 255, R = 255, G = 0, B = 0 } },
+            { "database", new Color() { A = 255, R = 0, G = 255, B = 0 } },
+            { "primary", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
+        };
 
 
 
@@ -177,6 +184,7 @@ namespace Language_Swopper_App
                     MainMultiTabControl.TabAdd(MainMenuControl.language, CSharpDictionary);
                     break;
                 case "Visual Basic":
+                    MainMultiTabControl.TabAdd(MainMenuControl.language, VisualBasicLDictionary);
                     break;
                 case "Python":
                     MainMultiTabControl.TabAdd(MainMenuControl.language, PythodDictionary);
