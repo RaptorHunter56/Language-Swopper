@@ -47,6 +47,7 @@ namespace Language_Swopper_App
             {
                 dList.Add($@"{file.Directory.ToString()}\{file.Name}");
             }
+            dList = dList.Distinct().ToList();
         }
         public void addAssembly()
         {

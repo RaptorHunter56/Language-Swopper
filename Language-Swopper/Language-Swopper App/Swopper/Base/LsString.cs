@@ -17,14 +17,4 @@ namespace Base
         public bool ValueType { get; set; }
         public bool Decleared { get; set; }
     }
-
-    public enum Prefix
-    {
-        @public,
-        @private,
-        @static,
-        @readonly,
-        @internal,
-        @protected
-    }
 }

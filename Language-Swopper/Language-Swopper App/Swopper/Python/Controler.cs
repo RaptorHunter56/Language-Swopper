@@ -10,10 +10,13 @@ namespace LswPython
         public object In(string InLine)
         {
             Regex stringrgx = new Regex(@"\w+ {0,}= {0,}""{1}[^""]+""{1}|\w+ {0,}= {0,}""{3}.+""{3}|\w+ {0,}= {0,}'{1}[^']+'{1}");
+            Regex boolrgx = new Regex(@"\w+ {0,}= {0,}true|\w+ {0,}= {0,}false");
             Regex defoltrgx = new Regex(@"\w+ {0,}= {0,}\w+");
             if (stringrgx.Match(InLine).Success)
                 return lswStringPath.Read(InLine);
-            if (defoltrgx.Match(InLine).Success)
+            else if (boolrgx.Match(InLine).Success)
+                return lswBoolPath.Read(InLine);
+            else if (defoltrgx.Match(InLine).Success)
                 return lswStringPath.Read(InLine);
             else
                 return new LsString("Name", "Value");
@@ -23,10 +26,12 @@ namespace LswPython
         {
             try
             {
-                if (((LsString)OutLine).lsType == "LsString")
+                if (((lsBase)OutLine).lsType == "LsString")
                     return lswStringPath.Write(OutLine) + "\r";
+                else if (((lsBase)OutLine).lsType == "LsBool")
+                    return lswBoolPath.Write(OutLine) + "\r";
                 else
-                    return "Default Type out" + "\r";
+                    return "No_Type" + "\r";
             }
             catch (Exception e)
             {

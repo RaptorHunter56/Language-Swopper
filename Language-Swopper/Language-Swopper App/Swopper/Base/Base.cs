@@ -6,4 +6,14 @@ namespace Base
     {
         public string lsType;
     }
+
+    public enum Prefix
+    {
+        @public,
+        @private,
+        @static,
+        @readonly,
+        @internal,
+        @protected
+    }
 }
