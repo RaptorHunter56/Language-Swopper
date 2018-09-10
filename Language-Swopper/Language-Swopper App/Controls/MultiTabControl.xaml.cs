@@ -257,30 +257,31 @@ namespace Language_Swopper_App
         {
             TabButtonControl buttonControl = new TabButtonControl();
             buttonControl.LsLanguage = langage;
-            buttonControl.GetTextControl.Dictionary = keyValuePairs;
-            buttonControl.GetSplitTextControl.Left.Dictionary = keyValuePairs;
-            buttonControl.GetSplitTextControl.Right.Dictionary = keyValuePairs;
-            buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
-            buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
-            buttonControl.Open = true;
-            TabButtonControl_ControlClicked(buttonControl, new EventArgs());
-            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
-            {
-                item.Open = false;
-            }
-            TopPanel.Children.Insert(TopPanel.Children.Count - 1, buttonControl);
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = buttonControl.languageFilter[buttonControl.GetLanguage];
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
+                buttonControl.GetTextControl.Dictionary = keyValuePairs;
+                buttonControl.GetSplitTextControl.Left.Dictionary = keyValuePairs;
+                buttonControl.GetSplitTextControl.Right.Dictionary = keyValuePairs;
+                buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
+                buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
+                buttonControl.Open = true;
+                TabButtonControl_ControlClicked(buttonControl, new EventArgs());
+                foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
+                {
+                    item.Open = false;
+                }
+                TopPanel.Children.Insert(TopPanel.Children.Count - 1, buttonControl);
+
                 buttonControl.Document = openFileDialog.FileName;
                 buttonControl.GetTextControl.MainRichTextBox.Document.Blocks.Clear();
                 buttonControl.GetTextControl.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
                 buttonControl.GetSplitTextControl.Left.MainRichTextBox.Document.Blocks.Clear();
                 buttonControl.GetSplitTextControl.Left.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
+                buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";
             }
-            buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";
         }
     }
 }
