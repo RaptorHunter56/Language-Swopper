@@ -11,11 +11,14 @@ namespace LswPython
         {
             Regex stringrgx = new Regex(@"\w+ {0,}= {0,}""{1}[^""]+""{1}|\w+ {0,}= {0,}""{3}.+""{3}|\w+ {0,}= {0,}'{1}[^']+'{1}");
             Regex boolrgx = new Regex(@"\w+ {0,}= {0,}true|\w+ {0,}= {0,}false");
+            Regex intrgx = new Regex(@"\w+ {0,}= {0,}[0-9]+");
             Regex defoltrgx = new Regex(@"\w+ {0,}= {0,}\w+");
             if (stringrgx.Match(InLine).Success)
                 return lswStringPath.Read(InLine);
             else if (boolrgx.Match(InLine).Success)
                 return lswBoolPath.Read(InLine);
+            else if (intrgx.Match(InLine).Success)
+                return lswIntPath.Read(InLine);
             else if (defoltrgx.Match(InLine).Success)
                 return lswStringPath.Read(InLine);
             else
@@ -30,6 +33,8 @@ namespace LswPython
                     return lswStringPath.Write(OutLine) + "\r";
                 else if (((lsBase)OutLine).lsType == "LsBool")
                     return lswBoolPath.Write(OutLine) + "\r";
+                else if (((lsBase)OutLine).lsType == "LsInt")
+                    return lswIntPath.Write(OutLine) + "\r";
                 else
                     return "No_Type" + "\r";
             }

@@ -94,6 +94,7 @@ namespace Language_Swopper_App
 
         public void Dispose()
         {
+            
             provider.Dispose();
             //context.Dispose();
         }
