@@ -8,6 +8,20 @@ namespace LswPython
         public static string Write(object One)
         {
             LsBool Two = (LsBool)One;
+            foreach (Prefix prefix in Two.Prefixes)
+            {
+                switch (prefix)
+                {
+                    case Prefix.@protected:
+                        Two.Name = "self._" + Two.Name;
+                        break;
+                    case Prefix.@private:
+                        Two.Name = "self.__" + Two.Name;
+                        break;
+                    default:
+                        break;
+                }
+            }
             string temp = "";
             if (Two.ValueType)
                 temp = Two.Name + " = " + Two.ValueT;
@@ -21,6 +35,12 @@ namespace LswPython
             string Two = One.Split('=')[0].Trim();
             string Three = One.Split('=')[1].Trim();
             LsBool Four;
+            if (Two.StartsWith("self.__"))
+                Four.Prefixes.Add(Prefix.@private);
+            else if (Two.StartsWith("self._"))
+                Four.Prefixes.Add(Prefix.@protected);
+            else
+                Four.Prefixes.Add(Prefix.@public);
             if (Three == "true")
             {
                 Four = new LsBool(Two, true);
