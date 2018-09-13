@@ -17,7 +17,7 @@ namespace Base
         { Name = name; ValueT = value; Prefixes = prefixes; ValueType = false; Decleared = false; base.lsType = "LsInt"; }
 
         public string Name { get; set; }
-        public int Value { get; set; }
+        public int? Value { get; set; }
         public string ValueT { get; set; }
         public List<Prefix> Prefixes { get; set; }
         public bool ValueType { get; set; }

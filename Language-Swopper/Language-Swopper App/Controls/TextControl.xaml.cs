@@ -14,8 +14,8 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TextControl : UserControl
     {
-        private Dictionary<string, Color> dictionary;
-        public Dictionary<string, Color> Dictionary
+        private Dictionary<string, MainWindow.ColorType> dictionary;
+        public Dictionary<string, MainWindow.ColorType> Dictionary
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Language_Swopper_App
         public TextControl()
         {
             InitializeComponent();
-            dictionary = new Dictionary<string, Color>();
+            dictionary = new Dictionary<string, MainWindow.ColorType>();
         }
 
         void RichTextBox_OnLostFocus(object sender, RoutedEventArgs e)
@@ -80,7 +80,10 @@ namespace Language_Swopper_App
             public string Word;
 
             Color? color;
-            public Color Color { get { return color ?? new Color() { A = 255, R = 255, G = 0, B = 0 }; } set { color = value; } }
+            public Color Color { get { return color ?? new Color() { A = 255, R = 0, G = 0, B = 205 }; } set { color = value; } }
+
+            Tables.Highlight.Types? types;
+            public Tables.Highlight.Types Types { get { return types ?? Tables.Highlight.Types.Normal; } set { types = value; } }
 
         }
         List<Tag> m_tags = new List<Tag>();
@@ -105,30 +108,107 @@ namespace Language_Swopper_App
 
             int sIndex = 0;
             int eIndex = 0;
+            char tt;
+            char ttt;
             for (int i = 0; i < text.Length; i++)
             {
+                try { tt = text[i - 1]; } catch { }
+                try { ttt = text[i]; } catch { }
                 if (Char.IsWhiteSpace(text[i]) | ColorTags.GetSpecials.Contains(text[i]))
                 {
-                    if (i > 0 && !(Char.IsWhiteSpace(text[i - 1]) | ColorTags.GetSpecials.Contains(text[i - 1])))
+                    if (i > 0 && !(Char.IsWhiteSpace(text[i - 1])))
                     {
                         eIndex = i - 1;
                         string word = text.Substring(sIndex, eIndex - sIndex + 1);
-
-                        if (ColorTags.IsKnownTag(word))
+                        try
                         {
-                            Tag t = new Tag();
-                            t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
-                            t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
-                            t.Word = word;
-                            try
+                            if (dictionary[word[0].ToString()].Types == Tables.Highlight.Types.Connected)
                             {
-                                t.Color = dictionary[word];
+                                List<Tag> templ = new List<Tag>();
+                                foreach (char singlechar in word)
+                                {
+                                    if (ColorTags.IsKnownTag(singlechar.ToString()))
+                                    {
+                                        Tag t = new Tag();
+                                        t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
+                                        t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
+                                        t.Word = singlechar.ToString();
+                                        try
+                                        {
+                                            t.Color = dictionary[singlechar.ToString()].Color;
+                                            t.Types = dictionary[singlechar.ToString()].Types;
+                                        }
+                                        catch { }
+                                        m_tags.Add(t);
+                                        templ.Add(t);
+                                        sIndex = i + 1;
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in templ)
+                                        {
+                                            m_tags.Remove(item);
+                                        }
+                                        break;
+                                    }
+                                }
                             }
-                            catch { }
-                            m_tags.Add(t);
+                            else if (dictionary[word[0].ToString()].Types == Tables.Highlight.Types.StartToEnd)
+                            {
+                                foreach (char singlechar in word)
+                                {
+                                    Tag t = new Tag();
+                                    t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
+                                    t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
+                                    t.Word = singlechar.ToString();
+                                    try
+                                    {
+                                        t.Color = dictionary[singlechar.ToString()].Color;
+                                        t.Types = dictionary[singlechar.ToString()].Types;
+                                    }
+                                    catch { }
+                                    m_tags.Add(t);
+                                }
+                                sIndex = i + word.Length;
+                            }
+                            else
+                            {
+                                if (ColorTags.IsKnownTag(word))
+                                {
+                                    Tag t = new Tag();
+                                    t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
+                                    t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
+                                    t.Word = word;
+                                    try
+                                    {
+                                        t.Color = dictionary[word].Color;
+                                        t.Types = dictionary[word].Types;
+                                    }
+                                    catch { }
+                                    m_tags.Add(t);
+                                }
+                                sIndex = i + 1;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            if (ColorTags.IsKnownTag(word))
+                            {
+                                Tag t = new Tag();
+                                t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
+                                t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
+                                t.Word = word;
+                                try
+                                {
+                                    t.Color = dictionary[word].Color;
+                                    t.Types = dictionary[word].Types;
+                                }
+                                catch { }
+                                m_tags.Add(t);
+                            }
+                            sIndex += word.Length + 1;
                         }
                     }
-                    sIndex = i + 1;
                 }
             }
 
@@ -157,7 +237,7 @@ namespace Language_Swopper_App
             };
             tags = new List<string>(strs);
 
-            char[] chrs = { '.', ')', '(', '[', ']', '>', '<', ':', ';', '\n', '\t' };
+            char[] chrs = { '.', ')', '(', '[', ']', '>', '<', ':', ';', '\n', '\t', '='};
             specials = new List<char>(chrs);
         }
         #endregion

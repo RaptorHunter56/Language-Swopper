@@ -253,7 +253,7 @@ namespace Language_Swopper_App
             }
         }
 
-        public void TabAdd(string langage, Dictionary<string, Color> keyValuePairs)
+        public void TabAdd(string langage, Dictionary<string, MainWindow.ColorType> keyValuePairs)
         {
             TabButtonControl buttonControl = new TabButtonControl();
             buttonControl.LsLanguage = langage;

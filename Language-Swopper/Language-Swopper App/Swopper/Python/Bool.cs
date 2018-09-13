@@ -34,13 +34,21 @@ namespace LswPython
         {
             string Two = One.Split('=')[0].Trim();
             string Three = One.Split('=')[1].Trim();
-            LsBool Four;
+            LsBool Four = new LsBool(Two);
             if (Two.StartsWith("self.__"))
+            {
+                Two.TrimStart("self.__".ToCharArray());
                 Four.Prefixes.Add(Prefix.@private);
+            }
             else if (Two.StartsWith("self._"))
+            {
+                Two.TrimStart("self._".ToCharArray());
                 Four.Prefixes.Add(Prefix.@protected);
+            }
             else
+            {
                 Four.Prefixes.Add(Prefix.@public);
+            }
             if (Three == "true")
             {
                 Four = new LsBool(Two, true);
@@ -59,5 +67,5 @@ namespace LswPython
 }
 
 //########
-//true,255|0|0|190
-//false,255|0|0|190
+//true,255|0|0|190,Normal
+//false,255|0|0|190,Normal

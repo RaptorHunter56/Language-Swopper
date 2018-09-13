@@ -32,12 +32,12 @@
                 <MenuItem Header="Select All" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="LanguageMenu" Header="Language" StaysOpenOnClick="True">
-                <MenuItem x:Name="CSharpLanguageMenu" Header="C#" IsCheckable="True" Checked="MenuItem_Checked" IsChecked="True"/>
+                <!--<MenuItem x:Name="CSharpLanguageMenu" Header="C#" IsCheckable="True" Checked="MenuItem_Checked" IsChecked="True"/>
                 <MenuItem x:Name="VisualBasicLanguageMenu" Header="Visual Basic" IsCheckable="True" Checked="MenuItem_Checked"/>
                 <MenuItem x:Name="PythonLanguageMenu" Header="Python" IsCheckable="True" Checked="MenuItem_Checked"/>
                 <Separator/>
                 <MenuItem x:Name="MySqlLanguageMenu" Header="MySql" IsCheckable="True" Checked="MenuItem_Checked"/>
-                <MenuItem x:Name="SqlLanguageMenu" Header="Sql" IsCheckable="True" Checked="MenuItem_Checked"/>
+                <MenuItem x:Name="SqlLanguageMenu" Header="Sql" IsCheckable="True" Checked="MenuItem_Checked"/>-->
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="Refresh Language" Click="RefreshLanguageMenuItem_Click"/>

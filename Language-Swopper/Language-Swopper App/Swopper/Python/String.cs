@@ -36,14 +36,21 @@ namespace LswPython
         {
             string Two = One.Split('=')[0].Trim();
             string Three = One.Split('=')[1].Trim();
-            LsString Four;
+            LsString Four = new LsString(Two);
             if (Two.StartsWith("self.__"))
+            {
+                Two.TrimStart("self.__".ToCharArray());
                 Four.Prefixes.Add(Prefix.@private);
+            }
             else if (Two.StartsWith("self._"))
+            {
+                Two.TrimStart("self._".ToCharArray());
                 Four.Prefixes.Add(Prefix.@protected);
+            }
             else
+            {
                 Four.Prefixes.Add(Prefix.@public);
-
+            }
             if (Three.Length > 6 &&
                 Three.Substring(0, 3) == "\"\"\"" &&
                 Three.Substring(Three.Length - 3, 3) == "\"\"\"")
@@ -70,11 +77,12 @@ namespace LswPython
                 Four = new LsString(Two, Three);
                 Four.ValueType = true;
             }
+
             return Four;
         }
     }
 }
 
 //########
-//",255|165|42|42
-//',255|165|42|42
+//",255|165|42|42,StartToEnd
+//',255|165|42|42.StartToEnd

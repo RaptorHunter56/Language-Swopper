@@ -121,10 +121,22 @@
     <Compile Include="Migrations\201808200315254_Table-Edit All.Designer.cs">
       <DependentUpon>201808200315254_Table-Edit All.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809122253213_Table-Edit Highlight2.cs" />
+    <Compile Include="Migrations\201809122253213_Table-Edit Highlight2.Designer.cs">
+      <DependentUpon>201809122253213_Table-Edit Highlight2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
+    <None Include="Swopper\Base\Base.cs" />
+    <None Include="Swopper\Base\LsBool.cs" />
+    <None Include="Swopper\Base\LsInt.cs" />
+    <None Include="Swopper\Base\LsString.cs" />
+    <None Include="Swopper\Python\Bool.cs" />
+    <None Include="Swopper\Python\Controler.cs" />
+    <None Include="Swopper\Python\Int.cs" />
+    <None Include="Swopper\Python\String.cs" />
     <Compile Include="Tables\AutoComplete.cs" />
     <Compile Include="Tables\Class.cs" />
     <Compile Include="Tables\File.cs" />
@@ -211,6 +223,9 @@
     <EmbeddedResource Include="Migrations\201808200315254_Table-Edit All.resx">
       <DependentUpon>201808200315254_Table-Edit All.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809122253213_Table-Edit Highlight2.resx">
+      <DependentUpon>201809122253213_Table-Edit Highlight2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -220,12 +235,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Swopper\C#\Operations.lsw" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Swopper\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

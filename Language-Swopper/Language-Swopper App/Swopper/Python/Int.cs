@@ -34,34 +34,36 @@ namespace LswPython
         {
             string Two = One.Split('=')[0].Trim();
             string Three = One.Split('=')[1].Trim();
-            LsInt Four;
-            if (Two.StartsWith("self.__") || Two.StartsWith("__"))
+            LsInt Four = new LsInt(Two);
+            if (Two.StartsWith("self.__"))
+            {
+                Two.TrimStart("self.__".ToCharArray());
                 Four.Prefixes.Add(Prefix.@private);
-            else if (Two.StartsWith("self._") || Two.StartsWith("_"))
+            }
+            else if (Two.StartsWith("self._"))
+            {
+                Two.TrimStart("self._".ToCharArray());
                 Four.Prefixes.Add(Prefix.@protected);
+            }
             else
+            {
                 Four.Prefixes.Add(Prefix.@public);
-            if (Int32.TryParse(Three))
-            {
-                Four = new LsBool(Two, Int32.Parse(Three));
             }
-            else
-            {
-                Four = new LsBool(Two, Three);
-            }
+            try { Four = new LsInt(Two, int.Parse(Three)); }
+            catch { Four = new LsInt(Two, Three); }
             return Four;
         }
     }
 }
 
 //########
-//1,255|255|0|0
-//2,255|255|0|0
-//3,255|255|0|0
-//4,255|255|0|0
-//5,255|255|0|0
-//6,255|255|0|0
-//7,255|255|0|0
-//8,255|255|0|0
-//9,255|255|0|0
-//0,255|255|0|0
+//1,255|255|0|0,Connected
+//2,255|255|0|0,Connected
+//3,255|255|0|0,Connected
+//4,255|255|0|0,Connected
+//5,255|255|0|0,Connected
+//6,255|255|0|0,Connected
+//7,255|255|0|0,Connected
+//8,255|255|0|0,Connected
+//9,255|255|0|0,Connected
+//0,255|255|0|0,Connected

@@ -23,6 +23,30 @@ namespace Language_Swopper_App
         public MenuControl()
         {
             InitializeComponent();
+            using (var _context = new FileContext())
+            {
+                foreach (var folder in _context.Folders)
+                {
+                    if (folder.Name != "Base")
+                    {
+                        //< MenuItem x: Name = "VisualBasicLanguageMenu" Header = "Visual Basic" IsCheckable = "True" Checked = "MenuItem_Checked" />
+                        MenuItem temp = new MenuItem();
+                        //temp.Name = $"{folder.Name}LanguageMenu";
+                        temp.Header = $"{folder.Name}";
+                        temp.IsCheckable = true;
+                        temp.Checked += MenuItem_Checked;
+                        LanguageMenu.Items.Add(temp);
+                    }
+                }
+            }
+            int count = 1;
+            foreach (MenuItem item in LanguageMenu.Items.OfType<MenuItem>())
+            {
+                if (count == 1)
+                    item.IsChecked = true;
+                count++;
+            }
+            try { languageChangedClicked(); } catch { }
         }
         public string language;
         public delegate void languageChanged();

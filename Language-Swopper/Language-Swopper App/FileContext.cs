@@ -97,7 +97,7 @@ namespace Language_Swopper_App
                             var ColorList = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[1].Trim().Split(new[] { "\r\n" }, StringSplitOptions.None);
                             foreach (var item in ColorList)
                             {
-                                var temphighlight = new Highlight() { Text = item.Split(',')[0].TrimStart("//".ToCharArray()), Color = item.Split(',')[1] };
+                                var temphighlight = new Highlight() { Text = item.Split(',')[0].TrimStart("//".ToCharArray()), Color = item.Split(',')[1], Type = (Highlight.Types)Enum.Parse(typeof(Highlight.Types), item.Split(',')[2], true) };
                                 _context.Highlights.Add(temphighlight);
                                 _context.SaveChanges();
 

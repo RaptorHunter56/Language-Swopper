@@ -38,5 +38,22 @@ namespace Language_Swopper_App.Tables
         [Column("E4")]
         public int? FolderId { get; set; }
         public Folder Folder { get; set; }
+
+        [Display(Name = "E5")]
+        [Column("E5")]
+        public string TypeEncoded { get; set; }
+        [NotMapped]
+        public Types Type
+        {
+            get { return (Types)Enum.Parse(typeof(Types), Cipher.Decrypt(TypeEncoded, "HighlightType"), true); }
+            set { TypeEncoded = Cipher.Encrypt(value.ToString(), "HighlightType"); }
+        }
+        public enum Types
+        {
+            Normal,
+            Connected,
+            StandAlone,
+            StartToEnd
+        }
     }
 }

@@ -110,9 +110,34 @@ namespace Language_Swopper_App
 
         #endregion
 
+        public struct ColorType
+        {
+            public Color Color;
+            public Tables.Highlight.Types Types;
+        }
+        Dictionary<string, Dictionary<string, ColorType>> Dictionarys = new Dictionary<string, Dictionary<string, ColorType>>();
+
         public MainWindow()
         {
             InitializeComponent();
+            string startlang = "";
+            using (var _context = new FileContext())
+            {
+                foreach (var folder in _context.Folders)
+                {
+                    if (folder.Name != "Base" && startlang == "")
+                    {
+                        startlang = $"{folder.Name}Dictionary";
+                    }
+                    Dictionary<string, ColorType> temp = new Dictionary<string, ColorType>();
+                    foreach (var color in _context.Highlights.Where(h => h.FolderId == folder.FolderID))
+                    {
+                        temp.Add(color.Text, new ColorType() { Color = Color.FromArgb(byte.Parse(color.Color.Split('|')[0]), byte.Parse(color.Color.Split('|')[1]), byte.Parse(color.Color.Split('|')[2]), byte.Parse(color.Color.Split('|')[3])), Types = color.Type});
+                    }
+                    Dictionarys.Add($"{folder.Name}Dictionary", temp);
+                }
+            }
+
             MinimizeButton.Click += (s, e) => WindowState = WindowState.Minimized;
             MaximizeButton.Click += (s, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
             CloseButton.Click += (s, e) => Close();
@@ -127,7 +152,7 @@ namespace Language_Swopper_App
             MainMenuControl.MenuOpenClicked += MenuOpen;
             MainMenuControl.MenuSaveClicked += MenuSave;
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
-            MainMultiTabControl.SamName.GetTextControl.Dictionary = CSharpDictionary;
+            MainMultiTabControl.SamName.GetTextControl.Dictionary = Dictionarys[startlang];
             //MainMenuControl.languageChangedClicked += LanguageChangedClicked;
             MainMenuControl.Split_Clicked += MenuSplit;
         }
@@ -144,59 +169,31 @@ namespace Language_Swopper_App
             }
         }
 
-        public Dictionary<string, Color> CSharpDictionary = new Dictionary<string, Color>()
-        {
-            { "using", new Color() { A = 255, R = 255, G = 255, B = 0 } },
-            { "open", new Color() { A = 255, R = 255, G = 255, B = 0 } },
-            { "push", new Color() { A = 255, R = 0, G = 255, B = 255 } },
-            { "reload", new Color(){ A = 255, R = 255, G = 0, B = 255 } }
-        };
-        public Dictionary<string, Color> PythodDictionary = new Dictionary<string, Color>()
-        {
-            { "for", new Color() { A = 255, R = 255, G = 0, B = 0 } },
-            { "open", new Color() { A = 255, R = 255, G = 0, B = 0 } },
-            { "push", new Color() { A = 255, R = 0, G = 255, B = 0 } },
-            { "Set", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
-        };
-        public Dictionary<string, Color> MySQLDictionary = new Dictionary<string, Color>()
-        {
-            { "create", new Color() { A = 255, R = 255, G = 0, B = 0 } },
-            { "table", new Color() { A = 255, R = 255, G = 0, B = 0 } },
-            { "database", new Color() { A = 255, R = 0, G = 255, B = 0 } },
-            { "primary", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
-        };
-        public Dictionary<string, Color> VisualBasicLDictionary = new Dictionary<string, Color>()
-        {
-            { "create", new Color() { A = 255, R = 255, G = 0, B = 0 } },
-            { "table", new Color() { A = 255, R = 255, G = 0, B = 0 } },
-            { "database", new Color() { A = 255, R = 0, G = 255, B = 0 } },
-            { "primary", new Color(){ A = 255, R = 0, G = 0, B = 255 } }
-        };
-
 
 
         #region Menu
         public void MenuOpen()
         {
-            switch (MainMenuControl.language)
-            {
-                case "C#":
-                    MainMultiTabControl.TabAdd(MainMenuControl.language, CSharpDictionary);
-                    break;
-                case "Visual Basic":
-                    MainMultiTabControl.TabAdd(MainMenuControl.language, VisualBasicLDictionary);
-                    break;
-                case "Python":
-                    MainMultiTabControl.TabAdd(MainMenuControl.language, PythodDictionary);
-                    break;
-                case "MySql":
-                    MainMultiTabControl.TabAdd(MainMenuControl.language, MySQLDictionary);
-                    break;
-                case "Sql":
-                    break;
-                default:
-                    break;
-            }
+            MainMultiTabControl.TabAdd(MainMenuControl.language, Dictionarys[$"{MainMenuControl.language}Dictionary"]);
+            ///switch (MainMenuControl.language)
+            ///{
+            ///    case "C#":
+            ///        MainMultiTabControl.TabAdd(MainMenuControl.language, CSharpDictionary);
+            ///        break;
+            ///    case "Visual Basic":
+            ///        MainMultiTabControl.TabAdd(MainMenuControl.language, VisualBasicLDictionary);
+            ///        break;
+            ///    case "Python":
+            ///        MainMultiTabControl.TabAdd(MainMenuControl.language, PythodDictionary);
+            ///        break;
+            ///    case "MySql":
+            ///        MainMultiTabControl.TabAdd(MainMenuControl.language, MySQLDictionary);
+            ///        break;
+            ///    case "Sql":
+            ///        break;
+            ///    default:
+            ///        break;
+            ///}
         }
         public void MenuSave()
         {
@@ -253,22 +250,23 @@ namespace Language_Swopper_App
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            Controler controler = new Controler();
-            string[] vs;
-            MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
-            foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
+            using (Controler controler = new Controler())
             {
-                if (item.Open && item.IsSplit)
+                string[] vs;
+                MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
+                foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
                 {
-                    TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd );
-                    vs = textRange.Text.Split(new[] { Environment.NewLine } , StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string singleline in vs)
+                    if (item.Open && item.IsSplit)
                     {
-                        MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.line(singleline));
+                        TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd);
+                        vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string singleline in vs)
+                        {
+                            MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.line(singleline));
+                        }
                     }
                 }
             }
-            controler.Dispose();
             ///DirectoryInfo d = new DirectoryInfo(@"...\...\Swopper\Python");
             ///List<string> dList = new List<string>();
             ///foreach (var file in d.GetFiles("*.cs"))
