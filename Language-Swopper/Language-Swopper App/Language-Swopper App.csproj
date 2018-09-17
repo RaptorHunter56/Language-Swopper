@@ -137,6 +137,8 @@
     <None Include="Swopper\Python\Controler.cs" />
     <None Include="Swopper\Python\Int.cs" />
     <None Include="Swopper\Python\String.cs" />
+    <None Include="Swopper\Base\LsChar.cs" />
+    <None Include="Swopper\Python\Char.cs" />
     <Compile Include="Tables\AutoComplete.cs" />
     <Compile Include="Tables\Class.cs" />
     <Compile Include="Tables\File.cs" />

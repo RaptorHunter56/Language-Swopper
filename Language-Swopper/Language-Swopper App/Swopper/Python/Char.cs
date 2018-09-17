@@ -3,12 +3,11 @@ using Base;
 
 namespace LswPython
 {
-    public static class lswStringPath
+    public static class lswCharPath
     {
         public static string Write(object One)
         {
-            LsString Two = (LsString)One;
-            Two.ComplexChecked += PythonControler.CheckOut;
+            LsChar Two = (LsChar)One;
             foreach (Prefix prefix in Two.Prefixes)
             {
                 switch (prefix)
@@ -26,19 +25,18 @@ namespace LswPython
             string temp = "";
             if (Two.ValueType)
                 temp = Two.Name + " = " + Two.Value;
-            else if (Two.Value.Contains("\""))
-                temp = Two.Name + " = \"\"\"" + Two.Value + "\"\"\"";
+            else if (Two.Value == ('"'))
+                temp = Two.Name + " = '" + Two.Value + "'";
             else
                 temp = Two.Name + " = \"" + Two.Value + "\"";
             return temp;
         }
 		
-		public static LsString Read(string One)
+		public static LsChar Read(string One)
         {
             string Two = One.Split('=')[0].Trim();
             string Three = One.Split('=')[1].Trim();
-            LsString Four = new LsString(Two);
-            Four.ComplexChecking += PythonControler.CheckIn;
+            LsChar Four = new LsChar(Two);
             if (Two.StartsWith("self.__"))
             {
                 Two.TrimStart("self.__".ToCharArray());
@@ -53,31 +51,31 @@ namespace LswPython
             {
                 Four.Prefixes.Add(Prefix.@public);
             }
-            if (Three.Length > 6 &&
+            if (Three.Length == 7 &&
                 Three.Substring(0, 3) == "\"\"\"" &&
                 Three.Substring(Three.Length - 3, 3) == "\"\"\"")
             {
                 Three = Three.Substring(3, Three.Length - 6);
-                Four = new LsString(Two, Three);
+                Four = new LsChar(Two, Three.ToCharArray()[0]);
             }
-            else if (Three.Length > 2 &&
+            else if (Three.Length == 3 &&
                 Three.Substring(0, 1) == "'" &&
                 Three.Substring(Three.Length - 1, 1) == "'")
             {
                 Three = Three.Substring(1, Three.Length - 2);
-                Four = new LsString(Two, Three);
+                Four = new LsChar(Two, Three.ToCharArray()[0]);
             }
-            else if (Three.Length > 2 &&
+            else if (Three.Length == 3 &&
                 Three.Substring(0, 1) == "\"" &&
                 Three.Substring(Three.Length - 1, 1) == "\"")
             {
                 Three = Three.Substring(1, Three.Length - 2);
-                Four = new LsString(Two, Three);
+                Four = new LsChar(Two, Three.ToCharArray()[0]);
             }
             else
             {
-                Four = new LsString(Two);
-                Four.IsComplex(Three);
+                Four = new LsChar(Two, Three);
+                Four.ValueType = true;
             }
 
             return Four;
