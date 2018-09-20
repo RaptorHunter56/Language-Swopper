@@ -132,7 +132,7 @@ namespace Language_Swopper_App
                     Dictionary<string, ColorType> temp = new Dictionary<string, ColorType>();
                     foreach (var color in _context.Highlights.Where(h => h.FolderId == folder.FolderID))
                     {
-                        if (temp.Keys.Contains(color.Text))
+                        if (!temp.Keys.Contains(color.Text))
                         {
                             temp.Add(color.Text, new ColorType() { Color = Color.FromArgb(byte.Parse(color.Color.Split('|')[0]), byte.Parse(color.Color.Split('|')[1]), byte.Parse(color.Color.Split('|')[2]), byte.Parse(color.Color.Split('|')[3])), Types = color.Type});
                         }

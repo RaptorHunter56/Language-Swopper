@@ -32,7 +32,7 @@ namespace Language_Swopper_App
         public TextControl()
         {
             InitializeComponent();
-            dictionary = new Dictionary<string, MainWindow.ColorType>();
+            Dictionary = new Dictionary<string, MainWindow.ColorType>();
         }
 
         void RichTextBox_OnLostFocus(object sender, RoutedEventArgs e)
@@ -48,30 +48,91 @@ namespace Language_Swopper_App
         }
 
         #region textbox
+        private int LineMoveCount(int x)
+        {
+            ///y=5\left(\frac{1}{1+e^{\left(\frac{1}{10}*-x\right)+4}}\right)
+            //return (int)(5 * (1 / (1 + Math.Pow(Math.E, (((1 / 5) * -x) + 4)))));
+            double c = 0.2;
+            c = c * -x;
+            c += 4;
+            c = Math.Pow(Math.E, c);
+            c++;
+            c = 1 / c;
+            c = 5 * c;
+            return (int)Math.Round(c);
+        }
+        public int GetLineNumber(bool TillEnd = false)
+        {
+            TextPointer caretLineStart = MainRichTextBox.CaretPosition.GetLineStartPosition(0);
+            TextPointer p = MainRichTextBox.Document.ContentStart.GetLineStartPosition(0);
+            int caretLineNumber = 1;
+
+            while (true)
+            {
+                if (!TillEnd)
+                {
+                    if (caretLineStart.CompareTo(p) < 0)
+                    {
+                        break;
+                    }
+                }
+
+                int result;
+                p = p.GetLineStartPosition(1, out result);
+
+                if (result == 0)
+                {
+                    break;
+                }
+
+                caretLineNumber++;
+            }
+            return caretLineNumber;
+        }
+        private bool OneChange = true;
         private void TextChangedMethod()
         {
+            int LineNumber = GetLineNumber() - 1;
+            int LineEndNumber = GetLineNumber(true);
+            int LineMove = LineMoveCount(LineEndNumber);
+            int LineCount = 0;
+            OneChange = false;
             if (MainRichTextBox.Document == null)
                 return;
+            TextRange documentRange;
+            TextPointer navigator;
+            if (LineEndNumber == 1)
+            {
+                documentRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
+                documentRange.ClearAllProperties();
+                navigator = MainRichTextBox.Document.ContentStart;
+            }
+            else
+            {
+                documentRange = new TextRange(MainRichTextBox.CaretPosition.GetLineStartPosition(LineNumber), MainRichTextBox.CaretPosition.DocumentEnd);
+                documentRange.ClearAllProperties();
+                navigator = MainRichTextBox.CaretPosition.DocumentStart;
+            }
 
-            TextRange documentRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
-            documentRange.ClearAllProperties();
-
-            TextPointer navigator = MainRichTextBox.Document.ContentStart;
             while (navigator.CompareTo(MainRichTextBox.Document.ContentEnd) < 0)
             {
                 TextPointerContext context = navigator.GetPointerContext(LogicalDirection.Backward);
                 if (context == TextPointerContext.ElementStart && navigator.Parent is Run)
                 {
+                    LineCount++;
+
                     CheckWordsInRun((Run)navigator.Parent);
                 }
                 navigator = navigator.GetNextContextPosition(LogicalDirection.Forward);
             }
 
             Format();
+            OneChange = true;
         }
         private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
-            TextChangedMethod();
+            if (OneChange) TextChangedMethod();
+            int i = 0;
         }
         new struct Tag
         {
