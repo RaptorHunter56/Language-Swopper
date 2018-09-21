@@ -5,30 +5,83 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Language_Swopper_App"
              mc:Ignorable="d">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="Open" Executed="OpenMenuItem_Click"/>
+        <CommandBinding Command="Save" Executed="SaveMenuItem_Click"/>
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"/>
+    </UserControl.InputBindings>
     <Grid>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="New" Visibility="Collapsed"/>
-                <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
+                <MenuItem Header="New" Visibility="Collapsed">
+                </MenuItem>
+                <MenuItem x:Name="OpenMenuItem" Header="_Open" Command="Open" InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/OpenFile_16x.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Save" Click="SaveMenuItem_Click"/>
-                <MenuItem Header="Save As"  Visibility="Collapsed"/>
+                <MenuItem x:Name="SaveMenuItem" Header="_Save" Command="Save" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Save_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save As"  Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/SaveAs_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator  Visibility="Collapsed"/>
-                <MenuItem Header="Print"  Visibility="Collapsed"/>
-                <MenuItem Header="Print Preview"  Visibility="Collapsed"/>
+                <MenuItem Header="Print"  Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Print_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Print Preview"  Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/PrintPreview_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator  Visibility="Collapsed"/>
                 <MenuItem Header="Exit"  Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Split" Click="Split_Click"/>
+                <MenuItem Header="Split" Click="Split_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Split_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator Visibility="Collapsed"/>
-                <MenuItem Header="Undo" Visibility="Collapsed"/>
-                <MenuItem Header="Redo" Visibility="Collapsed"/>
+                <MenuItem Header="Undo" Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Undo_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Redo" Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Redo_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator Visibility="Collapsed"/>
-                <MenuItem Header="Cut" Visibility="Collapsed"/>
-                <MenuItem Header="Copy" Visibility="Collapsed"/>
-                <MenuItem Header="Paste" Visibility="Collapsed"/>
-                <Separator Visibility="Collapsed"/>
+                <MenuItem Header="Cut" Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Cut_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Copy" Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Copy_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Paste" Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <Image Source="/Language-Swopper App;component/Images/Icons/Paste_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator  Visibility="Collapsed"/>
                 <MenuItem Header="Select All" Visibility="Collapsed"/>
             </MenuItem>
             <MenuItem x:Name="LanguageMenu" Header="Language" StaysOpenOnClick="True">
