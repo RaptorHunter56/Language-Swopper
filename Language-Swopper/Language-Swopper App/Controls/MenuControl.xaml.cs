@@ -68,14 +68,14 @@ namespace Language_Swopper_App
 
         public delegate void MenuOpen();
         public event MenuOpen MenuOpenClicked;
-        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        private void OpenMenuItem_Click(object sender, ExecutedRoutedEventArgs e)
         {
             try { MenuOpenClicked(); } catch { }
         }
 
         public delegate void MenuSave();
         public event MenuOpen MenuSaveClicked;
-        private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+        private void SaveMenuItem_Click(object sender, ExecutedRoutedEventArgs e)
         {
             try { MenuSaveClicked(); } catch { }
         }

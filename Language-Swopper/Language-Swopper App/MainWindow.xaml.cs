@@ -27,6 +27,17 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region KeyBindings
+        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MenuOpen();//Implementation of open file
+        }
+        private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MenuSave();//Implementation of saveAs
+        }
+        #endregion
+
         #region Thing
         CompositionTarget WindowCompositionTarget { get; set; }
 
