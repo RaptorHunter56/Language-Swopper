@@ -109,7 +109,16 @@ namespace Language_Swopper_App
             }
             else
             {
-                documentRange = new TextRange(MainRichTextBox.CaretPosition.GetLineStartPosition(LineNumber), MainRichTextBox.CaretPosition.DocumentEnd);
+                TextPointer t1 = MainRichTextBox.Document.ContentStart.GetLineStartPosition(0).GetLineStartPosition(LineNumber - LineMove - 1);
+                TextPointer t2;
+                try
+                {
+                    t2 = MainRichTextBox.Document.ContentStart.GetLineStartPosition(0).GetLineStartPosition(LineNumber + LineMove);
+                    t2 = t2.GetInsertionPosition(LogicalDirection.Backward);
+                }
+                catch { t2  = MainRichTextBox.Document.ContentEnd; }
+                documentRange = new TextRange(t1, t2);
+                string ttext = documentRange.Text;
                 documentRange.ClearAllProperties();
                 navigator = MainRichTextBox.CaretPosition.DocumentStart;
             }
@@ -119,9 +128,14 @@ namespace Language_Swopper_App
                 TextPointerContext context = navigator.GetPointerContext(LogicalDirection.Backward);
                 if (context == TextPointerContext.ElementStart && navigator.Parent is Run)
                 {
-                    LineCount++;
+                    if (LineEndNumber == 1)
+                        CheckWordsInRun((Run)navigator.Parent);
 
-                    CheckWordsInRun((Run)navigator.Parent);
+                    LineCount++;
+                    if (!(LineCount < LineNumber - LineMove - 1) &&!(LineCount > LineNumber + LineMove + 1))
+                    {
+                        CheckWordsInRun((Run)navigator.Parent);
+                    }
                 }
                 navigator = navigator.GetNextContextPosition(LogicalDirection.Forward);
             }
