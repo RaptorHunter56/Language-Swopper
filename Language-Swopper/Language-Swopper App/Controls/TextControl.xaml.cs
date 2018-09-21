@@ -25,7 +25,7 @@ namespace Language_Swopper_App
             {
                 ColorTags.ResetTags(new List<string>(value.Keys));
                 dictionary = value;
-                TextChangedMethod();
+                TextChangedMethod(100);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Language_Swopper_App
             return caretLineNumber;
         }
         private bool OneChange = true;
-        private void TextChangedMethod()
+        private void TextChangedMethod(int AddedLength)
         {
             int LineNumber = GetLineNumber() - 1;
             int LineEndNumber = GetLineNumber(true);
@@ -101,7 +101,7 @@ namespace Language_Swopper_App
                 return;
             TextRange documentRange;
             TextPointer navigator;
-            if (LineEndNumber == 1)
+            if (LineEndNumber == 1 || AddedLength != 1)
             {
                 documentRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
                 documentRange.ClearAllProperties();
@@ -145,7 +145,7 @@ namespace Language_Swopper_App
         }
         private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
-            if (OneChange) TextChangedMethod();
+            if (OneChange) TextChangedMethod(e.Changes.FirstOrDefault().AddedLength);
             int i = 0;
         }
         new struct Tag
