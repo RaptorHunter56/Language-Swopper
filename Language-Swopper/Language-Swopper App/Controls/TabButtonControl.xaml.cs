@@ -35,10 +35,10 @@ namespace Language_Swopper_App
         private string language;
         public Dictionary<string, string> languageFilter = new Dictionary<string, string>()
         {
-            { "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
-            { "C#", "C# (*.cs)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
-            { "Visual Basic", "Visual Basic (*.vb)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
-            { "MySql", "MySQL files (*.sql)|*.sql|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
+            //{ "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
+            //{ "C#", "C# (*.cs)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
+            //{ "Visual Basic", "Visual Basic (*.vb)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
+            //{ "MySql", "MySQL files (*.sql)|*.sql|Text files (*.txt)|*.txt|All files (*.*)|*.*"}
         };
         //had to restart needed a change to save this can be deleted later
         public delegate void LanguageUpdate();
@@ -76,6 +76,30 @@ namespace Language_Swopper_App
             InitializeComponent();
             GetTextControl = new TextControl();
             GetSplitTextControl = new SplitTextControl();
+
+            //{ "Python", "Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*"},
+            //languageFilter
+            using (var _context = new FileContext())
+            {
+                foreach (var item in _context.Folders)
+                {
+                    if (item.Name != "Base")
+                    {
+                        bool count = false;
+                        try
+                        {
+                            foreach (var item1 in _context.OpenFilePaths.Where(o => o.FolderId == item.FolderID).ToList())
+                            {
+                                count = true;
+                                languageFilter.Add(item.Name, item1.Path);
+                            }
+                        }
+                        catch { }
+                        if (!count)
+                            languageFilter.Add(item.Name, "Text files (*.txt)|*.txt|All files (*.*)|*.*");
+                    }
+                }
+            }
         }
 
 
