@@ -135,7 +135,7 @@
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
     <None Include="Swopper\Base\LsIf.cs" />
-    <None Include="Swopper\Base\LsBrackets.cs" />
+    <None Include="Swopper\Base\LsBracket.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />

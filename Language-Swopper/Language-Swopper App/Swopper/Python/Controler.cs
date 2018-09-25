@@ -12,6 +12,8 @@ namespace LswPython
     {
         public delegate string RequestLine();
         public event RequestLine requestLine;
+        public delegate void BackLine();
+        public event BackLine backLine;
 
         public static bool CheckIn(string In, out lsBase Out)
         {
@@ -23,9 +25,10 @@ namespace LswPython
             return "";
         }
 
-        public object In(string InLine, RequestLine rl)
+        public object In(string InLine, RequestLine rl, BackLine bl)
         {
             requestLine += rl;
+            backLine += bl;
             Regex stringrgx = new Regex(@"\w+ {0,}= {0,}""{1}[^""]+""{1}|\w+ {0,}= {0,}""{3}.+""{3}|\w+ {0,}= {0,}'{1}[^']+'{1}");
             Regex charrgx = new Regex(@"\w+ {0,}= {0,}""{1}[^""]{1}""{1}|\w+ {0,}= {0,}""{3}.{1}""{3}|\w+ {0,}= {0,}'{1}[^']{1}'{1}");
             Regex boolrgx = new Regex(@"\w+ {0,}= {0,}true|\w+ {0,}= {0,}false");
@@ -45,9 +48,10 @@ namespace LswPython
                 return new LsString("Name", "Value");
         }
 
-        public string Out(object OutLine, RequestLine rl)
+        public string Out(object OutLine, RequestLine rl, BackLine bl)
         {
             requestLine += rl;
+            backLine += bl;
             try
             {
                 if (((lsBase)OutLine).lsType == "LsString")

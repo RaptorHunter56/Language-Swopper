@@ -71,6 +71,8 @@ namespace Language_Swopper_App
 
         public delegate string RequestLine();
         public event RequestLine requestLine;
+        public delegate void BackLine();
+        public event BackLine backLine;
 
         public string line(string Line)
         {
@@ -84,7 +86,7 @@ namespace Language_Swopper_App
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{In}.{In}Controler");
             MethodInfo mc = o.GetType().GetMethod("In");
-            return mc.Invoke(o, new object[] { Line , requestLine });
+            return mc.Invoke(o, new object[] { Line , requestLine, backLine });
         }
         private string LoadOut(object Line, RequestLine requestLine)
         {
@@ -93,7 +95,7 @@ namespace Language_Swopper_App
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{Out}.{Out}Controler");
             MethodInfo mc = o.GetType().GetMethod("Out");
-            return (string)(mc.Invoke(o, new object[] { Line , requestLine }));
+            return (string)(mc.Invoke(o, new object[] { Line , requestLine, backLine }));
         }
 
         public void Dispose()

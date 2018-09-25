@@ -272,6 +272,8 @@ namespace Language_Swopper_App
             Position++;
             return vs[Position++];
         }
+        public void RequestBackLine()
+        { Position = Position - 1; }
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
@@ -280,6 +282,7 @@ namespace Language_Swopper_App
             {
 
                 controler.requestLine += RequestNewLine;
+                controler.backLine += RequestBackLine;
                 MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
                 foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
                 {
