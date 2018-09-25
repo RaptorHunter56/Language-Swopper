@@ -1,4 +1,7 @@
-﻿using System;
+﻿//||||||||||
+//Python files (*.py)|*.py|Text files (*.txt)|*.txt|All files (*.*)|*.*
+//||||||||||
+using System;
 using Base;
 using System.Text;
 using System.Text.RegularExpressions;

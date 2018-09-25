@@ -15,6 +15,7 @@ namespace Language_Swopper_App
         public DbSet<NameSpace> NameSpaces { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Highlight> Highlights { get; set; }
+        public DbSet<OpenFilePath> OpenFilePaths { get; set; }
         public void ClearAll()
         {
             this.Folders.Clear();
@@ -27,6 +28,8 @@ namespace Language_Swopper_App
             this.Database.ExecuteSqlCommand("DBCC CHECKIDENT(D, RESEED, 0);");
             this.Highlights.Clear();
             this.Database.ExecuteSqlCommand("DBCC CHECKIDENT(E, RESEED, 0);");
+            this.OpenFilePaths.Clear();
+            this.Database.ExecuteSqlCommand("DBCC CHECKIDENT(F, RESEED, 0);");
         }
     }
 
@@ -67,6 +70,17 @@ namespace Language_Swopper_App
                         _context.SaveChanges();
 
                         string filetext = System.IO.File.ReadAllText(singlefiledirectories).Split(new[] { "########" }, StringSplitOptions.None)[0];
+                        string[] InputFilePath = filetext.Split(new[] { "||||||||||" }, StringSplitOptions.None);
+                        if (InputFilePath.Count() > 1)
+                        {
+                            var inputfilepath = new OpenFilePath() { Path = InputFilePath[1].Trim("\r\n//".ToCharArray())};
+                            _context.OpenFilePaths.Add(inputfilepath);
+                            _context.SaveChanges();
+
+                            _context.Entry(inputfilepath).GetDatabaseValues();
+                            inputfilepath.Folder = folder;
+                            _context.SaveChanges();
+                        }
                         int occurrencenumber = filetext.Split(new[] { "namespace" }, StringSplitOptions.None).Count();
                         for (int i = 1; i < occurrencenumber; i++)
                         {

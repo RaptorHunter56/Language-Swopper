@@ -126,10 +126,15 @@
     <Compile Include="Migrations\201809122253213_Table-Edit Highlight2.Designer.cs">
       <DependentUpon>201809122253213_Table-Edit Highlight2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809222256343_Table-Create OpenFilePaths.cs" />
+    <Compile Include="Migrations\201809222256343_Table-Create OpenFilePaths.Designer.cs">
+      <DependentUpon>201809222256343_Table-Create OpenFilePaths.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />
     <None Include="Swopper\Base\LsInt.cs" />
@@ -188,11 +193,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -233,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809122253213_Table-Edit Highlight2.resx">
       <DependentUpon>201809122253213_Table-Edit Highlight2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809222256343_Table-Create OpenFilePaths.resx">
+      <DependentUpon>201809222256343_Table-Create OpenFilePaths.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -132,6 +132,7 @@ namespace Language_Swopper_App
         {
             InitializeComponent();
             string startlang = "";
+            UpdateDatabase();
             using (var _context = new FileContext())
             {
                 foreach (var folder in _context.Folders)
