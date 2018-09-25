@@ -68,28 +68,32 @@ namespace Language_Swopper_App
         private CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
         private CompilerResults results;
 
+
+        public delegate string RequestLine();
+        public event RequestLine requestLine;
+
         public string line(string Line)
         {
-            return LoadOut(LoadIn(Line));
+            return LoadOut(LoadIn(Line, requestLine), requestLine);
         }
 
-        private object LoadIn(string Line)
+        private object LoadIn(string Line, RequestLine requestLine)
         {
             if (results.Errors.Count != 0)
                 throw new Exception("Mission failed!");
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{In}.{In}Controler");
             MethodInfo mc = o.GetType().GetMethod("In");
-            return mc.Invoke(o, new object[] { Line });
+            return mc.Invoke(o, new object[] { Line , requestLine });
         }
-        private string LoadOut(object Line)
+        private string LoadOut(object Line, RequestLine requestLine)
         {
             if (results.Errors.Count != 0)
                 throw new Exception("Mission failed!");
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{Out}.{Out}Controler");
             MethodInfo mc = o.GetType().GetMethod("Out");
-            return (string)(mc.Invoke(o, new object[] { Line }));
+            return (string)(mc.Invoke(o, new object[] { Line , requestLine }));
         }
 
         public void Dispose()
