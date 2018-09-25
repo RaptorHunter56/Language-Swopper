@@ -314,7 +314,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\Icons\Refresh_16x.png" />
+    <Resource Include="Images\Icons\Refresh_16x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
