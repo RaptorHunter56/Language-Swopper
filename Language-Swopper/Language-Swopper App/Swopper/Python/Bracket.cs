@@ -29,8 +29,10 @@ namespace LswPython
                 }
                 else if (Two.StringProperties.TryGetValue(Point, out ToAdd2))
                     Return += ToAdd2.Name + Seperater(Two.BracketType) + " ";
+                Point++;
             }
             Return = Return.TrimEnd();
+            Return = Return.Substring(0, Return.Length - 1);
             Return += ")";
             return Return;
         }
@@ -61,12 +63,8 @@ namespace LswPython
                 Two.BracketType = LsBracket.BracketTypes.Round;
             do
             {
-                One = PythonPosition.InLine[PythonPosition.Position];
                 string[] Parts;
-                Parts = One.Trim()
-                    .TrimEnd(Two.BracketTypesPears[Two.BracketType][Two.BracketTypesPears[Two.BracketType].Length - 1])
-                    .TrimStart(Three[0])
-                    .Split(Seperater(Two.BracketType).ToCharArray());
+                Parts = One.Trim().Substring(1, One.Length - 2).Split(Seperater(Two.BracketType).ToCharArray());
                 foreach (var item in Parts)
                 {
                     string itemT = item.Trim();
@@ -77,6 +75,9 @@ namespace LswPython
                         Two.AddBase(Four);
                 }
                 PythonPosition.Position++;
+                try
+                { One = PythonPosition.InLine[PythonPosition.Position]; }
+                catch { }
             } while(CheckRepeate(One, Two));
             PythonPosition.Position = PythonPosition.Position - 1;
             return Two;

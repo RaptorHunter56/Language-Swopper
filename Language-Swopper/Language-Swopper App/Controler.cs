@@ -77,21 +77,29 @@ namespace Language_Swopper_App
         {
             if (results.Errors.Count != 0)
             {
-                System.IO.File.WriteAllText(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", string.Empty);
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", true))
+                try
                 {
-                    file.WriteLine($"No. {results.Errors.Count}");
-                    file.WriteLine($"===");
-                    foreach (CompilerError item in results.Errors)
+                    System.IO.File.WriteAllText(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", string.Empty);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", true))
                     {
-                        file.WriteLine($"{item.FileName} {item.Column}/{item.Line}");
-                        file.WriteLine($"{item.ErrorText}");
+                        file.WriteLine($"No. {results.Errors.Count}");
                         file.WriteLine($"===");
+                        foreach (CompilerError item in results.Errors)
+                        {
+                            file.WriteLine($"{item.FileName} {item.Column}/{item.Line}");
+                            file.WriteLine($"{item.ErrorText}");
+                            file.WriteLine($"===");
+                        }
                     }
                 }
+                catch { }
                 throw new Exception("Mission failed!");
             }
-            System.IO.File.WriteAllText(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", "No. 0");
+            try
+            {
+                System.IO.File.WriteAllText(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", "No. 0");
+            }
+            catch { }
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{In}.{In}Controler");
             MethodInfo mc = o.GetType().GetMethod("In");

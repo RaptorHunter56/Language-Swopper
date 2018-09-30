@@ -85,25 +85,31 @@ namespace LswPython
 
         public string Out(object OutLine)
         {
-            try
+            LsBaseList baseList = (LsBaseList)OutLine;
+            string Return = "";
+            foreach (var item in baseList.Bases)
             {
-                if (((lsBase)OutLine).lsType == "LsString")
-                    return lswStringPath.Write(OutLine) + " {LsString} " + "\r";
-                else if (((lsBase)OutLine).lsType == "LsBool")
-                    return lswBoolPath.Write(OutLine) + " {LsBool} " + "\r";
-                else if (((lsBase)OutLine).lsType == "LsInt")
-                    return lswIntPath.Write(OutLine) + " {LsInt} " + "\r";
-                else if (((lsBase)OutLine).lsType == "LsChar")
-                    return lswCharPath.Write(OutLine) + " {LsChar} " + "\r";
-                else if (((lsBase)OutLine).lsType == "LsBracket")
-                    return lswBracketPath.Write(OutLine, PythonPosition) + " {LsBracket} " + "\r";
-                else
-                    try { return OutLine.ToString() + " {No_Type} " + "\r"; } catch { return "{No_Type}" + "\r"; }
+                try
+                {
+                    if (((lsBase)item).lsType == "LsString")
+                        Return += lswStringPath.Write(item) + " {LsString} " + "\r";
+                    else if (((lsBase)item).lsType == "LsBool")
+                        Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
+                    else if (((lsBase)item).lsType == "LsInt")
+                        Return += lswIntPath.Write(item) + " {LsInt} " + "\r";
+                    else if (((lsBase)item).lsType == "LsChar")
+                        Return += lswCharPath.Write(item) + " {LsChar} " + "\r";
+                    else if (((lsBase)item).lsType == "LsBracket")
+                        Return += lswBracketPath.Write(item, PythonPosition) + " {LsBracket} " + "\r";
+                    else
+                        try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
+                }
+                catch (Exception e)
+                {
+                    Return += e.Message + "\r";
+                }
             }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
+            return Return;
         }
     }
 }
