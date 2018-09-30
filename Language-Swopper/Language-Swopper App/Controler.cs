@@ -67,35 +67,44 @@ namespace Language_Swopper_App
         private static Dictionary<string, string> providerOptions = new Dictionary<string, string> { {"CompilerVersion", "v3.5"} };
         private CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
         private CompilerResults results;
-
-
-        public delegate string RequestLine();
-        public event RequestLine requestLine;
-        public delegate void BackLine();
-        public event BackLine backLine;
-
-        public string line(string Line)
+        
+        public string lines(string[] Line)
         {
-            return LoadOut(LoadIn(Line, requestLine), requestLine);
+            return LoadOut(LoadIn(Line));
         }
 
-        private object LoadIn(string Line, RequestLine requestLine)
+        private object LoadIn(string[] Line)
         {
             if (results.Errors.Count != 0)
+            {
+                System.IO.File.WriteAllText(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", string.Empty);
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", true))
+                {
+                    file.WriteLine($"No. {results.Errors.Count}");
+                    file.WriteLine($"===");
+                    foreach (CompilerError item in results.Errors)
+                    {
+                        file.WriteLine($"{item.FileName} {item.Column}/{item.Line}");
+                        file.WriteLine($"{item.ErrorText}");
+                        file.WriteLine($"===");
+                    }
+                }
                 throw new Exception("Mission failed!");
+            }
+            System.IO.File.WriteAllText(@"C:\Users\Steven Bown\Desktop\Mission Aport.txt", "No. 0");
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{In}.{In}Controler");
             MethodInfo mc = o.GetType().GetMethod("In");
-            return mc.Invoke(o, new object[] { Line , requestLine, backLine });
+            return mc.Invoke(o, new object[] { Line});
         }
-        private string LoadOut(object Line, RequestLine requestLine)
+        private string LoadOut(object Line)
         {
             if (results.Errors.Count != 0)
                 throw new Exception("Mission failed!");
 
             object o = results.CompiledAssembly.CreateInstance($"Lsw{Out}.{Out}Controler");
             MethodInfo mc = o.GetType().GetMethod("Out");
-            return (string)(mc.Invoke(o, new object[] { Line , requestLine, backLine }));
+            return (string)(mc.Invoke(o, new object[] { Line }));
         }
 
         public void Dispose()

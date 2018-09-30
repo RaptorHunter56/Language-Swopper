@@ -8,7 +8,6 @@ namespace LswPython
         public static string Write(object One)
         {
             LsString Two = (LsString)One;
-            Two.ComplexChecked += PythonControler.CheckOut;
             foreach (Prefix prefix in Two.Prefixes)
             {
                 switch (prefix)
@@ -37,8 +36,9 @@ namespace LswPython
         {
             string Two = One.Split('=')[0].Trim();
             string Three = One.Split('=')[1].Trim();
+            int OpenC = Three.Split('(').Length - 1;
+            int CloseC = Three.Split(')').Length - 1;
             LsString Four = new LsString(Two);
-            Four.ComplexChecking += PythonControler.CheckIn;
             if (Two.StartsWith("self.__"))
             {
                 Two.TrimStart("self.__".ToCharArray());

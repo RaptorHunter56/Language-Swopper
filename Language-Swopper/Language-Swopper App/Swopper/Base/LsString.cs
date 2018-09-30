@@ -10,24 +10,22 @@ namespace Base
         { Name = name; Value = value; Prefixes = new List<Prefix>(); ValueType = false; ComplexType = false; Decleared = false; base.lsType = "LsString"; }
         public LsString(string name, string value, List<Prefix> prefixes)
         { Name = name; Value = value; Prefixes = prefixes; ValueType = false; ComplexType = false; Decleared = false; base.lsType = "LsString"; }
-
-        public event ComplexCheckIn ComplexChecking;
-        public event ComplexCheckOut ComplexChecked;
+        
         public void IsComplex(string Line)
         {
             try
             {
-                lsBase Out;
-                if (ComplexChecking(Line, out Out))
-                {
-                    Complex = Out;
-                    ComplexType = true;
-                }
-                else
-                {
+                //lsBase Out;
+                //if (false)/*ComplexChecking(Line, out Out))*/
+                //{
+                //    Complex = Out;
+                //    ComplexType = true;
+                //}
+                //else
+                //{
                     Value = Line;
                     ValueType = true;
-                }
+                //}
             }
             catch
             {

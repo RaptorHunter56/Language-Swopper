@@ -262,39 +262,20 @@ namespace Language_Swopper_App
             //}
         }
         #endregion
-
-
-        public string[] vs;
-        public int Position = 0;
-
-        public string RequestNewLine()
-        {
-            Position++;
-            return vs[Position++];
-        }
-        public void RequestBackLine()
-        { Position = Position - 1; }
+        
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            Position = 0;
             using (Controler controler = new Controler())
             {
-
-                controler.requestLine += RequestNewLine;
-                controler.backLine += RequestBackLine;
                 MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
                 foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
                 {
                     if (item.Open && item.IsSplit)
                     {
                         TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd);
-                        vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                        while (Position < vs.Count())
-                        {
-                            MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.line(vs[Position]));
-                            Position++;
-                        }
+                        string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                        MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.lines(vs));
                     }
                 }
             }

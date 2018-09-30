@@ -10,6 +10,17 @@ namespace Base
         public string lsType;
     }
 
+    public class LsBaseList
+    {
+        public List<lsBase> Bases = new List<lsBase>();
+    }
+
+    public class LsName : lsBase
+    {
+        public LsName() { lsType = "LsName"; }
+        public string Name;
+    }
+
     public enum Prefix
     {
         @public,
