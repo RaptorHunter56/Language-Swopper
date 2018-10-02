@@ -286,7 +286,8 @@ namespace Language_Swopper_App
                     }
                 }
             }
-
+            if (text.Length - sIndex <= 0)
+                return;
             string lastWord = text.Substring(sIndex, text.Length - sIndex);
             if (ColorTags.IsKnownTag(lastWord))
             {
