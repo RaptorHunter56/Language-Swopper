@@ -2,9 +2,12 @@
 
 namespace Base
 {
-    class LsIf : lsBase
+    public class LsIf : lsBase
     {
-        public LsBracket LsBracket;
-        public List<lsBase> InerLines;
+        public LsIf()
+        { lsType = "LsIf"; }
+        public LsBracket Bracket;
+        public List<lsBase> InerLines = new List<lsBase>();
+        public int Tabindex = 0;
     }
 }

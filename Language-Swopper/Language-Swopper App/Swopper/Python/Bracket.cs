@@ -5,7 +5,7 @@ namespace LswPython
 {
     public static class lswBracketPath
     {
-        public static string Write(object One, LswPython.PythonPositions PythonPosition)
+        public static string Write(object One, ref LswPython.PythonPositions PythonPosition)
         {
             string Return = "";
             LsBracket Two = (LsBracket)One;
@@ -24,7 +24,7 @@ namespace LswPython
                     else if (ToAdd.GetType() == typeof(bool))
                         Return += ToAdd.ToString().ToLower() + "{bool}";
                     else if (ToAdd.GetType() == typeof(LsBracket))
-                        Return += Write(ToAdd, PythonPosition) + "{bracket}";
+                        Return += Write(ToAdd, ref PythonPosition) + "{bracket}";
                     Return += Seperater(Two.BracketType) + " ";
                 }
                 else if (Two.StringProperties.TryGetValue(Point, out ToAdd2))
@@ -52,7 +52,7 @@ namespace LswPython
             }
         }
 
-        public static LsBracket Read(string One, LswPython.PythonPositions PythonPosition)
+        public static LsBracket Read(string One, ref LswPython.PythonPositions PythonPosition)
         {
             LsBracket Two = new LsBracket();
             string Three = One[0].ToString();
@@ -68,7 +68,7 @@ namespace LswPython
                 foreach (var item in Parts)
                 {
                     string itemT = item.Trim();
-                    var Four = new PythonControler().PartIn(itemT);
+                    var Four = new PythonControler().PartInRef(itemT, ref PythonPosition);
                     if (Four is string && (itemT[0] != '"' && itemT[0] != "'"[0]))
                         Two.AddString(new LsName() { Name = Four.ToString() });
                     else

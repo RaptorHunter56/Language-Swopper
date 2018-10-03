@@ -15,14 +15,18 @@ namespace LswPython
     }
     public class PythonControler
     {
+        public PythonControler()
+        { PythonPosition = new PythonPositions(); }
 
-        public PythonPositions PythonPosition = new PythonPositions();
-        public object In(string[] InLine)
+        public PythonPositions PythonPosition;
+        public object In(string[] InLine) { return InRef(InLine, ref PythonPosition); }
+        public object InRef(string[] InLine, ref PythonPositions PythonPositionRef)
         {
-            PythonPosition.InLine = InLine;
+            PythonPositionRef.InLine = InLine;
             LsBaseList Return = new LsBaseList();
-            while (PythonPosition.Position < PythonPosition.InLine.Length)
+            while (PythonPositionRef.Position < PythonPositionRef.InLine.Length)
             {
+                
                 //Done
                 Regex stringrgx = new Regex(@"\w+ {0,}=[ (]{0,}""{1}[^""]+""{1}([ +)(]{0,}""{1}[^""]+""{1}|[ +)(]{0,}'{1}[^']+'{1}|[ +)(]{0,}""{3}.+""{3}|[ +)(]{0,}\w+){0,}[)]{0,}|\w+ {0,}=[ (]{0,}""{3}.+""{3}([ +)(]{0,}""{1}[^""]+""{1}|[ +)(]{0,}'{1}[^']+'{1}|[ +)(]{0,}""{3}.+""{3}|[ +)(]{0,}\w+){0,}[)]{0,}|\w+ {0,}=[ (]{0,}'{1}[^']+'{1}([ +)(]{0,}""{1}[^""]+""{1}|[ +)(]{0,}'{1}[^']+'{1}|[ +)(]{0,}""{3}.+""{3}|[ +)(]{0,}\w+){0,}[)]{0,}");
                 Regex charrgx = new Regex(@"\w+ {0,}=[ (]{0,}""{1}[^""]{1}""{1}[)]{0,}|\w+ {0,}=[ (]{0,}""{3}.{1}""{3}[)]{0,}|\w+ {0,}=[ (]{0,}'{1}[^']{1}'{1}[)]{0,}");
@@ -32,32 +36,36 @@ namespace LswPython
                 Regex defoltrgx = new Regex(@"\w+ {0,}= {0,}\w+");
                 //Finished
                 Regex bracketrgx = new Regex(@"^[(].+[)]$");
-                if (charrgx.Match(PythonPosition.InLine[PythonPosition.Position]).Success)
-                    Return.Bases.Add(lswCharPath.Read(PythonPosition.InLine[PythonPosition.Position]));
-                else if (stringrgx.Match(PythonPosition.InLine[PythonPosition.Position]).Success)
-                    Return.Bases.Add(lswStringPath.Read(PythonPosition.InLine[PythonPosition.Position]));
-                else if (boolrgx.Match(PythonPosition.InLine[PythonPosition.Position]).Success)
-                    Return.Bases.Add(lswBoolPath.Read(PythonPosition.InLine[PythonPosition.Position]));
-                else if (intrgx.Match(PythonPosition.InLine[PythonPosition.Position]).Success)
-                    Return.Bases.Add(lswIntPath.Read(PythonPosition.InLine[PythonPosition.Position]));
-                else if (bracketrgx.Match(PythonPosition.InLine[PythonPosition.Position]).Success)
-                    Return.Bases.Add(lswBracketPath.Read(PythonPosition.InLine[PythonPosition.Position], PythonPosition));
-                else if (defoltrgx.Match(PythonPosition.InLine[PythonPosition.Position]).Success)
-                    Return.Bases.Add(lswStringPath.Read(PythonPosition.InLine[PythonPosition.Position]));
+                Regex ifrgx = new Regex(@"^if .+:$");
+                if (charrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswCharPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
+                else if (stringrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswStringPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
+                else if (boolrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswBoolPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
+                else if (intrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswIntPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
+                else if (bracketrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswBracketPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), ref PythonPositionRef));
+                else if (ifrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswIfPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), ref PythonPositionRef));
+                else if (defoltrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswStringPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
                 else
-                    Return.Bases.Add(new LsName() { Name = PythonPosition.InLine[PythonPosition.Position] });
-                PythonPosition.Position++;
+                    Return.Bases.Add(new LsName() { Name = PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd() });
+                PythonPositionRef.Position++;
             }
             return Return;
         }
 
+        public object PartIn(string InLine) { return PartInRef(InLine, ref PythonPosition); }
         /// <summary>
         /// For When you need to check the type of an input.    
         /// Eg. "Sam" == String, 56 == Int ...
         /// </summary>
         /// <param name="InLine"></param>
         /// <returns></returns>
-        public object PartIn(string InLine)
+        public object PartInRef(string InLine, ref PythonPositions PythonPositionRef)
         {
             Regex stringrgx = new Regex(@"^""{3}[^""]+""{3}$|^""[^""]+""$|^'[^']+'$");
             Regex charrgx = new Regex(@"^""{3}[^""]{1}""{3}$|^""[^""]{1}""$|^'[^']{1}'$");
@@ -79,11 +87,12 @@ namespace LswPython
             else if (boolrgx.Match(InLine).Success)
                 return (InLine[0] == 't') ? true : false;
             else if (bracketrgx.Match(InLine).Success)
-                return lswBracketPath.Read(InLine, PythonPosition);
+                return lswBracketPath.Read(InLine, ref PythonPositionRef);
             return InLine;
         }
 
-        public string Out(object OutLine)
+        public string Out(object OutLine) { return OutRef(OutLine, ref PythonPosition); }
+        public string OutRef(object OutLine, ref PythonPositions PythonPositionRef)
         {
             LsBaseList baseList = (LsBaseList)OutLine;
             string Return = "";
@@ -100,7 +109,9 @@ namespace LswPython
                     else if (((lsBase)item).lsType == "LsChar")
                         Return += lswCharPath.Write(item) + " {LsChar} " + "\r";
                     else if (((lsBase)item).lsType == "LsBracket")
-                        Return += lswBracketPath.Write(item, PythonPosition) + " {LsBracket} " + "\r";
+                        Return += lswBracketPath.Write(item, ref PythonPositionRef) + " {LsBracket} " + "\r";
+                    else if (((lsBase)item).lsType == "LsIf")
+                        Return += lswIfPath.Write(item, ref PythonPositionRef) + " {LsIf} " + "\r";
                     else
                         try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                 }

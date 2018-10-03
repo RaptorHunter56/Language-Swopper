@@ -137,6 +137,7 @@
     <None Include="Swopper\Base\LsIf.cs" />
     <None Include="Swopper\Base\LsBracket.cs" />
     <None Include="Swopper\Python\Bracket.cs" />
+    <None Include="Swopper\Python\If.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />

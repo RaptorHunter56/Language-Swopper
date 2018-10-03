@@ -5,7 +5,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Language_Swopper_App
 {
@@ -145,8 +147,7 @@ namespace Language_Swopper_App
         }
         private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
-            if (OneChange) TextChangedMethod(e.Changes.FirstOrDefault().AddedLength);
-            int i = 0;
+            try { if (OneChange) TextChangedMethod(e.Changes.FirstOrDefault().AddedLength); } catch { }
         }
         new struct Tag
         {
@@ -298,6 +299,43 @@ namespace Language_Swopper_App
             }
         }
         #endregion
+        
+        private void MainRichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && e.Key == Key.Tab)
+            {
+                string ss = new TextRange(MainRichTextBox.CaretPosition.GetLineStartPosition(0), MainRichTextBox.CaretPosition).Text;
+                if (ss[ss.Length - 1] == '\t')
+                {
+                    MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(-1, LogicalDirection.Backward);
+                    MainRichTextBox.CaretPosition.DeleteTextInRun(1);
+                    MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(0, LogicalDirection.Forward);
+                }
+                Dispatcher.BeginInvoke(
+                DispatcherPriority.ContextIdle,
+                new Action(delegate ()
+                {
+                    MainRichTextBox.Focus();
+                }));
+                e.Handled = true;
+                return;
+            }
+            else if (e.Key == Key.Tab)
+            {
+                string textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd).Text;
+                MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(0, LogicalDirection.Forward);
+                MainRichTextBox.CaretPosition.InsertTextInRun("\t");
+                textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd).Text;
+                Dispatcher.BeginInvoke(
+                DispatcherPriority.ContextIdle,
+                new Action(delegate ()
+                {
+                    MainRichTextBox.Focus();
+                }));
+                e.Handled = true;
+                return;
+            }
+        }
     }
 
     class ColorTags

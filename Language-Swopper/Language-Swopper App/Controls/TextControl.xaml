@@ -19,11 +19,12 @@
                      Padding="0,2,0,0" 
                      BorderThickness="1,0,1,1"
                      Background="White" 
-                     LostFocus="RichTextBox_OnLostFocus">
+                     LostFocus="RichTextBox_OnLostFocus"
+                     PreviewKeyDown="MainRichTextBox_PreviewKeyDown" FontFamily="Global Monospace">
+                     <!--AcceptsTab="True"-->
             <RichTextBox.Template>
                 <ControlTemplate>
                     <Border BorderBrush="#FF707070" BorderThickness="1,0,1,1">
-
                         <DockPanel LastChildFill="True">
                             <Label Background="#FFF1F1F1" Width="12" HorizontalAlignment="Left" 
                                     BorderBrush="#FF707070" BorderThickness="1,1,1,0" Margin="-1,0,0,0"></Label>
