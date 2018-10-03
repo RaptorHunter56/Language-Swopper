@@ -68,7 +68,7 @@ namespace Language_Swopper_App
         private CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
         private CompilerResults results;
         
-        public string lines(string[] Line)
+        public string Lines(string[] Line)
         {
             return LoadOut(LoadIn(Line));
         }

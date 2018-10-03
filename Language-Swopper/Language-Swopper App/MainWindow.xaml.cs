@@ -276,7 +276,7 @@ namespace Language_Swopper_App
                         //Fix Tabs
                         TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd);
                         string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                        MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.lines(vs));
+                        MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.Lines(vs));
                     }
                 }
             }
