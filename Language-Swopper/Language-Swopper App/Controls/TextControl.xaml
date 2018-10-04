@@ -13,14 +13,16 @@
                      FocusVisualStyle="{x:Null}" 
                      Margin="5,0,5,5" 
                      ScrollViewer.CanContentScroll="True" 
-                     ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                      AcceptsReturn="True" 
                      TextChanged="TextChangedEventHandler" 
                      Padding="0,2,0,0" 
                      BorderThickness="1,0,1,1"
                      Background="White" 
                      LostFocus="RichTextBox_OnLostFocus"
-                     PreviewKeyDown="MainRichTextBox_PreviewKeyDown" FontFamily="Global Monospace">
+                     PreviewKeyDown="MainRichTextBox_PreviewKeyDown" 
+                     FontFamily="Global Monospace">
                      <!--AcceptsTab="True"-->
             <RichTextBox.Template>
                 <ControlTemplate>
@@ -35,6 +37,7 @@
                                     Background="Transparent">
                                 <ScrollViewer.Resources>
                                     <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
+                                    <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
                                 </ScrollViewer.Resources>
                             </ScrollViewer>
                         </DockPanel>
@@ -42,6 +45,9 @@
                 </ControlTemplate>
             </RichTextBox.Template>
             <RichTextBox.Resources>
+                <Style TargetType="{x:Type FlowDocument}">
+                    <Setter Property="PageWidth" Value="1000"/>
+                </Style>
                 <Style TargetType="{x:Type RichTextBox}">
                     <Setter Property="BorderBrush" Value="#FF707070"/>
                     <Style.Triggers>

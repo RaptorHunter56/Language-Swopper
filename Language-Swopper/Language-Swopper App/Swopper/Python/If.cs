@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Base;
 
 namespace LswPython
@@ -7,7 +8,14 @@ namespace LswPython
     {
         public static string Write(object One, ref LswPython.PythonPositions PythonPosition)
         {
-            return "Write";
+            string Return = "if ";
+            LsIf Two = (LsIf)One;
+            Return += new PythonControler().Out(new LsBaseList() { Bases = new List<lsBase>() { Two.Bracket } }).TrimEnd(")\r\n".ToCharArray()).TrimStart('(') + ":\r\n";
+            foreach (var item in Two.InerLines)
+            {
+                Return += "\t" + new PythonControler().Out(new LsBaseList() { Bases = new List<lsBase>() { item } });
+            }
+            return Return;
         }
 
         public static LsIf Read(string One, ref LswPython.PythonPositions PythonPosition)
@@ -15,10 +23,9 @@ namespace LswPython
             LsIf Two = new LsIf();
             Two.Tabindex = CountTabs(One);
             string Three = "(" + One.Trim().Substring(3, One.Length - 4).Trim() +  ")";
-            PythonControler Pcontroler = new PythonControler();
-            Two.Bracket = (LsBracket)Pcontroler.PartInRef(Three, ref PythonPosition);
+            Two.Bracket = (LsBracket)new PythonControler().PartInRef(Three, ref PythonPosition);
             bool Continu = true;
-            while (Continu)
+            do
             {
                 PythonPosition.Position++;
                 try
@@ -26,7 +33,7 @@ namespace LswPython
                     string Four = PythonPosition.InLine[PythonPosition.Position];
                     if (CheckRepeate(Four, Two))
                     {
-                        LsBaseList list = (LsBaseList)(Pcontroler.InRef(new string[] { Four.Trim() }, ref PythonPosition));
+                        LsBaseList list = (LsBaseList)(new PythonControler().In(new string[] { Four.Trim() }));
                         Two.InerLines.Add(list.Bases[0]);
                     }
                     else
@@ -34,11 +41,11 @@ namespace LswPython
                         Continu = false;
                     }
                 }
-                catch
+                catch (Exception e)
                 {
                     Continu = false;
                 }
-            }
+            } while (Continu);
 
             PythonPosition.Position = PythonPosition.Position - 1;
             return Two;

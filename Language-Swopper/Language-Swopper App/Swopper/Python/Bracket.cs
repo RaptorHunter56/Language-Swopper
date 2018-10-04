@@ -61,8 +61,8 @@ namespace LswPython
                 Two.BracketType = Dic.KeyByValue(Three); // //
             else
                 Two.BracketType = LsBracket.BracketTypes.Round;
-            do
-            {
+            //do
+            //{
                 string[] Parts;
                 Parts = One.Trim().Substring(1, One.Length - 2).Split(Seperater(Two.BracketType).ToCharArray());
                 foreach (var item in Parts)
@@ -78,7 +78,7 @@ namespace LswPython
                 try
                 { One = PythonPosition.InLine[PythonPosition.Position]; }
                 catch { }
-            } while(CheckRepeate(One, Two));
+            //} while(CheckRepeate(One, Two));
             PythonPosition.Position = PythonPosition.Position - 1;
             return Two;
         }

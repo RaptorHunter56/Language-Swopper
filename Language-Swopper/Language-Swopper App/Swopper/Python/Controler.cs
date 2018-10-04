@@ -19,10 +19,9 @@ namespace LswPython
         { PythonPosition = new PythonPositions(); }
 
         public PythonPositions PythonPosition;
-        public object In(string[] InLine) { return InRef(InLine, ref PythonPosition); }
+        public object In(string[] InLine) { PythonPosition.InLine = InLine; return InRef(InLine, ref PythonPosition); }
         public object InRef(string[] InLine, ref PythonPositions PythonPositionRef)
         {
-            PythonPositionRef.InLine = InLine;
             LsBaseList Return = new LsBaseList();
             while (PythonPositionRef.Position < PythonPositionRef.InLine.Length)
             {
