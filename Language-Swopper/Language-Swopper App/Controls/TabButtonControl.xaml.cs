@@ -110,6 +110,7 @@ namespace Language_Swopper_App
             this.ControlTabButtonClicked = t.ControlTabButtonClicked;
             this.CloseTabButtonClicked = t.CloseTabButtonClicked;
             this.GetTextControl = t.GetTextControl;
+            this.LsLanguage = t.LsLanguage;
             this.GetSplitTextControl = t.GetSplitTextControl;
             Button_Click(BackButton, new RoutedEventArgs());
         }

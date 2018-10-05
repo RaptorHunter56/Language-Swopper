@@ -138,6 +138,8 @@
     <None Include="Swopper\Base\LsBracket.cs" />
     <None Include="Swopper\Python\Bracket.cs" />
     <None Include="Swopper\Python\If.cs" />
+    <None Include="Swopper\CSharp\Controler.cs" />
+    <None Include="Swopper\CSharp\String.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />
@@ -250,7 +252,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Swopper\C#\Operations.lsw" />
+    <None Include="Swopper\CSharp\Operations.lsw" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

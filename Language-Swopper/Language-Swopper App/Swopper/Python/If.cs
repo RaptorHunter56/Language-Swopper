@@ -41,7 +41,7 @@ namespace LswPython
                         Continu = false;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     Continu = false;
                 }

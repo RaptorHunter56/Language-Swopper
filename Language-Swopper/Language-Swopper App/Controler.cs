@@ -61,7 +61,7 @@ namespace Language_Swopper_App
         public string _In { get { return In; } set { In = value; resetList(); resetResults(); } }
         public string _Out { get { return Out; } set { Out = value; resetList(); resetResults(); } }
         private string In = "Python";
-        private string Out = "Python";
+        private string Out = "CSharp";
 
         private static CompilerParameters compilerParams = new CompilerParameters { GenerateInMemory = true, GenerateExecutable = false };
         private static Dictionary<string, string> providerOptions = new Dictionary<string, string> { {"CompilerVersion", "v3.5"} };

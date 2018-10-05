@@ -6,15 +6,16 @@
              xmlns:local="clr-namespace:Language_Swopper_App"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
+             x:Name="Parent"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--<RichTextBox x:Name="MainRichTextBox" Margin="5" TextChanged="RichTextBox_TextChanged" />-->
+        <!--<RichTextBox x:Name="MainRichTextBox" Margin="5" TextChanged="Ri1hTextBox_TextChanged" />-->
         <RichTextBox x:Name="MainRichTextBox"
                      FocusVisualStyle="{x:Null}" 
                      Margin="5,0,5,5" 
                      ScrollViewer.CanContentScroll="True" 
                      ScrollViewer.VerticalScrollBarVisibility="Visible"
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      AcceptsReturn="True" 
                      TextChanged="TextChangedEventHandler" 
                      Padding="0,2,0,0" 
@@ -22,25 +23,43 @@
                      Background="White" 
                      LostFocus="RichTextBox_OnLostFocus"
                      PreviewKeyDown="MainRichTextBox_PreviewKeyDown" 
-                     FontFamily="Global Monospace">
+                     FontFamily="Global Monospace"
+                     DataContext="{Binding ElementName=Parent}">
                      <!--AcceptsTab="True"-->
             <RichTextBox.Template>
                 <ControlTemplate>
                     <Border BorderBrush="#FF707070" BorderThickness="1,0,1,1">
-                        <DockPanel LastChildFill="True">
-                            <Label Background="#FFF1F1F1" Width="12" HorizontalAlignment="Left" 
-                                    BorderBrush="#FF707070" BorderThickness="1,1,1,0" Margin="-1,0,0,0"></Label>
-                            <ScrollViewer Margin="2"
+                        <Grid>
+                            <Label Background="#FFF1F1F1" 
+                                   VerticalAlignment="Top" 
+                                   FontSize="10" 
+                                   Margin="12,0,13,0" 
+                                   Height="15"
+                                   BorderBrush="#FF707070" 
+                                   BorderThickness="0,1,0,0"
+                                   Grid.Row="0" 
+                                   Padding="9,0,5,0"
+                                   Content="{Binding Path=LsLanguage}"
+                                   HorizontalContentAlignment="Right"/>
+                            <DockPanel LastChildFill="True" Grid.Row="1">
+                                <Label Background="#FFF1F1F1" 
+                                       Width="12" 
+                                       HorizontalAlignment="Left" 
+                                       BorderBrush="#FF707070" 
+                                       BorderThickness="1,1,1,0" 
+                                       Margin="-1,0,0,0"></Label>
+                                <ScrollViewer Margin="2,14,2,2"
                                     x:Name="PART_ContentHost"
                                     VerticalAlignment="Stretch"
                                     HorizontalAlignment="Stretch"
                                     Background="Transparent">
-                                <ScrollViewer.Resources>
-                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-                                    <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
-                                </ScrollViewer.Resources>
-                            </ScrollViewer>
-                        </DockPanel>
+                                    <ScrollViewer.Resources>
+                                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
+                                        <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
+                                    </ScrollViewer.Resources>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </RichTextBox.Template>

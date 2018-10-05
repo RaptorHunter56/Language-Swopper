@@ -32,17 +32,37 @@ namespace Language_Swopper_App
         public MultiTabControl()
         {
             InitializeComponent();
-            SamSam.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
+            //SamSam.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
             SamName.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
             Pluss.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked2);
-            SamSam.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
+            //SamSam.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
             SamName.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
 
             TabMovementTimer.Tick += TabMovementTimer_Tick;
             TabMovementTimer.Interval = new TimeSpan(0, 0, 1);
-            SamSam.IsSplit = true;
-            SamSam.splitChanged += new TabButtonControl.SplitChanged(this.SplitChanged);
+            //SamSam.IsSplit = true;
+            //SamSam.splitChanged += new TabButtonControl.SplitChanged(this.SplitChanged);
             SamName.splitChanged += new TabButtonControl.SplitChanged(this.SplitChanged);
+
+            //SamSam.GetTextControl.LsLanguage = "CSharp";
+            //SamSam.GetSplitTextControl.Left.LsLanguage = "CSharp";
+            //SamSam.GetSplitTextControl.Right.LsLanguage = "CSharp";
+            using (var _context = new FileContext())
+            {
+                foreach (var folder in _context.Folders)
+                {
+                    if (folder.Name != "Base")
+                    {
+                        SamName.GetTextControl.LsLanguage = $"{folder.Name}";
+                        SamName.GetSplitTextControl.Left.LsLanguage = $"{folder.Name}";
+                        SamName.GetSplitTextControl.Right.LsLanguage = $"{folder.Name}";
+                        MainTextControl.LsLanguage = $"{folder.Name}";
+                        MainSplitTextControl.Left.LsLanguage = $"{folder.Name}";
+                        MainSplitTextControl.Right.LsLanguage = $"{folder.Name}";
+                        break;
+                    }
+                }
+            }
         }
 
         public void SplitChanged(object sender)
@@ -265,6 +285,9 @@ namespace Language_Swopper_App
                 buttonControl.GetTextControl.Dictionary = keyValuePairs;
                 buttonControl.GetSplitTextControl.Left.Dictionary = keyValuePairs;
                 buttonControl.GetSplitTextControl.Right.Dictionary = keyValuePairs;
+                buttonControl.GetTextControl.LsLanguage = langage;
+                buttonControl.GetSplitTextControl.Left.LsLanguage = langage;
+                buttonControl.GetSplitTextControl.Right.LsLanguage = langage;
                 buttonControl.ControlTabButtonClicked += new EventHandler(this.TabButtonControl_ControlClicked);
                 buttonControl.CloseTabButtonClicked += new EventHandler(this.TabButtonClose_ControlClicked);
                 buttonControl.Open = true;

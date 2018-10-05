@@ -168,6 +168,7 @@ namespace Language_Swopper_App
             MainMenuControl.MenuSaveClicked += MenuSave;
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
             MainMultiTabControl.SamName.GetTextControl.Dictionary = Dictionarys[startlang];
+            MainMultiTabControl.SamName.GetTextControl.LsLanguage = startlang;
             //MainMenuControl.languageChangedClicked += LanguageChangedClicked;
             MainMenuControl.Split_Clicked += MenuSplit;
         }
