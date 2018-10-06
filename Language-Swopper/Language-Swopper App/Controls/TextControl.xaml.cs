@@ -19,7 +19,7 @@ namespace Language_Swopper_App
     {
         public string LsLanguage
         {
-            get { return (string)GetValue(LsLanguageProperty); }
+            get { return $"[{(string)GetValue(LsLanguageProperty)}]"; }
             set { SetValue(LsLanguageProperty, value); }
         }
         public static readonly DependencyProperty LsLanguageProperty = DependencyProperty.Register("LsLanguage", typeof(string), typeof(TextControl), new UIPropertyMetadata(""));

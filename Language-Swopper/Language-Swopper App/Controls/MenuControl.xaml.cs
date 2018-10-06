@@ -36,6 +36,8 @@ namespace Language_Swopper_App
                         temp.IsCheckable = true;
                         temp.Checked += MenuItem_Checked;
                         LanguageMenu.Items.Add(temp);
+                        if (First) language = folder.Name;
+                        First = false;
                     }
                 }
             }
@@ -46,11 +48,13 @@ namespace Language_Swopper_App
                     item.IsChecked = true;
                 count++;
             }
-            try { languageChangedClicked(); } catch { }
+            try { languageChangedClicked(language); } catch { }
         }
         public string language;
-        public delegate void languageChanged();
-        public event MenuOpen languageChangedClicked;
+        private bool First = true;
+
+        public delegate void languageChanged(string Lan);
+        public event languageChanged languageChangedClicked;
         private void MenuItem_Checked(object sender, RoutedEventArgs e)
         {
             //To Do
@@ -62,7 +66,7 @@ namespace Language_Swopper_App
                     if (item != sender)
                         item.IsChecked = false;
                 }
-                try { languageChangedClicked(); } catch { }
+                try { languageChangedClicked(language); } catch { }
             }
         }
 

@@ -156,6 +156,18 @@ namespace Language_Swopper_App
             #endregion
         }
 
+        internal void ChangeLanguage(string len)
+        {
+            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
+            {
+
+                if (item.Open)
+                {
+                    item.GetSplitTextControl.Right.LsLanguage = len;
+                    MainSplitTextControl.Right.LsLanguage = len;
+                }
+            }
+        }
 
         private bool _isDown;
         private bool _isDragging;
