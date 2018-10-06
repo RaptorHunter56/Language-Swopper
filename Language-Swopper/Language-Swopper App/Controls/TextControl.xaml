@@ -15,7 +15,7 @@
                      Margin="5,0,5,5" 
                      ScrollViewer.CanContentScroll="True" 
                      ScrollViewer.VerticalScrollBarVisibility="Visible"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                      AcceptsReturn="True" 
                      TextChanged="TextChangedEventHandler" 
                      Padding="0,2,0,0" 
@@ -48,7 +48,7 @@
                                        BorderBrush="#FF707070" 
                                        BorderThickness="1,1,1,0" 
                                        Margin="-1,0,0,0"></Label>
-                                <ScrollViewer Margin="2,15,2,2"
+                                <ScrollViewer Margin="0,15,2,0"
                                     x:Name="PART_ContentHost"
                                     VerticalAlignment="Stretch"
                                     HorizontalAlignment="Stretch"
@@ -65,7 +65,7 @@
             </RichTextBox.Template>
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type FlowDocument}">
-                    <Setter Property="PageWidth" Value="1000"/>
+                    <Setter Property="PageWidth" Value="300"/>
                 </Style>
                 <Style TargetType="{x:Type RichTextBox}">
                     <Setter Property="BorderBrush" Value="#FF707070"/>

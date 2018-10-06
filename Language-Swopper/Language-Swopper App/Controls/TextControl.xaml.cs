@@ -17,6 +17,7 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TextControl : UserControl
     {
+
         public string LsLanguage
         {
             get { return $"[{(string)GetValue(LsLanguageProperty)}]"; }
@@ -103,6 +104,22 @@ namespace Language_Swopper_App
         private bool OneChange = true;
         private void TextChangedMethod(int AddedLength)
         {
+            int rt = 300;
+            TextRange textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
+            string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string item in vs)
+            {
+                FormattedText ft = new FormattedText(item,
+                                               System.Globalization.CultureInfo.CurrentCulture,
+                                               FlowDirection.LeftToRight,
+                                               new Typeface(MainRichTextBox.FontFamily, MainRichTextBox.FontStyle, MainRichTextBox.FontWeight, MainRichTextBox.FontStretch),
+                                               MainRichTextBox.FontSize + 3,
+                                               Brushes.Black);
+                if (ft.Width > rt)
+                    rt = Convert.ToInt32(ft.Width.ToString().Split('.')[0]);
+            }
+            MainRichTextBox.Document.PageWidth = rt + (rt / 30);
+
             int LineNumber = GetLineNumber() - 1;
             int LineEndNumber = GetLineNumber(true);
             int LineMove = LineMoveCount(LineEndNumber);
