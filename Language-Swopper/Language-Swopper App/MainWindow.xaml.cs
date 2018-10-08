@@ -274,6 +274,8 @@ namespace Language_Swopper_App
         {
             using (Controler controler = new Controler())
             {
+                controler._In = MainMultiTabControl.MainSplitTextControl.Left.LsLanguage.TrimEnd(']').TrimStart('[');
+                controler._Out = MainMultiTabControl.MainSplitTextControl.Right.LsLanguage.TrimEnd(']').TrimStart('[');
                 MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
                 foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
                 {

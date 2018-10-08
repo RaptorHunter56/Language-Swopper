@@ -1,38 +1,38 @@
 //||||||||||
-//C# files (*.cs)|*.cs|Text files (*.txt)|*.txt|All files (*.*)|*.*
+//MySql files (*.sql)|*.sql|Text files (*.txt)|*.txt|All files (*.*)|*.*
 //||||||||||
 using System;
 using Base;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LswCSharp
+namespace LswMySql
 {
-    public class CSharpPositions
+    public class MySqlPositions
     {
         public string[] InLine;
         public int Position = 0;
     }
-    public class CSharpControler
+    public class MySqlControler
     {
-        public CSharpControler()
-        { CSharpPosition = new CSharpPositions(); }
+        public MySqlControler()
+        { MySqlPosition = new MySqlPositions(); }
 
-        public CSharpPositions CSharpPosition;
-        public object In(string[] InLine) { CSharpPosition.InLine = InLine; return InRef(InLine, ref CSharpPosition); }
-        public object InRef(string[] InLine, ref CSharpPositions CSharpPositionRef)
+        public MySqlPositions MySqlPosition;
+        public object In(string[] InLine) { MySqlPosition.InLine = InLine; return InRef(InLine, ref MySqlPosition); }
+        public object InRef(string[] InLine, ref MySqlPositions MySqlPositionRef)
         {
             LsBaseList Return = new LsBaseList();
-            while (CSharpPositionRef.Position < CSharpPositionRef.InLine.Length)
+            while (MySqlPositionRef.Position < MySqlPositionRef.InLine.Length)
             {
 
-                Regex stringrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}string \w+ {0,}= {0,}.+");
+                Regex stringrgx = new Regex(@"(s|S)(e|E)(t|T) .+ {0,}= {0,}'(([^']{0,}[\\]'[^'\\]{0,}){1,}|([^']{0,}''[^']{0,}){1,}|[^']{1,})';{0,1}");
 
-                if (stringrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
-                    Return.Bases.Add(lswStringPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
+                if (stringrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswStringPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
                 else
-                    Return.Bases.Add(new LsName() { Name = CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd() });
-                CSharpPositionRef.Position++;
+                    Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd() });
+                MySqlPositionRef.Position++;
             }
             return Return;
         }
@@ -43,21 +43,21 @@ namespace LswCSharp
         /// </summary>
         /// <param name="InLine"></param>
         /// <returns></returns>
-        public object PartIn(string InLine) { return PartInRef(InLine, ref CSharpPosition); }
+        public object PartIn(string InLine) { return PartInRef(InLine, ref MySqlPosition); }
         /// <summary>
         /// For When you need to check the type of an input.    
         /// Eg. "Sam" == String, 56 == Int ...
         /// </summary>
         /// <param name="InLine"></param>
         /// <returns></returns>
-        public object PartInRef(string InLine, ref CSharpPositions CSharpPositionRef)
+        public object PartInRef(string InLine, ref MySqlPositions MySqlPositionRef)
         {
             
             return InLine;
         }
 
-        public string Out(object OutLine) { return OutRef(OutLine, ref CSharpPosition); }
-        public string OutRef(object OutLine, ref CSharpPositions CSharpPositionRef)
+        public string Out(object OutLine) { return OutRef(OutLine, ref MySqlPosition); }
+        public string OutRef(object OutLine, ref MySqlPositions MySqlPositionRef)
         {
             LsBaseList baseList = (LsBaseList)OutLine;
             string Return = "";

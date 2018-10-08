@@ -53,7 +53,7 @@ namespace LswCSharp
 
         public static LsString Read(string One)
         {
-            string Two = One.Split('=')[0].Split(' ')[One.Split('=')[0].Split(' ').Length - 1].Trim();
+            string Two = One.Split('=')[0].Trim().Split(' ')[One.Split('=')[0].Trim().Split(' ').Length - 1].Trim();
             string Three = One.Split('=')[1].Trim().Trim(';').Trim();
             List<Prefix> prefixes = new List<Prefix>();
             foreach (var item in One.Split('=')[0].Split(' '))

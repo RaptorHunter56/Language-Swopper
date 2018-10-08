@@ -140,6 +140,8 @@
     <None Include="Swopper\Python\If.cs" />
     <None Include="Swopper\CSharp\Controler.cs" />
     <None Include="Swopper\CSharp\String.cs" />
+    <None Include="Swopper\MySql\Controler.cs" />
+    <None Include="Swopper\MySql\String.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />
