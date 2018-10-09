@@ -35,7 +35,7 @@ namespace Language_Swopper_App
             }
             set
             {
-                ColorTags.ResetTags(new List<string>(value.Keys));
+                 ColorTags.ResetTags(new List<string>(value.Keys));
                 dictionary = value;
                 TextChangedMethod(100);
             }
@@ -257,21 +257,29 @@ namespace Language_Swopper_App
                             }
                             else if (dictionary[word[0].ToString()].Types == Tables.Highlight.Types.StartToEnd)
                             {
+                                bool first = true;
+                                int count = 0;
                                 foreach (char singlechar in word)
                                 {
+                                    if (singlechar == word[0] && !first)
+                                    {
+                                        break;
+                                    }
+                                    count++;
+                                    first = false;
                                     Tag t = new Tag();
                                     t.StartPosition = run.ContentStart.GetPositionAtOffset(sIndex, LogicalDirection.Forward);
                                     t.EndPosition = run.ContentStart.GetPositionAtOffset(eIndex + 1, LogicalDirection.Backward);
                                     t.Word = singlechar.ToString();
                                     try
                                     {
-                                        t.Color = dictionary[singlechar.ToString()].Color;
-                                        t.Types = dictionary[singlechar.ToString()].Types;
+                                        t.Color = dictionary[word[0].ToString()].Color;
+                                        t.Types = dictionary[word[0].ToString()].Types;
                                     }
                                     catch { }
                                     m_tags.Add(t);
                                 }
-                                sIndex = i + word.Length;
+                                sIndex = i + count;
                             }
                             else
                             {
@@ -377,7 +385,7 @@ namespace Language_Swopper_App
             };
             tags = new List<string>(strs);
 
-            char[] chrs = { '.', ')', '(', '[', ']', '>', '<', ':', ';', '\n', '\t', '='};
+            char[] chrs = { '.', ')', '(', '[', ']', '>', '<', ':', ';', '\n', '\t', '=', '{', '}' };
             specials = new List<char>(chrs);
         }
         #endregion

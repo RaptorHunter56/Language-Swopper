@@ -193,6 +193,16 @@ namespace Language_Swopper_App.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Temp_Strip {
+            get {
+                object obj = ResourceManager.GetObject("Temp_Strip", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Undo_16x {
             get {
                 object obj = ResourceManager.GetObject("Undo_16x", resourceCulture);
