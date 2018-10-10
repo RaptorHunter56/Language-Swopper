@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -128,20 +129,35 @@ namespace Language_Swopper_App
         }
         Dictionary<string, Dictionary<string, ColorType>> Dictionarys = new Dictionary<string, Dictionary<string, ColorType>>();
 
-        public MainWindow()
+        private static int count = 0;
+        public static int TimeProgress(int amount = 1)
+        {
+            if (amount == 0)
+                amount = 1;
+            count += ((100 / 20) / amount);
+            return count;
+        }
+
+        public MainWindow(BackgroundWorker sender)
         {
             InitializeComponent();
+            sender.ReportProgress(TimeProgress());
             string startlang = "";
-            UpdateDatabase();
+            sender.ReportProgress(TimeProgress());
             using (var _context = new FileContext())
             {
+                if (_context.Folders.Count() <= 0) { UpdateDatabase(); }
+                sender.ReportProgress(TimeProgress());
                 foreach (var folder in _context.Folders)
                 {
+                    sender.ReportProgress(TimeProgress(_context.Folders.Count()));
                     if (folder.Name != "Base" && startlang == "")
                     {
                         startlang = $"{folder.Name}Dictionary";
                     }
+                    sender.ReportProgress(TimeProgress(_context.Folders.Count()));
                     Dictionary<string, ColorType> temp = new Dictionary<string, ColorType>();
+                    sender.ReportProgress(TimeProgress(_context.Folders.Count()));
                     foreach (var color in _context.Highlights.Where(h => h.FolderId == folder.FolderID))
                     {
                         if (!temp.Keys.Contains(color.Text))
@@ -150,27 +166,41 @@ namespace Language_Swopper_App
                         }
                     }
                     Dictionarys.Add($"{folder.Name}Dictionary", temp);
+                    sender.ReportProgress(TimeProgress(_context.Folders.Count()));
                 }
             }
+            sender.ReportProgress(TimeProgress());
 
             MinimizeButton.Click += (s, e) => WindowState = WindowState.Minimized;
+            sender.ReportProgress(TimeProgress());
             MaximizeButton.Click += (s, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            sender.ReportProgress(TimeProgress());
             CloseButton.Click += (s, e) => Close();
+            sender.ReportProgress(TimeProgress());
             SourceInitialized += (s, e) =>
             {
                 WindowCompositionTarget = PresentationSource.FromVisual(this).CompositionTarget;
                 HwndSource.FromHwnd(new WindowInteropHelper(this).Handle).AddHook(WindowProc);
             };
+            sender.ReportProgress(TimeProgress());
             //MainTextControl.Dictionary = CSharpDictionary;
             MainMultiTabControl.AddTabButtonClicked += PlussClick;
+            sender.ReportProgress(TimeProgress());
             //MainMenuControl.LanguageUpdated += LanguageUpdated;
             MainMenuControl.MenuOpenClicked += MenuOpen;
+            sender.ReportProgress(TimeProgress());
             MainMenuControl.MenuSaveClicked += MenuSave;
+            sender.ReportProgress(TimeProgress());
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
+            sender.ReportProgress(TimeProgress());
             MainMultiTabControl.SamName.GetTextControl.Dictionary = Dictionarys[startlang];
+            sender.ReportProgress(TimeProgress());
             MainMultiTabControl.SamName.GetTextControl.LsLanguage = startlang;
+            sender.ReportProgress(TimeProgress());
             MainMenuControl.languageChangedClicked += LanguageChangedClicked;
+            sender.ReportProgress(TimeProgress());
             MainMenuControl.Split_Clicked += MenuSplit;
+            sender.ReportProgress(100);
         }
 
         public void LanguageChangedClicked(string len)

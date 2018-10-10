@@ -34,22 +34,43 @@ namespace Language_Swopper_App
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
-
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
         }
 
+        private MainWindow main;
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = 0; i < 100; i++)
+            Thread thread = new Thread(() =>
             {
-                (sender as BackgroundWorker).ReportProgress(i);
-                Thread.Sleep(100);
-            }
+                main = new MainWindow((sender as BackgroundWorker));
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            while (thread.ThreadState != ThreadState.Stopped){}
+            Thread.Sleep(1000);
         }
 
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Hide();
+            main.ShowDialog();
+            this.Close();
+        }
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             lsStatus.Value = e.ProgressPercentage;
+        }
+
+        private void lsStatus_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            lsStatus.ValueChanged -= lsStatus_ValueChanged;
+            for (double i = e.OldValue; i < e.NewValue + 1; i++)
+            {
+                lsStatus.Value = i;
+                Thread.Sleep(10);
+            }
+            lsStatus.ValueChanged += lsStatus_ValueChanged;
         }
     }
 
