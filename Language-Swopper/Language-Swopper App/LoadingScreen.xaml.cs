@@ -38,28 +38,36 @@ namespace Language_Swopper_App
             worker.RunWorkerAsync();
         }
 
-        private MainWindow main;
+        private static MainWindow main;
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Thread thread = new Thread(() =>
             {
                 main = new MainWindow((sender as BackgroundWorker));
+                (sender as BackgroundWorker).ReportProgress(100);
+                Thread.Sleep(1000);
+                main.Show();
+
+                main.Closed += (sender2, e2) =>
+                    main.Dispatcher.InvokeShutdown();
+                //main.Closed += (sender2, e2) =>
+                //    Distroy();
+
+                System.Windows.Threading.Dispatcher.Run();
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             while (thread.ThreadState != ThreadState.Stopped){}
-            Thread.Sleep(1000);
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Hide();
-            main.ShowDialog();
             this.Close();
         }
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             lsStatus.Value = e.ProgressPercentage;
+            if (e.ProgressPercentage == 100) this.Hide();
         }
 
         private void lsStatus_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
