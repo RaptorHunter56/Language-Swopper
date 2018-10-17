@@ -27,9 +27,12 @@ namespace LswCSharp
             {
 
                 Regex stringrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}string \w+ {0,}= {0,}.+");
+                Regex boolrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}bool \w+ {0,}= {0,}.+");
 
                 if (stringrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswStringPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
+                else if(boolrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswBoolPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
                 else
                     Return.Bases.Add(new LsName() { Name = CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd() });
                 CSharpPositionRef.Position++;
@@ -67,6 +70,8 @@ namespace LswCSharp
                 {
                     if (((lsBase)item).lsType == "LsString")
                         Return += lswStringPath.Write(item) + " {LsString} " + "\r";
+                    else if (((lsBase)item).lsType == "LsBool")
+                        Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
                     else
                         try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                 }
