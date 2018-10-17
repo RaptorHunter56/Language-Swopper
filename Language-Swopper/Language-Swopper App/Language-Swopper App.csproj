@@ -146,6 +146,7 @@
     <None Include="Swopper\MySql\Controler.cs" />
     <None Include="Swopper\MySql\String.cs" />
     <None Include="Swopper\CSharp\Bool.cs" />
+    <None Include="Swopper\MySql\Bool.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />
@@ -262,7 +263,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Swopper\CSharp\Operations.lsw" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
