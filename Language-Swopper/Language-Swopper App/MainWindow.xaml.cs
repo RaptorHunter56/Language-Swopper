@@ -132,9 +132,9 @@ namespace Language_Swopper_App
         private static int count = 0;
         public static int TimeProgress(int amount = 1)
         {
-            if (amount == 0)
-                amount = 1;
-            count += ((100 / 20) / amount);
+            if (amount == 0) amount = 1;
+            count += ((100 / 12) / amount);
+            if (count > 100) count = 100;
             return count;
         }
 
@@ -174,7 +174,6 @@ namespace Language_Swopper_App
             MinimizeButton.Click += (s, e) => WindowState = WindowState.Minimized;
             sender.ReportProgress(TimeProgress());
             MaximizeButton.Click += (s, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-            sender.ReportProgress(TimeProgress());
             CloseButton.Click += (s, e) => Close();
             sender.ReportProgress(TimeProgress());
             SourceInitialized += (s, e) =>
@@ -185,20 +184,16 @@ namespace Language_Swopper_App
             sender.ReportProgress(TimeProgress());
             //MainTextControl.Dictionary = CSharpDictionary;
             MainMultiTabControl.AddTabButtonClicked += PlussClick;
-            sender.ReportProgress(TimeProgress());
             //MainMenuControl.LanguageUpdated += LanguageUpdated;
             MainMenuControl.MenuOpenClicked += MenuOpen;
             sender.ReportProgress(TimeProgress());
             MainMenuControl.MenuSaveClicked += MenuSave;
-            sender.ReportProgress(TimeProgress());
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
             sender.ReportProgress(TimeProgress());
             MainMultiTabControl.SamName.GetTextControl.Dictionary = Dictionarys[startlang];
-            sender.ReportProgress(TimeProgress());
             MainMultiTabControl.SamName.GetTextControl.LsLanguage = startlang;
             sender.ReportProgress(TimeProgress());
             MainMenuControl.languageChangedClicked += LanguageChangedClicked;
-            sender.ReportProgress(TimeProgress());
             MainMenuControl.Split_Clicked += MenuSplit;
             sender.ReportProgress(100);
         }
