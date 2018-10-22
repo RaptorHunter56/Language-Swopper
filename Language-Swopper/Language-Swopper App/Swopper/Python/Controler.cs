@@ -51,7 +51,7 @@ namespace LswPython
                 else if (defoltrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswStringPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
                 else
-                    Return.Bases.Add(new LsName() { Name = PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd() });
+                    Return.Bases.Add(new LsName() { Name = PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), Lanaguage = "Python" });
                 PythonPositionRef.Position++;
             }
             return Return;
@@ -111,6 +111,8 @@ namespace LswPython
                         Return += lswBracketPath.Write(item, ref PythonPositionRef) + " {LsBracket} " + "\r";
                     else if (((lsBase)item).lsType == "LsIf")
                         Return += lswIfPath.Write(item, ref PythonPositionRef) + " {LsIf} " + "\r";
+                    else if (((lsBase)item).lsType == "LsName")
+                        try { Return += item.Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
                         try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                 }

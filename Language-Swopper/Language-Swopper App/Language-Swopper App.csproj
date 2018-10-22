@@ -147,6 +147,7 @@
     <None Include="Swopper\MySql\String.cs" />
     <None Include="Swopper\CSharp\Bool.cs" />
     <None Include="Swopper\MySql\Bool.cs" />
+    <None Include="Swopper\CSharp\Char.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <None Include="Swopper\Base\Base.cs" />
     <None Include="Swopper\Base\LsBool.cs" />

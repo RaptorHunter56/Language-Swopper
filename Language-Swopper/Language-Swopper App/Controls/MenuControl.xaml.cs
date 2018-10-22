@@ -23,32 +23,8 @@ namespace Language_Swopper_App
         public MenuControl()
         {
             InitializeComponent();
-            using (var _context = new FileContext())
-            {
-                foreach (var folder in _context.Folders)
-                {
-                    if (folder.Name != "Base")
-                    {
-                        //< MenuItem x: Name = "VisualBasicLanguageMenu" Header = "Visual Basic" IsCheckable = "True" Checked = "MenuItem_Checked" />
-                        MenuItem temp = new MenuItem();
-                        //temp.Name = $"{folder.Name}LanguageMenu";
-                        temp.Header = $"{folder.Name}";
-                        temp.IsCheckable = true;
-                        temp.Checked += MenuItem_Checked;
-                        LanguageMenu.Items.Add(temp);
-                        if (First) language = folder.Name;
-                        First = false;
-                    }
-                }
-            }
-            int count = 1;
-            foreach (MenuItem item in LanguageMenu.Items.OfType<MenuItem>())
-            {
-                if (count == 1)
-                    item.IsChecked = true;
-                count++;
-            }
-            try { languageChangedClicked(language); } catch { }
+            RePopluateMenu();
+            //try { languageChangedClicked(language); } catch { }
         }
         public string language;
         private bool First = true;
@@ -88,9 +64,39 @@ namespace Language_Swopper_App
         public event MenuOpen MenuRefreshLanguageClicked;
         private void RefreshLanguageMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            try { MenuRefreshLanguageClicked(); } catch { }
+            try { MenuRefreshLanguageClicked(); RePopluateMenu(); } catch { }
         }
 
+        public void RePopluateMenu()
+        {
+            LanguageMenu.Items.Clear();
+            using (var _context = new FileContext())
+            {
+                foreach (var folder in _context.Folders)
+                {
+                    if (folder.Name != "Base")
+                    {
+                        //< MenuItem x: Name = "VisualBasicLanguageMenu" Header = "Visual Basic" IsCheckable = "True" Checked = "MenuItem_Checked" />
+                        MenuItem temp = new MenuItem();
+                        //temp.Name = $"{folder.Name}LanguageMenu";
+                        temp.Header = $"{folder.Name}";
+                        temp.IsCheckable = true;
+                        temp.Checked += MenuItem_Checked;
+                        LanguageMenu.Items.Add(temp);
+                        if (First) language = folder.Name;
+                        First = false;
+                    }
+                }
+            }
+            int count = 1;
+            foreach (MenuItem item in LanguageMenu.Items.OfType<MenuItem>())
+            {
+                if (count == 1)
+                    item.IsChecked = true;
+                count++;
+                break;
+            }
+        }
 
         public delegate void Split();
         public event Split Split_Clicked;

@@ -19,6 +19,7 @@ namespace Base
     {
         public LsName() { lsType = "LsName"; }
         public string Name;
+        public string Lanaguage;
     }
 
     public enum Prefix

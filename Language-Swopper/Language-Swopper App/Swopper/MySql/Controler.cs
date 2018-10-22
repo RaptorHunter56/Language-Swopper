@@ -34,7 +34,7 @@ namespace LswMySql
                 else if(boolrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswBoolPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
                 else
-                    Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd() });
+                    Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), Lanaguage = "C#" });
                 MySqlPositionRef.Position++;
             }
             return Return;
@@ -72,6 +72,8 @@ namespace LswMySql
                         Return += lswStringPath.Write(item) + " {LsString} " + "\r";
                     else if (((lsBase)item).lsType == "LsBool")
                         Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
+                    else if (((lsBase)item).lsType == "LsName")
+                        try { Return += item.Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
                         try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                 }
