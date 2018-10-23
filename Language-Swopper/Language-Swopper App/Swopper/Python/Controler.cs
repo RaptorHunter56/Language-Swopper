@@ -112,7 +112,7 @@ namespace LswPython
                     else if (((lsBase)item).lsType == "LsIf")
                         Return += lswIfPath.Write(item, ref PythonPositionRef) + " {LsIf} " + "\r";
                     else if (((lsBase)item).lsType == "LsName")
-                        try { Return += item.Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
+                        try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
                         try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                 }

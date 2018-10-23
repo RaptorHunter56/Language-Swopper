@@ -73,10 +73,10 @@ namespace LswCSharp
                     prefixes.Add(Prefix.@public);
             }
             LsString Four;
-            if ((Three[0] == '"' && Three[Three.Length - 1] == '"')||(Three[0] == "'".ToCharArray()[0] && Three[Three.Length - 1] == "'".ToCharArray()[0]))
+            if ((Three[0] == '"' && Three[Three.Length - 1] == '"') || (Three[0] == "'".ToCharArray()[0] && Three[Three.Length - 1] == "'".ToCharArray()[0]))
                 Four = new LsString(Two, Three.Substring(1, Three.Length - 2), prefixes);
             else
-                Four = new LsString(Two, Three, prefixes);
+                Four = new LsString(Two, Three, prefixes) { ValueType = true };
             return Four;
         }
     }
