@@ -137,31 +137,7 @@
     <Compile Include="Controls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
-    <None Include="Swopper\Base\LsIf.cs" />
-    <None Include="Swopper\Base\LsBracket.cs" />
-    <None Include="Swopper\Python\Bracket.cs" />
-    <None Include="Swopper\Python\If.cs" />
-    <None Include="Swopper\CSharp\Controler.cs" />
-    <None Include="Swopper\CSharp\String.cs" />
-    <None Include="Swopper\MySql\Controler.cs" />
-    <None Include="Swopper\MySql\String.cs" />
-    <None Include="Swopper\CSharp\Bool.cs" />
-    <None Include="Swopper\MySql\Bool.cs" />
-    <None Include="Swopper\CSharp\Char.cs" />
-    <None Include="Swopper\Sql\Bool.cs" />
-    <None Include="Swopper\Sql\Controler.cs" />
-    <None Include="Swopper\Sql\String.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
-    <None Include="Swopper\Base\Base.cs" />
-    <None Include="Swopper\Base\LsBool.cs" />
-    <None Include="Swopper\Base\LsInt.cs" />
-    <None Include="Swopper\Base\LsString.cs" />
-    <None Include="Swopper\Python\Bool.cs" />
-    <None Include="Swopper\Python\Controler.cs" />
-    <None Include="Swopper\Python\Int.cs" />
-    <None Include="Swopper\Python\String.cs" />
-    <None Include="Swopper\Base\LsChar.cs" />
-    <None Include="Swopper\Python\Char.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
