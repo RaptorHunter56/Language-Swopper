@@ -72,6 +72,8 @@ namespace LswCSharp
                 else if (item.Trim() == "public")
                     prefixes.Add(Prefix.@public);
             }
+            if (prefixes.Count() == 0)
+                prefixes.Add(Prefix.@public);
             LsString Four;
             if ((Three[0] == '"' && Three[Three.Length - 1] == '"') || (Three[0] == "'".ToCharArray()[0] && Three[Three.Length - 1] == "'".ToCharArray()[0]))
                 Four = new LsString(Two, Three.Substring(1, Three.Length - 2), prefixes);

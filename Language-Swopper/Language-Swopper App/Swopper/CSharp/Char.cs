@@ -66,6 +66,8 @@ namespace LswCSharp
                 else if (item.Trim() == "public")
                     prefixes.Add(Prefix.@public);
             }
+            if (prefixes.Count() == 0)
+                prefixes.Add(Prefix.@public);
             LsChar Four;
             if (Three == "'\\''")
                 Four = new LsChar(Two, '\'', prefixes);

@@ -64,6 +64,8 @@ namespace LswCSharp
                 else if (item.Trim() == "public")
                     prefixes.Add(Prefix.@public);
             }
+            if (prefixes.Count() == 0)
+                prefixes.Add(Prefix.@public);
             LsBool Four;
             if (Three.ToLower().Trim() == "true")
                 Four = new LsBool(Two, true, prefixes);
