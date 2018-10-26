@@ -29,6 +29,7 @@ namespace LswCSharp
                 Regex stringrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}string {1,}\w+ {0,}= {0,}.+ {0,};");
                 Regex boolrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}bool {1,}\w+ {0,}= {0,}.+ {0,};");
                 Regex charrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}char {1,}\w+ {0,}= {0,}.+ {0,};");
+                Regex intrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}int {1,}\w+ {0,}= {0,}.+ {0,};");
 
                 if (stringrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswStringPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
@@ -36,6 +37,8 @@ namespace LswCSharp
                     Return.Bases.Add(lswBoolPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
                 else if (charrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswCharPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
+                else if (intrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswIntPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
                 else
                     Return.Bases.Add(new LsName() { Name = CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), Lanaguage = "C#" });
                 CSharpPositionRef.Position++;
@@ -77,6 +80,8 @@ namespace LswCSharp
                         Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
                     else if (((lsBase)item).lsType == "LsChar")
                         Return += lswCharPath.Write(item) + " {LsChar} " + "\r";
+                    else if (((lsBase)item).lsType == "LsInt")
+                        Return += lswIntPath.Write(item) + " {LsInt} " + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
