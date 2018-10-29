@@ -4,11 +4,11 @@ using Base;
 
 namespace LswCSharp
 {
-    public static class lswBoolPath
+    public static class lswIntPath
     {
         public static string Write(object One)
         {
-            LsBool Two = (LsBool)One;
+            LsInt Two = (LsInt)One;
             string pre = "";
             foreach (Prefix prefix in Two.Prefixes)
             {
@@ -38,13 +38,13 @@ namespace LswCSharp
             }
             string temp = "";
             if (Two.ValueType)
-                temp = pre + "bool " + Two.Name + " = " + Two.ValueT + ";";
+                temp = pre + "int " + Two.Name + " = " + Two.ValueT + ";";
             else
-                temp = pre + "bool " + Two.Name + " = " + Two.Value.ToString().ToLower() + ";";
+                temp = pre + "int " + Two.Name + " = " + Two.Value.ToString() + ";";
             return temp;
         }
 
-        public static LsBool Read(string One)
+        public static LsInt Read(string One)
         {
             string Two = One.Split('=')[0].Trim().Split(' ')[One.Split('=')[0].Trim().Split(' ').Length - 1].Trim();
             string Three = One.Split('=')[1].Trim().Trim(';').Trim();
@@ -66,18 +66,22 @@ namespace LswCSharp
             }
             if (prefixes.Count() == 0)
                 prefixes.Add(Prefix.@public);
-            LsBool Four;
-            if (Three.ToLower().Trim() == "true")
-                Four = new LsBool(Two, true, prefixes);
-            else if (Three.ToLower().Trim() == "false")
-                Four = new LsBool(Two, false, prefixes);
-            else
-                Four = new LsBool(Two, Three, prefixes);
+            LsInt Four;
+            try { Four = new LsInt(Two, int.Parse(Three), prefixes); }
+            catch { Four = new LsInt(Two, Three, prefixes); }
             return Four;
         }
     }
 }
 
 //########
-//true,255|0|0|190,Normal
-//false,255|0|0|190,Normal
+//1,255|255|0|0,Connected
+//2,255|255|0|0,Connected
+//3,255|255|0|0,Connected
+//4,255|255|0|0,Connected
+//5,255|255|0|0,Connected
+//6,255|255|0|0,Connected
+//7,255|255|0|0,Connected
+//8,255|255|0|0,Connected
+//9,255|255|0|0,Connected
+//0,255|255|0|0,Connected
