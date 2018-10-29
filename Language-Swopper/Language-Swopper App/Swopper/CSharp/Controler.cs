@@ -39,13 +39,10 @@ namespace LswCSharp
                     Return.Bases.Add(lswBoolPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
                 else if (charrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswCharPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
-<<<<<<< HEAD
                 else if (bracketrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswBracketPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), ref CSharpPositionRef));
-=======
                 else if (intrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswIntPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
->>>>>>> a2e5bffa9f080d7bf93a1f9eed6fb26e4dbcd6a0
                 else
                     Return.Bases.Add(new LsName() { Name = CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), Lanaguage = "C#" });
                 CSharpPositionRef.Position++;
@@ -107,13 +104,10 @@ namespace LswCSharp
                         Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
                     else if (((lsBase)item).lsType == "LsChar")
                         Return += lswCharPath.Write(item) + " {LsChar} " + "\r";
-<<<<<<< HEAD
                     else if (((lsBase)item).lsType == "LsBracket")
                         Return += lswBracketPath.Write(item, ref CSharpPositionRef) + " {LsBracket} " + "\r";
-=======
                     else if (((lsBase)item).lsType == "LsInt")
                         Return += lswIntPath.Write(item) + " {LsInt} " + "\r";
->>>>>>> a2e5bffa9f080d7bf93a1f9eed6fb26e4dbcd6a0
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
