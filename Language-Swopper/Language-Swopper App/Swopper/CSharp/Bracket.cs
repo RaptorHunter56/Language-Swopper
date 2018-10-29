@@ -1,11 +1,11 @@
 using System;
 using Base;
 
-namespace LswPython
+namespace LswCSharp
 {
     public static class lswBracketPath
     {
-        public static string Write(object One, ref LswPython.PythonPositions PythonPosition)
+        public static string Write(object One, ref LswCSharp.CSharpPositions CSharpPosition)
         {
             string Return = "";
             LsBracket Two = (LsBracket)One;
@@ -17,14 +17,16 @@ namespace LswPython
                 LsName ToAdd2;
                 if (Two.BaseProperties.TryGetValue(Point, out ToAdd))
                 {
-                    if (ToAdd.GetType() == typeof(string) || ToAdd.GetType() == typeof(char))
-                        Return += (ToAdd.ToString().Contains("\"")) ? "'" + ToAdd.ToString() + "'" : '"' + ToAdd.ToString() + @"""{string}";
+                    if (ToAdd.GetType() == typeof(string))
+                        Return += (ToAdd.ToString().Contains("\"")) ? "@" + '"' + DoubleSpeatch(ToAdd.ToString()) + '"' : '"' + ToAdd.ToString() + @"""{string}";
+                    else if (ToAdd.GetType() == typeof(char))
+                        Return += (ToAdd.ToString().Contains("'")) ? "'\\''" : "'" + ToAdd.ToString() + @"''{char}";
                     else if (ToAdd.GetType() == typeof(int))
                         Return += ToAdd.ToString() + "{int}";
                     else if (ToAdd.GetType() == typeof(bool))
                         Return += ToAdd.ToString().ToLower() + "{bool}";
                     else if (ToAdd.GetType() == typeof(LsBracket))
-                        Return += Write(ToAdd, ref PythonPosition) + "{bracket}";
+                        Return += Write(ToAdd, ref CSharpPosition) + "{bracket}";
                     Return += Seperater(Two.BracketType) + " ";
                 }
                 else if (Two.StringProperties.TryGetValue(Point, out ToAdd2))
@@ -34,6 +36,19 @@ namespace LswPython
             Return = Return.TrimEnd();
             Return = Return.Substring(0, Return.Length - 1);
             Return += ")";
+            return Return;
+        }
+
+        public static string DoubleSpeatch(string InString)
+        {
+            string Return = "";
+            foreach (var item in InString)
+            {
+                if (item == '"')
+                    Return += '"' + '"';
+                else
+                    Return += item;
+            }
             return Return;
         }
 
@@ -52,7 +67,7 @@ namespace LswPython
             }
         }
 
-        public static LsBracket Read(string One, ref LswPython.PythonPositions PythonPosition)
+        public static LsBracket Read(string One, ref LswCSharp.CSharpPositions CSharpPosition)
         {
             LsBracket Two = new LsBracket();
             string Three = One[0].ToString();
@@ -85,18 +100,18 @@ namespace LswPython
                 foreach (var item in Parts)
                 {
                     string itemT = item.Trim();
-                    var Four = new PythonControler().PartInRef(itemT, ref PythonPosition);
+                    var Four = new CSharpControler().PartInRef(itemT, ref CSharpPosition);
                     if (Four is string && (itemT[0] != '"' && itemT[0] != "'"[0]))
                         Two.AddString(new LsName() { Name = Four.ToString() });
                     else
                         Two.AddBase(Four);
                 }
-                PythonPosition.Position++;
+                CSharpPosition.Position++;
                 try
-                { One = PythonPosition.InLine[PythonPosition.Position]; }
+                { One = CSharpPosition.InLine[CSharpPosition.Position]; }
                 catch { }
             //} while(CheckRepeate(One, Two));
-            PythonPosition.Position = PythonPosition.Position - 1;
+            CSharpPosition.Position = CSharpPosition.Position - 1;
             return Two;
         }
 
@@ -114,7 +129,7 @@ namespace LswPython
                 //    else
                 //        break;
                 //}
-                //Seven = PythonControler.requestLine();
+                //Seven = CSharpControler.requestLine();
                 //int StartSeven = 0;
                 //foreach (var item in One)
                 //{
@@ -123,7 +138,7 @@ namespace LswPython
                 //    else
                 //        break;
                 //}
-                //PythonControler.backLine();
+                //CSharpControler.backLine();
                 //return (StartOne == StartSeven);
                 return false;
             }
