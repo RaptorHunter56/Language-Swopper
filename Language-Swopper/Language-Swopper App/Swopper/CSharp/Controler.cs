@@ -32,6 +32,7 @@ namespace LswCSharp
                 Regex intrgx = new Regex(@"(public |protected |private |static |readonly |internal ){0,} {0,}int {1,}\w+ {0,}= {0,}.+ {0,};");
 
                 Regex bracketrgx = new Regex(@"^[(].+[)]$");
+                Regex ifrgx = new Regex(@"^if [(].+[)]");
 
                 if (stringrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswStringPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
@@ -43,6 +44,8 @@ namespace LswCSharp
                     Return.Bases.Add(lswBracketPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), ref CSharpPositionRef));
                 else if (intrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswIntPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
+                else if (ifrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswIfPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), ref CSharpPositionRef));
                 else
                     Return.Bases.Add(new LsName() { Name = CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), Lanaguage = "C#" });
                 CSharpPositionRef.Position++;
@@ -99,15 +102,17 @@ namespace LswCSharp
                 try
                 {
                     if (((lsBase)item).lsType == "LsString")
-                        Return += lswStringPath.Write(item) + " {LsString} " + "\r";
+                        Return += lswStringPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsBool")
-                        Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
+                        Return += lswBoolPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsChar")
-                        Return += lswCharPath.Write(item) + " {LsChar} " + "\r";
+                        Return += lswCharPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsBracket")
-                        Return += lswBracketPath.Write(item, ref CSharpPositionRef) + " {LsBracket} " + "\r";
+                        Return += lswBracketPath.Write(item, ref CSharpPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsInt")
-                        Return += lswIntPath.Write(item) + " {LsInt} " + "\r";
+                        Return += lswIntPath.Write(item) + "\r";
+                    else if (((lsBase)item).lsType == "LsIf")
+                        Return += lswIfPath.Write(item, ref CSharpPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else

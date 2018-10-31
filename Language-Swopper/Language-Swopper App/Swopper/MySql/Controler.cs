@@ -75,13 +75,13 @@ namespace LswMySql
                 try
                 {
                     if (((lsBase)item).lsType == "LsString")
-                        Return += lswStringPath.Write(item) + " {LsString} " + "\r";
+                        Return += lswStringPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsBool")
-                        Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
+                        Return += lswBoolPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsChar")
-                        Return += lswCharPath.Write(item) + " {LsChar} " + "\r";
+                        Return += lswCharPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsInt")
-                        Return += lswIntPath.Write(item) + " {LsInt} " + "\r";
+                        Return += lswIntPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else

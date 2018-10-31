@@ -64,7 +64,7 @@ namespace LswCSharp
                 else if (item.Trim() == "public")
                     prefixes.Add(Prefix.@public);
             }
-            if (prefixes.Count() == 0)
+            if (prefixes.Count == 0)
                 prefixes.Add(Prefix.@public);
             LsInt Four;
             try { Four = new LsInt(Two, int.Parse(Three), prefixes); }

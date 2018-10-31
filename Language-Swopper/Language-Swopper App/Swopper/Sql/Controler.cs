@@ -69,9 +69,9 @@ namespace LswSql
                 try
                 {
                     if (((lsBase)item).lsType == "LsString")
-                        Return += lswStringPath.Write(item) + " {LsString} " + "\r";
+                        Return += lswStringPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsBool")
-                        Return += lswBoolPath.Write(item) + " {LsBool} " + "\r";
+                        Return += lswBoolPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
