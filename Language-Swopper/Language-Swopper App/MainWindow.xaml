@@ -36,7 +36,7 @@
         <!--<local:TextControl x:Name="MainTextControl" Grid.Row="2"/>-->
         <local:MultiTabControl x:Name="MainMultiTabControl" Grid.Row="2"/>
         <StackPanel Orientation="Horizontal" Grid.Row="3">
-            <Button Content="Test" Click="TestButton_Click"></Button>
+            <Button Content="Convert" Click="TestButton_Click" Margin="0,0,0,1" Padding="1,1,1,3"></Button>
         </StackPanel>
     </Grid>
 </Window>

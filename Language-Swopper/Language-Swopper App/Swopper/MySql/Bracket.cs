@@ -1,11 +1,11 @@
 using System;
 using Base;
 
-namespace LswCSharp
+namespace LswMySql
 {
     public static class lswBracketPath
     {
-        public static string Write(object One, ref LswCSharp.CSharpPositions CSharpPosition)
+        public static string Write(object One, ref LswMySql.MySqlPositions MySqlPosition)
         {
             string Return = "";
             LsBracket Two = (LsBracket)One;
@@ -26,7 +26,7 @@ namespace LswCSharp
                     else if (ToAdd.GetType() == typeof(bool))
                         Return += ToAdd.ToString().ToLower();
                     else if (ToAdd.GetType() == typeof(LsBracket))
-                        Return += Write(ToAdd, ref CSharpPosition);
+                        Return += Write(ToAdd, ref MySqlPosition);
                     Return += Seperater(Two.BracketType) + " ";
                 }
                 else if (Two.StringProperties.TryGetValue(Point, out ToAdd2))
@@ -67,7 +67,7 @@ namespace LswCSharp
             }
         }
 
-        public static LsBracket Read(string One, ref LswCSharp.CSharpPositions CSharpPosition)
+        public static LsBracket Read(string One, ref LswMySql.MySqlPositions MySqlPosition)
         {
             LsBracket Two = new LsBracket();
             string Three = One[0].ToString();
@@ -100,18 +100,18 @@ namespace LswCSharp
                 foreach (var item in Parts)
                 {
                     string itemT = item.Trim();
-                    var Four = new CSharpControler().PartInRef(itemT, ref CSharpPosition);
+                    var Four = new MySqlControler().PartInRef(itemT, ref MySqlPosition);
                     if (Four is string && (itemT[0] != '"' && itemT[0] != "'"[0]))
                         Two.AddString(new LsName() { Name = Four.ToString() });
                     else
                         Two.AddBase(Four);
                 }
-                CSharpPosition.Position++;
+                MySqlPosition.Position++;
                 try
-                { One = CSharpPosition.InLine[CSharpPosition.Position]; }
+                { One = MySqlPosition.InLine[MySqlPosition.Position]; }
                 catch { }
             //} while(CheckRepeate(One, Two));
-            CSharpPosition.Position = CSharpPosition.Position - 1;
+            MySqlPosition.Position = MySqlPosition.Position - 1;
             return Two;
         }
 
@@ -129,7 +129,7 @@ namespace LswCSharp
                 //    else
                 //        break;
                 //}
-                //Seven = CSharpControler.requestLine();
+                //Seven = MySqlControler.requestLine();
                 //int StartSeven = 0;
                 //foreach (var item in One)
                 //{
@@ -138,7 +138,7 @@ namespace LswCSharp
                 //    else
                 //        break;
                 //}
-                //CSharpControler.backLine();
+                //MySqlControler.backLine();
                 //return (StartOne == StartSeven);
                 return false;
             }

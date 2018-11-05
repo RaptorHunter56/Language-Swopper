@@ -31,6 +31,8 @@ namespace LswMySql
                 Regex chargrgx = new Regex(@"(s|S)(e|E)(t|T) .+ {0,}= {0,}'(([\\]'){1}|[^']{1})';{0,1}");
                 Regex intgrgx = new Regex(@"(s|S)(e|E)(t|T) .+ {0,}= {0,}(\d{1,}|.+);{0,1}");
 
+                Regex bracketrgx = new Regex(@"^[(].+[)]$");
+
                 if (chargrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswCharPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
                 else if (stringrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
@@ -39,6 +41,8 @@ namespace LswMySql
                     Return.Bases.Add(lswBoolPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
                 else if (intgrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswIntPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
+                else if (bracketrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswBracketPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
                 else
                     Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), Lanaguage = "C#" });
                 MySqlPositionRef.Position++;
@@ -61,7 +65,27 @@ namespace LswMySql
         /// <returns></returns>
         public object PartInRef(string InLine, ref MySqlPositions MySqlPositionRef)
         {
-            
+            Regex stringrgx = new Regex(@"^""{3}[^""]+""{3}$|^""[^""]+""$");
+            Regex charrgx = new Regex(@"^'[^']{1}'$|^'\\''$");
+            Regex intrgx = new Regex(@"^\d+.{0}\d$");
+            Regex boolrgx = new Regex(@"^true$|^false$");
+            Regex bracketrgx = new Regex(@"^[(].+[)]$");
+
+            if (charrgx.Match(InLine).Success)
+                return InLine.Substring(1, InLine.ToString().Length - 2);
+            else if (stringrgx.Match(InLine).Success)
+            {
+                if (InLine.ToString().Length > 6 && InLine.Substring(0, 3) == "\"\"\"" && InLine.Substring(InLine.ToString().Length - 3, 3) == "\"\"\"")
+                    return (InLine.ToString().Length == 7) ? InLine.Substring(3, InLine.ToString().Length - 6) : InLine.Substring(3, InLine.ToString().Length - 6);
+                else if (InLine.ToString().Length > 2 && InLine.Substring(0, 1) == "\"" && InLine.Substring(InLine.ToString().Length - 1, 1) == "\"")
+                    return (InLine.ToString().Length == 3) ? InLine.Substring(1, InLine.ToString().Length - 2) : InLine.Substring(1, InLine.ToString().Length - 2);
+            }
+            else if (intrgx.Match(InLine).Success)
+                return Int32.Parse(InLine);
+            else if (boolrgx.Match(InLine).Success)
+                return (InLine[0] == 't') ? true : false;
+            else if (bracketrgx.Match(InLine).Success)
+                return lswBracketPath.Read(InLine, ref MySqlPositionRef);
             return InLine;
         }
 
@@ -82,6 +106,8 @@ namespace LswMySql
                         Return += lswCharPath.Write(item) + "\r";
                     else if (((lsBase)item).lsType == "LsInt")
                         Return += lswIntPath.Write(item) + "\r";
+                    else if (((lsBase)item).lsType == "LsBracket")
+                        Return += lswBracketPath.Write(item, ref MySqlPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else
