@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Base;
 
-namespace LswMySql
+namespace LswSql
 {
     public static class lswStringPath
     {

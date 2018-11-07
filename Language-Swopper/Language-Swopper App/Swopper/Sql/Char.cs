@@ -1,15 +1,14 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System;
 using Base;
 
 namespace LswSql
 {
-    public static class lswBoolPath
+    public static class lswCharPath
     {
         public static string Write(object One)
         {
-            LsBool Two = (LsBool)One;
+            LsChar Two = (LsChar)One;
             foreach (Prefix prefix in Two.Prefixes)
             {
                 if (prefix == Prefix.@public)
@@ -21,11 +20,11 @@ namespace LswSql
             if (Two.ValueType)
                 temp = "SET " + Two.Name + " = " + Two.ValueT + ";";
             else
-                temp = "SET " + Two.Name + " = " + Two.Value.ToString().ToUpper() + ";";
+                temp = "SET " + Two.Name + " = '" + Two.Value + "';";
             return temp;
         }
 
-        public static LsBool Read(string One)
+        public static LsChar Read(string One)
         {
             string Two = One.Split('=')[0].Split(' ')[1].Trim();
             string Three = One.Split('=')[1].Trim().Trim(';').Trim();
@@ -34,18 +33,17 @@ namespace LswSql
                 prefixes.Add(Prefix.@public);
             else
                 prefixes.Add(Prefix.@private);
-            LsBool Four;
-            if (Three.ToLower().Trim() == "true")
-                Four = new LsBool(Two, true, prefixes);
-            else if (Three.ToLower().Trim() == "false")
-                Four = new LsBool(Two, false, prefixes);
+            LsChar Four;
+            if (Three == "'\\''")
+                Four = new LsChar(Two, '\'', prefixes);
+            else if (Three[0] == '\'' && Three[2] == '\'')
+                Four = new LsChar(Two, Three.Substring(1, 1).ToCharArray()[0], prefixes);
             else
-                Four = new LsBool(Two, Three, prefixes);
+                Four = new LsChar(Two, Three, prefixes);
             return Four;
         }
     }
 }
 
 //########
-//true,255|0|0|190,Normal
-//false,255|0|0|190,Normal
+//',255|165|42|42.StartToEnd
