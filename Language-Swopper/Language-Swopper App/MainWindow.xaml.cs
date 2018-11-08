@@ -310,9 +310,11 @@ namespace Language_Swopper_App
                     {
                         //Fix Tabs
                         //DOM FIX ME
-                        TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd);
+                        //MainMultiTabControl.MainSplitTextControl.Left.TestingBackground = new SolidColorBrush(Colors.Blue);
+                        TextRange textRange = new TextRange(((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.Document.ContentStart, ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.Document.ContentEnd);
                         string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                        MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.Lines(vs));
+                        ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.MainRichTextBox.AppendText(controler.Lines(vs));
+                        ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.AppendText("7777");
                     }
                 }
             }

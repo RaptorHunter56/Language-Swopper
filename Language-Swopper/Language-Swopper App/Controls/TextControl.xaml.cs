@@ -17,6 +17,12 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TextControl : UserControl
     {
+        public Brush TestingBackground
+        {
+            get { return MainRichTextBox.Background; }
+            set { MainRichTextBox.Background = value; }
+        }
+
 
         public string LsLanguage
         {
