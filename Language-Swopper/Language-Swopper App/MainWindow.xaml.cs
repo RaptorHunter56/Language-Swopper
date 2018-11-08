@@ -301,9 +301,9 @@ namespace Language_Swopper_App
             testbutton.Background = new SolidColorBrush(new Color() { R = 100, G = 100, B = 100});//221
             using (Controler controler = new Controler())
             {
-                controler._In = MainMultiTabControl.MainSplitTextControl.Left.LsLanguage.TrimEnd(']').TrimStart('[');
-                controler._Out = MainMultiTabControl.MainSplitTextControl.Right.LsLanguage.TrimEnd(']').TrimStart('[');
-                MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.Document.Blocks.Clear();
+                controler._In = ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.LsLanguage.TrimEnd(']').TrimStart('[');
+                controler._Out = ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.LsLanguage.TrimEnd(']').TrimStart('[');
+                ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.MainRichTextBox.Document.Blocks.Clear();
                 foreach (var item in MainMultiTabControl.TopPanel.Children.OfType<TabButtonControl>())
                 {
                     if (item.Open && item.IsSplit)
@@ -314,7 +314,7 @@ namespace Language_Swopper_App
                         TextRange textRange = new TextRange(((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.Document.ContentStart, ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.Document.ContentEnd);
                         string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                         ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.MainRichTextBox.AppendText(controler.Lines(vs));
-                        ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.AppendText("7777");
+                        //((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.AppendText("7777");
                     }
                 }
             }
