@@ -32,6 +32,7 @@ namespace LswMySql
                 Regex intgrgx = new Regex(@"(s|S)(e|E)(t|T) .+ {0,}= {0,}(\d{1,}|.+);{0,1}");
 
                 Regex bracketrgx = new Regex(@"^[(].+[)]$");
+                Regex ifrgx = new Regex(@"^(i|I)(f|F)[(].+,.+,.+[)]");
 
                 if (chargrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswCharPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
@@ -43,8 +44,10 @@ namespace LswMySql
                     Return.Bases.Add(lswIntPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
                 else if (bracketrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswBracketPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
+                else if (ifrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswIfPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
                 else
-                    Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), Lanaguage = "C#" });
+                    Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), Lanaguage = "MySql" });
                 MySqlPositionRef.Position++;
             }
             return Return;

@@ -294,6 +294,7 @@ namespace Language_Swopper_App
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
+                buttonControl.splitChanged += new TabButtonControl.SplitChanged(this.SplitChanged);
                 buttonControl.GetTextControl.Dictionary = keyValuePairs;
                 buttonControl.GetSplitTextControl.Left.Dictionary = keyValuePairs;
                 buttonControl.GetSplitTextControl.Right.Dictionary = keyValuePairs;

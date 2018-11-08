@@ -297,6 +297,8 @@ namespace Language_Swopper_App
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
+            testbutton.IsEnabled = false;
+            testbutton.Background = new SolidColorBrush(new Color() { R = 100, G = 100, B = 100});//221
             using (Controler controler = new Controler())
             {
                 controler._In = MainMultiTabControl.MainSplitTextControl.Left.LsLanguage.TrimEnd(']').TrimStart('[');
@@ -307,6 +309,7 @@ namespace Language_Swopper_App
                     if (item.Open && item.IsSplit)
                     {
                         //Fix Tabs
+                        //DOM FIX ME
                         TextRange textRange = new TextRange(MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentStart, MainMultiTabControl.MainSplitTextControl.Left.MainRichTextBox.Document.ContentEnd);
                         string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                         MainMultiTabControl.MainSplitTextControl.Right.MainRichTextBox.AppendText(controler.Lines(vs));
@@ -354,6 +357,9 @@ namespace Language_Swopper_App
             ///returnValue = mc.Invoke(o, new object[] { returnValue });
             ///MainTextControl.MainRichTextBox.Document.Blocks.Clear();
             ///MainTextControl.MainRichTextBox.AppendText(returnValue.ToString());
+            ///
+            testbutton.Background = new SolidColorBrush(new Color() { R = 221, G = 221, B = 221 });
+            testbutton.IsEnabled = true;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
