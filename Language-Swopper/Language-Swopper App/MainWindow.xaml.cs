@@ -140,6 +140,7 @@ namespace Language_Swopper_App
 
         public MainWindow(BackgroundWorker sender)
         {
+            sender.ReportProgress(3);
             InitializeComponent();
             sender.ReportProgress(TimeProgress());
             string startlang = "";
@@ -190,8 +191,10 @@ namespace Language_Swopper_App
             MainMenuControl.MenuSaveClicked += MenuSave;
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
             sender.ReportProgress(TimeProgress());
-            MainMultiTabControl.SamName.GetTextControl.Dictionary = Dictionarys[startlang];
-            MainMultiTabControl.SamName.GetTextControl.LsLanguage = startlang;
+            ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).Dictionary = Dictionarys[startlang];
+            ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).LsLanguage = startlang;
+            //MainMultiTabControl.SamName.GetTextControl.Dictionary 
+            //MainMultiTabControl.SamName.GetTextControl
             sender.ReportProgress(TimeProgress());
             MainMenuControl.languageChangedClicked += LanguageChangedClicked;
             MainMenuControl.Split_Clicked += MenuSplit;

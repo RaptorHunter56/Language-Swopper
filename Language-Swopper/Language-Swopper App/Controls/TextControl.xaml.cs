@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Language_Swopper_App.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,15 +24,13 @@ namespace Language_Swopper_App
             set { MainRichTextBox.Background = value; }
         }
 
-
         public string LsLanguage
         {
             get { return $"[{(string)GetValue(LsLanguageProperty)}]"; }
             set { SetValue(LsLanguageProperty, value); }
         }
         public static readonly DependencyProperty LsLanguageProperty = DependencyProperty.Register("LsLanguage", typeof(string), typeof(TextControl), new UIPropertyMetadata(""));
-        
-
+       
         private Dictionary<string, MainWindow.ColorType> dictionary;
         public Dictionary<string, MainWindow.ColorType> Dictionary
         {
@@ -107,7 +106,9 @@ namespace Language_Swopper_App
             }
             return caretLineNumber;
         }
-        private bool OneChange = true;
+        private bool OneChange = false;
+        private bool Back = false;
+        private bool Del = false;
         private void TextChangedMethod(int AddedLength)
         {
             int rt = 300;
@@ -179,7 +180,15 @@ namespace Language_Swopper_App
         }
         private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
-            try { if (OneChange) TextChangedMethod(e.Changes.FirstOrDefault().AddedLength); } catch { }
+            List<FormattedWord> formattedWords = new List<FormattedWord>();
+            foreach (var item in dictionary)
+            {
+                formattedWords.Add(new FormattedWord(item.Key, item.Value.Color, item.Value.Types));
+            }
+
+            //try { if (OneChange) TextChangedMethod(e.Changes.FirstOrDefault().AddedLength); } catch { }
+            try { if (OneChange) { OneChange = !OneChange; (new RTX() { words = formattedWords }).update(ref MainRichTextBox, Back, Del); } OneChange = false; Back = false; Del = false; } catch (Exception f) { throw new Exception(f.Message); }
+
         }
         new struct Tag
         {
@@ -343,6 +352,15 @@ namespace Language_Swopper_App
         
         private void MainRichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            OneChange = true;
+            if (Keyboard.IsKeyDown(Key.Back))
+                Back = true;
+            else
+                Back = false;
+            if (Keyboard.IsKeyDown(Key.Delete))
+                Del = true;
+            else
+                Del = false;
             if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && e.Key == Key.Tab)
             {
                 string ss = new TextRange(MainRichTextBox.CaretPosition.GetLineStartPosition(0), MainRichTextBox.CaretPosition).Text;

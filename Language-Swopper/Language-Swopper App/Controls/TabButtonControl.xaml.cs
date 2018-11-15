@@ -20,7 +20,7 @@ namespace Language_Swopper_App
     /// </summary>
     public partial class TabButtonControl : UserControl
     {
-        public bool IsSplit { get { return isSplit; } set { isSplit = value; try { splitChanged(this); } catch (Exception e) { /*MessageBox.Show(e.Message);*/ } } }
+        public bool IsSplit { get { return isSplit; } set { isSplit = value; try { splitChanged(this); } catch { /*MessageBox.Show(e.Message);*/ } } }
         private bool isSplit = false;
         public delegate void SplitChanged(object sender);
         public event SplitChanged splitChanged;

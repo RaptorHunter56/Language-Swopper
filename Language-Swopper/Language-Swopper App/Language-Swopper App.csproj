@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="Cipher.cs" />
     <Compile Include="Controler.cs" />
+    <Compile Include="Controls\AdvancedRichTextBox.cs" />
     <Compile Include="Controls\MultiTabControl.xaml.cs">
       <DependentUpon>MultiTabControl.xaml</DependentUpon>
     </Compile>
