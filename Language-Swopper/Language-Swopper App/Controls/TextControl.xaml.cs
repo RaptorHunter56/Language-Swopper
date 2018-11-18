@@ -381,18 +381,21 @@ namespace Language_Swopper_App
             }
             else if (e.Key == Key.Tab)
             {
-                string textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd).Text;
+                //string textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd).Text;
+                //MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(0, LogicalDirection.Forward);
+                //MainRichTextBox.CaretPosition.InsertTextInRun("\t");
+                //textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd).Text;
+                //Dispatcher.BeginInvoke(
+                //DispatcherPriority.ContextIdle,
+                //new Action(delegate ()
+                //{
+                //    MainRichTextBox.Focus();
+                //}));
+                //e.Handled = true;
+                //return;
+
                 MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(0, LogicalDirection.Forward);
                 MainRichTextBox.CaretPosition.InsertTextInRun("\t");
-                textRange = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd).Text;
-                Dispatcher.BeginInvoke(
-                DispatcherPriority.ContextIdle,
-                new Action(delegate ()
-                {
-                    MainRichTextBox.Focus();
-                }));
-                e.Handled = true;
-                return;
             }
         }
     }

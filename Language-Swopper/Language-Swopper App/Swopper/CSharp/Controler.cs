@@ -47,6 +47,8 @@ namespace LswCSharp
                     Return.Bases.Add(lswIntPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()));
                 else if (ifrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswIfPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), ref CSharpPositionRef));
+                else if (CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd() == "else")
+                    Return.Bases.Add(lswElsePath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), ref CSharpPositionRef));
                 else if (elseifrgx.Match(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswElseIfPath.Read(CSharpPositionRef.InLine[CSharpPositionRef.Position].TrimEnd(), ref CSharpPositionRef));
                 else
@@ -118,6 +120,8 @@ namespace LswCSharp
                         Return += lswIfPath.Write(item, ref CSharpPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsElseIf")
                         Return += lswElseIfPath.Write(item, ref CSharpPositionRef) + "\r";
+                    else if (((lsBase)item).lsType == "LsElse")
+                        Return += lswElsePath.Write(item, ref CSharpPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else

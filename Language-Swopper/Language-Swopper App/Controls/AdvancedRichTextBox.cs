@@ -106,7 +106,10 @@ namespace Language_Swopper_App.Controls
                         }
                         else
                         {
-                            pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = substring });
+                            if (input[place] == '\n')
+                                pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = "\r\n".ToString() });
+                            else
+                                pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = substring });
                         }
                         substring = "";
                     }
@@ -131,7 +134,10 @@ namespace Language_Swopper_App.Controls
                 output += $@"\cf{item.Count + 1}";
                 if (start){ output += @"\f0\fs24\lang5129"; start = false; }
 
-                string temp = item.Word.Replace("\r\n", @"\par
+                string temp = item.Word.Replace(@"\",@"\\");
+                temp = temp.Replace(@"{", @"\{");
+                temp = temp.Replace(@"}",@"\}");
+                temp = temp.Replace("\r\n", @"\par
 ");
                 output += $@" {temp}";
             }
