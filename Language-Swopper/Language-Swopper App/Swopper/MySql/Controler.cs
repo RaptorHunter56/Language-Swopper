@@ -107,15 +107,15 @@ namespace LswMySql
                 try
                 {
                     if (((lsBase)item).lsType == "LsString")
-                        Return += lswStringPath.Write(item) + "\r";
+                        Return += lswStringPath.Write(item) + "\r\n";
                     else if (((lsBase)item).lsType == "LsBool")
-                        Return += lswBoolPath.Write(item) + "\r";
+                        Return += lswBoolPath.Write(item) + "\r\n";
                     else if (((lsBase)item).lsType == "LsChar")
-                        Return += lswCharPath.Write(item) + "\r";
+                        Return += lswCharPath.Write(item) + "\r\n";
                     else if (((lsBase)item).lsType == "LsInt")
-                        Return += lswIntPath.Write(item) + "\r";
+                        Return += lswIntPath.Write(item) + "\r\n";
                     else if (((lsBase)item).lsType == "LsBracket")
-                        Return += lswBracketPath.Write(item, ref MySqlPositionRef) + "\r";
+                        Return += lswBracketPath.Write(item, ref MySqlPositionRef) + "\r\n";
                     else if (((lsBase)item).lsType == "LsIf")
                         Return += lswIfPath.Write(item, ref MySqlPositionRef);
                     else if (((lsBase)item).lsType == "LsElseIf")
@@ -123,13 +123,13 @@ namespace LswMySql
                     else if (((lsBase)item).lsType == "LsElse")
                         Return += lswElsePath.Write(item, ref MySqlPositionRef);
                     else if (((lsBase)item).lsType == "LsName")
-                        try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
+                        try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r\n"; } catch { Return += "{No_Type}" + "\r\n"; }
                     else
-                        try { Return += item.ToString() + " {No_Type} " + "\r"; } catch { Return += "{No_Type}" + "\r"; }
+                        try { Return += item.ToString() + " {No_Type} " + "\r\n"; } catch { Return += "{No_Type}" + "\r\n"; }
                 }
                 catch (Exception e)
                 {
-                    Return += e.Message + "\r";
+                    Return += e.Message + "\r\n";
                 }
             }
             return Return;

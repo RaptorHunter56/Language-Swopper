@@ -1,4 +1,5 @@
-﻿using Microsoft.CSharp;
+﻿using Language_Swopper_App.Controls;
+using Microsoft.CSharp;
 using Microsoft.Win32;
 using System;
 using System.CodeDom.Compiler;
@@ -192,8 +193,11 @@ namespace Language_Swopper_App
             MainMenuControl.MenuRefreshLanguageClicked += MenuRefreshLanguage;
             sender.ReportProgress(TimeProgress());
             ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).Dictionary = Dictionarys[startlang];
-            ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).LsLanguage = startlang;
-            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left = ((TextControl)MainMultiTabControl.GroopGrid.Children[0]);
+            ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).LsLanguage = startlang.Substring(0, startlang.Length - 10);
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.Dictionary = Dictionarys[startlang];
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.LsLanguage = startlang.Substring(0, startlang.Length - 10);
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.Dictionary = Dictionarys[startlang];
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.LsLanguage = startlang.Substring(0, startlang.Length - 10);
             //MainMultiTabControl.SamName.GetTextControl.Dictionary 
             //MainMultiTabControl.SamName.GetTextControl
             sender.ReportProgress(TimeProgress());
@@ -204,7 +208,10 @@ namespace Language_Swopper_App
 
         public void LanguageChangedClicked(string len)
         {
-            MainMultiTabControl.ChangeLanguage(len);
+            MainMultiTabControl.ChangeLanguage(len, Dictionarys[len + "Dictionary"]);
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.Dictionary = Dictionarys[len + "Dictionary"];
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.LsLanguage = len;
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.MainRichTextBox.Document.Blocks.Clear();
         }
 
         private void MenuSplit()
@@ -317,7 +324,14 @@ namespace Language_Swopper_App
                         //MainMultiTabControl.MainSplitTextControl.Left.TestingBackground = new SolidColorBrush(Colors.Blue);
                         TextRange textRange = new TextRange(((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.Document.ContentStart, ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.Document.ContentEnd);
                         string[] vs = textRange.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+                        List<FormattedWord> formattedWords = new List<FormattedWord>();
+                        foreach (var item7 in ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.Dictionary)
+                        {
+                            formattedWords.Add(new FormattedWord(item7.Key, item7.Value.Color, item7.Value.Types));
+                        }
                         ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.MainRichTextBox.AppendText(controler.Lines(vs));
+                        (new RTX() { words = formattedWords }).update(ref ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Right.MainRichTextBox);
                         //((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left.MainRichTextBox.AppendText("7777");
                     }
                 }

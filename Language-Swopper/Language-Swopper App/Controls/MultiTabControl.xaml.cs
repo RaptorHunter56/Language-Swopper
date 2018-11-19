@@ -156,7 +156,7 @@ namespace Language_Swopper_App
             #endregion
         }
 
-        internal void ChangeLanguage(string len)
+        internal void ChangeLanguage(string len, Dictionary<string, MainWindow.ColorType> dictionary)
         {
             foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
             {
@@ -165,6 +165,8 @@ namespace Language_Swopper_App
                 {
                     item.GetSplitTextControl.Right.LsLanguage = len;
                     MainSplitTextControl.Right.LsLanguage = len;
+                    item.GetSplitTextControl.Right.Dictionary = dictionary;
+                    MainSplitTextControl.Right.Dictionary = dictionary;
                 }
             }
         }
