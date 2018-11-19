@@ -1,35 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Base;
 
 namespace LswMySql
 {
-    public static class lswIfPath
+    public static class lswElsePath
     {
         public static string Write(object One, ref LswMySql.MySqlPositions MySqlPosition)
         {
-            string Return = "IF ";
-            LsIf Two = (LsIf)One;
-            Return += new MySqlControler().Out(new LsBaseList() { Bases = new List<lsBase>() { Two.Bracket } }).TrimEnd("\r\n".ToCharArray()) + " THEN\r\n";
-            Return = Return.Replace("((", "(");
+            string Return = "ELSE\r\n";
+            LsElse Two = (LsElse)One;
             foreach (var item in Two.InerLines)
             {
                 Return += "\t" + new MySqlControler().Out(new LsBaseList() { Bases = new List<lsBase>() { item } });
             }
-            Return.Trim("\r\n".ToCharArray());
-            if (Two.EndIf)
-                Return += "END IF;";
+            Return += "END IF;\r\n";
             return Return;
         }
 
-        //"The name 'CountTabs' does not exist in the current context"
-
-        public static LsIf Read(string One, ref LswMySql.MySqlPositions MySqlPosition)
+        public static LsElse Read(string One, ref LswMySql.MySqlPositions MySqlPosition)
         {
-            LsIf Two = new LsIf();
-            string Three =  One.Trim().Substring(2, One.Length - 6).Trim();
-            //string Three = One.Trim().Substring(2,One.Length - 3).Split("THEN".ToCharArray())[0].Trim() + ")";
-            Two.Bracket = (LsBracket)new MySqlControler().PartInRef(Three, ref MySqlPosition);
+            LsElse Two = new LsElse();
+            Two.Tabindex = CountTabs(One);
             bool Continu = true;
             do
             {
@@ -49,13 +41,6 @@ namespace LswMySql
                         LsBaseList list = (LsBaseList)(new MySqlControler().In(new string[] { Four.Trim() }));
                         Two.InerLines.Add(list.Bases[0]);
                     }
-                    else if (Four.Trim().ToLower().Substring(0,4) == "else")
-                    {
-                        Continu = false;
-                        MySqlPosition.Position++;
-                        MySqlPosition.Position++;
-                        Two.EndIf = true;
-                    }
                     else
                         Continu = false;
                 }
@@ -69,7 +54,7 @@ namespace LswMySql
             return Two;
         }
 
-        public static bool CheckRepeate(string One, LsIf Two)
+        public static bool CheckRepeate(string One, LsElse Two)
         {
             return (CountTabs(One) == Two.Tabindex + 1);
         }

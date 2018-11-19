@@ -33,6 +33,7 @@ namespace LswMySql
 
                 Regex bracketrgx = new Regex(@"^[(] {0,}.+ {0,}[)]$");
                 Regex ifrgx = new Regex(@"(i|I)(f|F) {0,}[(] {0,}.+ {0,}[)] {0,}(t|T)(h|H)(e|E)(n|N)");
+                Regex elseifrgx = new Regex(@"(e|E)(l|L)(s|S)(e|E)(i|I)(i|I)(f|F) {0,}[(] {0,}.+ {0,}[)] {0,}(t|T)(h|H)(e|E)(n|N)");
 
                 if (chargrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswCharPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()));
@@ -46,6 +47,10 @@ namespace LswMySql
                     Return.Bases.Add(lswBracketPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
                 else if (ifrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswIfPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
+                else if (elseifrgx.Match(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswElseIfPath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
+                else if (MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd().ToLower().Substring(0,4) == "else")
+                    Return.Bases.Add(lswElsePath.Read(MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), ref MySqlPositionRef));
                 else
                     Return.Bases.Add(new LsName() { Name = MySqlPositionRef.InLine[MySqlPositionRef.Position].TrimEnd(), Lanaguage = "MySql" });
                 MySqlPositionRef.Position++;
@@ -112,7 +117,11 @@ namespace LswMySql
                     else if (((lsBase)item).lsType == "LsBracket")
                         Return += lswBracketPath.Write(item, ref MySqlPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsIf")
-                        Return += lswIfPath.Write(item, ref MySqlPositionRef) + "\r";
+                        Return += lswIfPath.Write(item, ref MySqlPositionRef);
+                    else if (((lsBase)item).lsType == "LsElseIf")
+                        Return += lswElseIfPath.Write(item, ref MySqlPositionRef);
+                    else if (((lsBase)item).lsType == "LsElse")
+                        Return += lswElsePath.Write(item, ref MySqlPositionRef);
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else

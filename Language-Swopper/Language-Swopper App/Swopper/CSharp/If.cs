@@ -36,6 +36,8 @@ namespace LswCSharp
                     {
                         Continu = false;
                         CSharpPosition.Position++;
+                        if (CSharpPosition.InLine[CSharpPosition.Position + 1].Trim().ToLower().Substring(0, 4) == "else")
+                            Two.EndIf = true;
                     }
                     else if(Four.Trim() == "{")
                         Continu = true;

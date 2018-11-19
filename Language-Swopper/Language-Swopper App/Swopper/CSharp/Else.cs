@@ -34,6 +34,7 @@ namespace LswCSharp
                     {
                         Continu = false;
                         CSharpPosition.Position++;
+                        Two.EndIf = true;
                     }
                     else if (Four.Trim() == "{")
                         Continu = true;

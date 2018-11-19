@@ -193,6 +193,7 @@ namespace Language_Swopper_App
             sender.ReportProgress(TimeProgress());
             ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).Dictionary = Dictionarys[startlang];
             ((TextControl)MainMultiTabControl.GroopGrid.Children[0]).LsLanguage = startlang;
+            ((SplitTextControl)MainMultiTabControl.GroopGrid.Children[1]).Left = ((TextControl)MainMultiTabControl.GroopGrid.Children[0]);
             //MainMultiTabControl.SamName.GetTextControl.Dictionary 
             //MainMultiTabControl.SamName.GetTextControl
             sender.ReportProgress(TimeProgress());
