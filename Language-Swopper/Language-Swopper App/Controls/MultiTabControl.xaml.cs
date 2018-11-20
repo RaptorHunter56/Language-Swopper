@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Language_Swopper_App.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -316,6 +317,12 @@ namespace Language_Swopper_App
                 buttonControl.Document = openFileDialog.FileName;
                 buttonControl.GetTextControl.MainRichTextBox.Document.Blocks.Clear();
                 buttonControl.GetTextControl.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
+                List<FormattedWord> formattedWords = new List<FormattedWord>();
+                foreach (var item7 in ((SplitTextControl)this.GroopGrid.Children[1]).Right.Dictionary)
+                {
+                    formattedWords.Add(new FormattedWord(item7.Key, item7.Value.Color, item7.Value.Types));
+                }
+                (new RTX() { words = formattedWords }).update(ref buttonControl.GetTextControl.MainRichTextBox);
                 buttonControl.GetSplitTextControl.Left.MainRichTextBox.Document.Blocks.Clear();
                 buttonControl.GetSplitTextControl.Left.MainRichTextBox.AppendText(File.ReadAllText(buttonControl.Document));
                 buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";

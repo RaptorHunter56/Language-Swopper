@@ -258,6 +258,23 @@ namespace Language_Swopper_App
             {
                 if (item.Open == true)
                 {
+                    if (item.Document == "" || item.Document == null)
+                    {
+                        SaveFileDialog saveFileDialog = new SaveFileDialog();
+                        saveFileDialog.FileName = item.Title;
+                        saveFileDialog.Filter = item.languageFilter[item.GetTextControl.LsLanguage.TrimStart('[').TrimEnd(']')];
+                        saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                        if (saveFileDialog.ShowDialog() == true)
+                        {
+                            item.Document = saveFileDialog.FileName;
+                            item.Title = saveFileDialog.SafeFileName;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
                     File.WriteAllText(
                         item.Document,
                         new TextRange(
@@ -265,14 +282,14 @@ namespace Language_Swopper_App
                         item.GetTextControl.MainRichTextBox.Document.ContentEnd).Text);
                 }
             }
-            //if (MainMenuControl.Document != null)
-            //{
-            //    //File.WriteAllText(
-            //        //MainMenuControl.Document, 
-            //        //new TextRange(
-            //            //MainTextControl.MainRichTextBox.Document.ContentStart,
-            //            //MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
-            //}
+            ///if (MainMenuControl.Document != null)
+            ///{
+            ///    //File.WriteAllText(
+            ///        //MainMenuControl.Document, 
+            ///        //new TextRange(
+            ///            //MainTextControl.MainRichTextBox.Document.ContentStart,
+            ///            //MainTextControl.MainRichTextBox.Document.ContentEnd).Text);
+            ///}
         }
         public void MenuRefreshLanguage()
         {
