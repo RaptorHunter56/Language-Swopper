@@ -60,65 +60,103 @@ namespace Language_Swopper_App.Controls
         public string Postmix = @"\par
 }
  ";
-        public List<char> Parts = " (){}[]<>;\t".ToCharArray().ToList();
+        public List<char> Parts = " (){}[]<>,;\t".ToCharArray().ToList();
 
-        public void update(ref RichTextBox rtb, bool back = false, bool del = false)
+        public void update(ref RichTextBox rtb, bool back = false, bool del = false, string oldText = "")
         {
             Parts.AddRange("\n".ToCharArray());
 
             int caretPos = rtb.Document.ContentStart.GetOffsetToPosition(rtb.CaretPosition);
+
+            TextRange documentRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            documentRange.ClearAllProperties();
+
+            caretPos = rtb.Document.ContentStart.GetOffsetToPosition(rtb.CaretPosition);
+            int startcaretPos = caretPos;
+
             if (back) caretPos -= 2;
             else if (del) caretPos -= 2;
             else caretPos -= 3;
+            if (caretPos < 0) caretPos = 1;
 
             //WrightRTX(ref rtb, "");
             string input =  Read(ref rtb);
             if (input.Trim() == "") return;
             input = input.Substring(0, input.Length - 2) + " ";
 
-            string substring = "";
-            int place = 0;
             List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
             List<NumberdWord> pairs = new List<NumberdWord>();
 
-            while (place < input.Length)
+            List<System.Windows.Media.Color> oldcolors = new List<System.Windows.Media.Color>();
+            List<NumberdWord> oldpairs = new List<NumberdWord>();
+
+            ///
+            whilePlace(input, ref colors, ref pairs);
+            if (oldText.Length > 0)
             {
-                if (Parts.Contains(input[place]))
+                if ((oldText.Substring(0, oldText.Length - 2) + " ").Length == input.Length + 1 ||
+                    (oldText.Substring(0, oldText.Length - 2) + " ").Length == input.Length - 1)
                 {
-                    if (ToPartList(words.Where(w => w.types == Highlight.Types.Normal).ToList()).Contains(substring.TrimEnd('\r')))
+                    if (oldText != "" && oldText != "\r\n")
                     {
-                        colors.Add(words.Where(x => x.key == substring.TrimEnd('\r')).SingleOrDefault().color);
-                        pairs.Add(new NumberdWord() { Key = pairs.Count, Count = colors.Count, Word = substring.TrimEnd('\r') });
-                        if (place != input.Length - 1)
-                        {
-                            if (input[place] == '\n')
-                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = "\r\n".ToString() });
-                            else
-                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = input[place].ToString() });
-                        }
-                        substring = "";
+                        oldText = oldText.Substring(0, oldText.Length - 2) + " ";
+                        whilePlace(oldText, ref oldcolors, ref oldpairs);
                     }
                     else
                     {
-                        if (place != input.Length - 1)
+                        caretPos += 1;
+                    }
+                    int position = 0;
+                    bool removle = false;
+                    foreach (var item in pairs)
+                    {
+                        if (item.Count > 0)
                         {
-                            pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = substring + input[place] });
+                            caretPos += 1;
+                            break;
                         }
-                        else
+                    }
+                    startcaretPos = caretPos;
+                    foreach (var item in pairs)
+                    {
+                        if (item.Count > 0 && startcaretPos >= position + item.Word.Length)
                         {
-                            if (input[place] == '\n')
-                                pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = "\r\n".ToString() });
-                            else
-                                pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = substring });
+                            caretPos += 6;
+                            removle = true;
+                            if (!removle) caretPos -= 1;
                         }
-                        substring = "";
+                        position += item.Word.Length;
                     }
                 }
                 else
-                    substring += input[place];
-                place++;
+                {
+                    if (back) caretPos += 1;
+                    if ((oldText.Substring(0, oldText.Length - 2) + " ").Length < input.Length + 1)
+                    {
+                        caretPos -= 2;
+                    }
+                    if (oldText != "" && oldText != "\r\n")
+                    {
+                        oldText = oldText.Substring(0, oldText.Length - 2) + " ";
+                        whilePlace(oldText, ref oldcolors, ref oldpairs);
+                        caretPos -= 1;
+                    }
+                    else
+                    {
+                        caretPos += 1;
+                    }
+                    int c = (oldText.Substring(0, oldText.Length - 2) + " ").Length;
+                    if ((c - input.Length) <= -3)
+                    {
+                        caretPos += 3;
+                    }
+                }
             }
-
+            else
+            {
+                caretPos += 1;
+            }
+            ///
 
             string output = Premix;
             foreach (var item in colors)
@@ -180,6 +218,49 @@ namespace Language_Swopper_App.Controls
                 vs.Add(item.key);
             }
             return vs;
+        }
+        public void whilePlace(string input, ref List<System.Windows.Media.Color> colors, ref List<NumberdWord> pairs)
+        {
+            string substring = "";
+            int place = 0;
+            while (place < input.Length)
+            {
+                if (Parts.Contains(input[place]))
+                {
+                    if (ToPartList(words.Where(w => w.types == Highlight.Types.Normal).ToList()).Contains(substring.TrimEnd('\r')))
+                    {
+                        colors.Add(words.Where(x => x.key == substring.TrimEnd('\r')).SingleOrDefault().color);
+                        pairs.Add(new NumberdWord() { Key = pairs.Count, Count = colors.Count, Word = substring.TrimEnd('\r') });
+                        if (place != input.Length - 1)
+                        {
+                            if (input[place] == '\n')
+                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = "\r\n".ToString() });
+                            else
+                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = input[place].ToString() });
+                        }
+                        substring = "";
+                    }
+                    else
+                    {
+                        if (place != input.Length - 1)
+                        {
+                            pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = substring + input[place] });
+                        }
+                        else
+                        {
+                            if (input[place] == '\n')
+                                pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = "\r\n".ToString() });
+                            else
+                                pairs.Add(new NumberdWord() { Key = pairs.Count, Count = 0, Word = substring });
+                        }
+                        substring = "";
+                    }
+                }
+                else
+                    substring += input[place];
+                place++;
+            }
+
         }
         #endregion
     }

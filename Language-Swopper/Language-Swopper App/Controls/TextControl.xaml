@@ -30,7 +30,7 @@
                 <ControlTemplate>
                     <Border BorderBrush="#FF707070" BorderThickness="1,0,1,1">
                         <Grid>
-                            <Label Background="#FFF1F1F1" 
+                            <Label Background="WhiteSmoke" 
                                    VerticalAlignment="Top" 
                                    FontSize="10" 
                                    Margin="12,0,2,0" 
@@ -42,7 +42,7 @@
                                    Content="{Binding Path=LsLanguage}"
                                    HorizontalContentAlignment="Right"/>
                             <DockPanel LastChildFill="True" Grid.Row="1">
-                                <Label Background="#FFF1F1F1" 
+                                <Label Background="WhiteSmoke" 
                                        Width="12" 
                                        HorizontalAlignment="Left" 
                                        BorderBrush="#FF707070" 

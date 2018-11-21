@@ -178,6 +178,7 @@ namespace Language_Swopper_App
             Format();
             OneChange = true;
         }
+        public string oldText = "";
         private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
             List<FormattedWord> formattedWords = new List<FormattedWord>();
@@ -187,7 +188,19 @@ namespace Language_Swopper_App
             }
 
             //try { if (OneChange) TextChangedMethod(e.Changes.FirstOrDefault().AddedLength); } catch { }
-            try { if (OneChange) { OneChange = !OneChange; (new RTX() { words = formattedWords }).update(ref MainRichTextBox, Back, Del); } OneChange = false; Back = false; Del = false; } catch (Exception f) { throw new Exception(f.Message); }
+            try
+            {
+                if (OneChange)
+                {
+                    OneChange = !OneChange;
+                    (new RTX() { words = formattedWords }).update(ref MainRichTextBox, Back, Del, oldText);
+                    oldText = (new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd)).Text;
+                }
+                OneChange = false;
+                Back = false;
+                Del = false;
+            }
+            catch (Exception f) { throw new Exception(f.Message); }
 
         }
         new struct Tag
