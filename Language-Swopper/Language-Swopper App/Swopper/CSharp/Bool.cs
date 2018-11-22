@@ -81,3 +81,4 @@ namespace LswCSharp
 //########
 //true,255|0|0|190,Normal
 //false,255|0|0|190,Normal
+//testtest,255|0|0|190,Normal

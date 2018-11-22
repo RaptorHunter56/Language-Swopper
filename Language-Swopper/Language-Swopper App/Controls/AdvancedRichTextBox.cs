@@ -62,6 +62,190 @@ namespace Language_Swopper_App.Controls
  ";
         public List<char> Parts = " (){}[]<>,;\t".ToCharArray().ToList();
 
+        public struct Values
+        {
+            public int caretPositionFormated;
+            public int caretPosition;
+            public bool back;
+            public bool del;
+            public string input;
+            public string oldinput;
+            public List<System.Windows.Media.Color> colors;
+            public List<NumberdWord> pairs;
+        }
+
+        private int newCharetPosition(ref RichTextBox rtb, Values values)
+        {
+            int newposition = values.caretPositionFormated;
+            //if (values.back) newposition -= 2;
+            //else if (values.del) newposition -= 2;
+            //else newposition -= 3;
+            //if (values.caretPositionFormated == values.caretPosition)
+            //{
+            //    if (values.oldinput == "") newposition += 1;
+            //    if (values.oldinput == "\r\n") newposition += 1;
+            //    if (values.oldinput.Length > 2)
+            //    {
+            //        if (values.oldinput.Substring(0, values.oldinput.Length - 2).EndsWith("\r\n")) newposition += 1;
+            //        if ((values.oldinput.Substring(0, values.oldinput.Length - 2) + " ").Split("\r\n".ToCharArray()).Length - 1 < values.input.Split("\r\n".ToCharArray()).Length - 1) newposition -= 4;
+            //    }
+            //}
+
+            TextPointer start = rtb.Document.ContentStart;
+            TextPointer caret = rtb.CaretPosition;
+            TextRange range = new TextRange(start, caret);
+            int indexInText = range.Text.Length;
+
+            int blueadd = 0;
+            int blueaddindex = 0;
+            foreach (var item in values.pairs)
+            {
+                if (item.Count > 0) blueadd += 4;
+                int itemcpart = 0;
+                foreach (var itemc in item.Word)
+                {
+                    blueaddindex++;
+                    itemcpart++;
+                    try
+                    {
+                        if (values.pairs[values.pairs.IndexOf(item) + 1].Word == "\r\n" &&
+                            item.Word.Length == itemcpart)
+                        { if (indexInText == blueaddindex) { blueadd -= 2; break; } }
+                        else
+                        { if (indexInText == blueaddindex) break; }
+                    }
+                    catch
+                    { if (indexInText == blueaddindex) break; }
+                }
+                if (indexInText == blueaddindex) break;
+                try
+                {
+                    if (values.pairs[values.pairs.IndexOf(item) + 1].Word != "\r\n")
+                    { if (item.Count > 0) blueadd += 4; }
+                    else
+                    { if (item.Count > 0) blueadd += 0; }
+                }
+                catch
+                { if (item.Count > 0) blueadd += 0; }
+            }
+
+            int point = 0;
+            int newpoint = 0;
+            int Lengthpoint = 1;
+            bool startpoint = true;
+            var b = rtb.Document.Blocks;
+            foreach (var item in b)
+            {
+                var brange = new TextRange(item.ContentStart, item.ElementEnd);
+
+                if (point <= indexInText && indexInText < (point + 2 + brange.Text.Length))
+                {
+                    if (!startpoint) { if (brange.Text != "") newpoint += 3 + Lengthpoint; }
+                    else { if (brange.Text == "") newpoint += 3; }
+                    int position = 0;
+                    foreach (var item2 in brange.Text)
+                    {
+                        position++;
+                        if (indexInText == point + position) { newpoint += position; break; }
+                    }
+                    break;
+                }
+                else
+                {
+                    Lengthpoint -= 1;
+                    if (startpoint)
+                    {
+                        if (brange.Text != "") newpoint += 3;
+                        startpoint = false;
+                    }
+                    else
+                    {
+                        if (brange.Text == "") newpoint += 3;
+                        else newpoint += 7;
+                    }
+                    newpoint += brange.Text.Length;
+                }
+                point += (2 + brange.Text.Length);
+            }
+            #region Old
+            //if (oldText.Length > 0)
+            //{
+            //    if ((oldText.Substring(0, oldText.Length - 2) + " ").Length == input.Length + 1 ||
+            //        (oldText.Substring(0, oldText.Length - 2) + " ").Length == input.Length - 1)
+            //    {
+            //        if (oldText != "" && oldText != "\r\n")
+            //        {
+            //            oldText = oldText.Substring(0, oldText.Length - 2) + " ";
+            //            whilePlace(oldText, ref oldcolors, ref oldpairs);
+            //        }
+            //        else
+            //        {
+            //            caretPos += 1;
+            //        }
+            //        int position = 0;
+            //        int removle = 0;
+            //        int Totalremovle = 0;
+            //        startcaretPos = caretPos;
+            //        foreach (var item in pairs)
+            //        {
+            //            if (item.Count > 0 && startcaretPos >= position + item.Word.Length)
+            //            {
+            //                caretPos += 6;
+            //                //caretPos -= removle;
+            //                Totalremovle += 1;
+            //                removle += 1;
+            //            }
+            //            else if (item.Count > 0)
+            //            {
+            //                Totalremovle += 1;
+            //            }
+            //            position += item.Word.Length;
+            //        }
+            //        foreach (var item in pairs)
+            //        {
+            //            if (item.Count > 0)
+            //            {
+            //                caretPos += 1;
+            //                if (Totalremovle == removle)
+            //                {
+            //                    caretPos -= 1;
+            //                }
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (back) caretPos += 1;
+            //        if ((oldText.Substring(0, oldText.Length - 2) + " ").Length < input.Length + 1)
+            //        {
+            //            caretPos -= 2;
+            //        }
+            //        if (oldText != "" && oldText != "\r\n")
+            //        {
+            //            oldText = oldText.Substring(0, oldText.Length - 2) + " ";
+            //            whilePlace(oldText, ref oldcolors, ref oldpairs);
+            //            caretPos -= 1;
+            //        }
+            //        else
+            //        {
+            //            caretPos += 1;
+            //        }
+            //        int c = (oldText.Substring(0, oldText.Length - 2) + " ").Length;
+            //        if ((c - input.Length) <= -3)
+            //        {
+            //            caretPos += 3;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    caretPos += 1;
+            //}
+            #endregion
+            return blueadd + newpoint;
+        }
+
         public void update(ref RichTextBox rtb, bool back = false, bool del = false, string oldText = "")
         {
             Parts.AddRange("\n".ToCharArray());
@@ -69,15 +253,15 @@ namespace Language_Swopper_App.Controls
             int caretPos = rtb.Document.ContentStart.GetOffsetToPosition(rtb.CaretPosition);
 
             TextRange documentRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            documentRange.ClearAllProperties();
+            //documentRange.ClearAllProperties();
 
+            int startcaretPosFormated = caretPos;
             caretPos = rtb.Document.ContentStart.GetOffsetToPosition(rtb.CaretPosition);
-            int startcaretPos = caretPos;
 
-            if (back) caretPos -= 2;
-            else if (del) caretPos -= 2;
-            else caretPos -= 3;
-            if (caretPos < 0) caretPos = 1;
+            //if (back) caretPos -= 2;
+            //else if (del) caretPos -= 2;
+            //else caretPos -= 3;
+            //if (caretPos < 0) caretPos = 1;
 
             //WrightRTX(ref rtb, "");
             string input =  Read(ref rtb);
@@ -92,70 +276,17 @@ namespace Language_Swopper_App.Controls
 
             ///
             whilePlace(input, ref colors, ref pairs);
-            if (oldText.Length > 0)
+            caretPos = newCharetPosition(ref rtb, new Values()
             {
-                if ((oldText.Substring(0, oldText.Length - 2) + " ").Length == input.Length + 1 ||
-                    (oldText.Substring(0, oldText.Length - 2) + " ").Length == input.Length - 1)
-                {
-                    if (oldText != "" && oldText != "\r\n")
-                    {
-                        oldText = oldText.Substring(0, oldText.Length - 2) + " ";
-                        whilePlace(oldText, ref oldcolors, ref oldpairs);
-                    }
-                    else
-                    {
-                        caretPos += 1;
-                    }
-                    int position = 0;
-                    bool removle = false;
-                    foreach (var item in pairs)
-                    {
-                        if (item.Count > 0)
-                        {
-                            caretPos += 1;
-                            break;
-                        }
-                    }
-                    startcaretPos = caretPos;
-                    foreach (var item in pairs)
-                    {
-                        if (item.Count > 0 && startcaretPos >= position + item.Word.Length)
-                        {
-                            caretPos += 6;
-                            removle = true;
-                            if (!removle) caretPos -= 1;
-                        }
-                        position += item.Word.Length;
-                    }
-                }
-                else
-                {
-                    if (back) caretPos += 1;
-                    if ((oldText.Substring(0, oldText.Length - 2) + " ").Length < input.Length + 1)
-                    {
-                        caretPos -= 2;
-                    }
-                    if (oldText != "" && oldText != "\r\n")
-                    {
-                        oldText = oldText.Substring(0, oldText.Length - 2) + " ";
-                        whilePlace(oldText, ref oldcolors, ref oldpairs);
-                        caretPos -= 1;
-                    }
-                    else
-                    {
-                        caretPos += 1;
-                    }
-                    int c = (oldText.Substring(0, oldText.Length - 2) + " ").Length;
-                    if ((c - input.Length) <= -3)
-                    {
-                        caretPos += 3;
-                    }
-                }
-            }
-            else
-            {
-                caretPos += 1;
-            }
+                caretPositionFormated = startcaretPosFormated,
+                caretPosition = caretPos,
+                back = back,
+                del = del,
+                input = input,
+                oldinput = oldText,
+                colors = colors,
+                pairs = pairs
+            });
             ///
 
             string output = Premix;
@@ -210,6 +341,7 @@ namespace Language_Swopper_App.Controls
             }
             rtb.Document.PageWidth = rt + (rt / 29);
         }
+
         public List<string> ToPartList(List<FormattedWord> words)
         {
             List<string> vs = new List<string>();

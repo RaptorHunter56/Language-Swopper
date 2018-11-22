@@ -407,8 +407,8 @@ namespace Language_Swopper_App
                 //e.Handled = true;
                 //return;
 
-                MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(0, LogicalDirection.Forward);
-                MainRichTextBox.CaretPosition.InsertTextInRun("\t");
+                //MainRichTextBox.CaretPosition = MainRichTextBox.CaretPosition.GetPositionAtOffset(0, LogicalDirection.Forward);
+                //MainRichTextBox.CaretPosition.InsertTextInRun("\t");
             }
         }
     }
