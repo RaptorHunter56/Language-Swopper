@@ -372,6 +372,19 @@ namespace Language_Swopper_App.Controls
                         }
                         substring = "";
                     }
+                    else if (Conected(substring))
+                    {
+                        colors.Add(words.Where(x => x.key == substring[0].ToString()).SingleOrDefault().color);
+                        pairs.Add(new NumberdWord() { Key = pairs.Count, Count = colors.Count, Word = substring.TrimEnd('\r') });
+                        if (place != input.Length - 1)
+                        {
+                            if (input[place] == '\n')
+                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = "\r\n".ToString() });
+                            else
+                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = input[place].ToString() });
+                        }
+                        substring = "";
+                    }
                     else
                     {
                         if (place != input.Length - 1)
@@ -393,6 +406,23 @@ namespace Language_Swopper_App.Controls
                 place++;
             }
 
+        }
+
+        private bool Conected(string substring)
+        {
+            bool Return = false;
+            bool First = true;
+            foreach (var item in substring.TrimEnd('\r'))
+            {
+                if (!ToPartList(words.Where(w => w.types == Highlight.Types.Connected).ToList()).Contains(item.ToString()))
+                    Return = false;
+                else if (First)
+                {
+                    First = !First;
+                    Return = true;
+                }
+            }
+            return Return;
         }
         #endregion
     }
