@@ -385,6 +385,19 @@ namespace Language_Swopper_App.Controls
                         }
                         substring = "";
                     }
+                    else if (StartToEnd(substring.TrimEnd('\r')))
+                    {
+                        colors.Add(words.Where(x => x.key == substring[0].ToString()).SingleOrDefault().color);
+                        pairs.Add(new NumberdWord() { Key = pairs.Count, Count = colors.Count, Word = substring.TrimEnd('\r') });
+                        if (place != input.Length - 1)
+                        {
+                            if (input[place] == '\n')
+                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = "\r\n".ToString() });
+                            else
+                                pairs.Add(new NumberdWord() { Key = pairs.Count + 1, Count = 0, Word = input[place].ToString() });
+                        }
+                        substring = "";
+                    }
                     else
                     {
                         if (place != input.Length - 1)
@@ -406,6 +419,24 @@ namespace Language_Swopper_App.Controls
                 place++;
             }
 
+        }
+
+        private bool StartToEnd(string substring)
+        {
+            if (substring.Length > 1)
+            {
+                if (substring[0] == substring.ToCharArray().Last())
+                {
+                    if (ToPartList(words.Where(w => w.types == Highlight.Types.Connected).ToList()).Contains(substring[0].ToString()))
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
         }
 
         private bool Conected(string substring)
