@@ -427,7 +427,7 @@ namespace Language_Swopper_App.Controls
             {
                 if (substring[0] == substring.ToCharArray().Last())
                 {
-                    if (ToPartList(words.Where(w => w.types == Highlight.Types.Connected).ToList()).Contains(substring[0].ToString()))
+                    if (ToPartList(words.Where(w => w.types == Highlight.Types.StartToEnd).ToList()).Contains(substring[0].ToString()))
                         return true;
                     else
                         return false;
