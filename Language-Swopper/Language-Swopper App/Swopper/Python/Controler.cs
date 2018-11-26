@@ -36,6 +36,7 @@ namespace LswPython
                 //Finished
                 Regex bracketrgx = new Regex(@"^[(].+[)]$");
                 Regex ifrgx = new Regex(@"^if .+:$");
+                Regex elseifrgx = new Regex(@"^elif .+:$");
                 if (charrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswCharPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
                 else if (stringrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
@@ -50,6 +51,10 @@ namespace LswPython
                     Return.Bases.Add(lswIfPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), ref PythonPositionRef));
                 else if (defoltrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
                     Return.Bases.Add(lswStringPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()));
+                else if (elseifrgx.Match(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd()).Success)
+                    Return.Bases.Add(lswElseIfPath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), ref PythonPositionRef));
+                else if (PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd().ToLower().Substring(0, 4) == "else")
+                    Return.Bases.Add(lswElsePath.Read(PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), ref PythonPositionRef));
                 else
                     Return.Bases.Add(new LsName() { Name = PythonPositionRef.InLine[PythonPositionRef.Position].TrimEnd(), Lanaguage = "Python" });
                 PythonPositionRef.Position++;
@@ -111,6 +116,10 @@ namespace LswPython
                         Return += lswBracketPath.Write(item, ref PythonPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsIf")
                         Return += lswIfPath.Write(item, ref PythonPositionRef) + "\r";
+                    else if (((lsBase)item).lsType == "LsElseIf")
+                        Return += lswElseIfPath.Write(item, ref PythonPositionRef) + "\r";
+                    else if (((lsBase)item).lsType == "LsElse")
+                        Return += lswElsePath.Write(item, ref PythonPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r"; }
                     else

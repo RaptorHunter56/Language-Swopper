@@ -9,6 +9,6 @@ namespace Base
         public LsBracket Bracket;
         public List<lsBase> InerLines = new List<lsBase>();
         public int Tabindex = 0;
-        public bool EndIf = false;
+        public bool EndIf = true;
     }
 }

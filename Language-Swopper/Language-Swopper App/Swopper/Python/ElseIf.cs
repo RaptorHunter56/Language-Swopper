@@ -4,25 +4,25 @@ using Base;
 
 namespace LswPython
 {
-    public static class lswIfPath
+    public static class lswElseIfPath
     {
         public static string Write(object One, ref LswPython.PythonPositions PythonPosition)
         {
-            string Return = "if ";
-            LsIf Two = (LsIf)One;
+            string Return = "elif ";
+            LsElseIf Two = (LsElseIf)One;
             Return += new PythonControler().Out(new LsBaseList() { Bases = new List<lsBase>() { Two.Bracket } }).TrimEnd(")\r\n".ToCharArray()).TrimStart('(') + ":\r\n";
             foreach (var item in Two.InerLines)
             {
-                Return += "\t" + new PythonControler().Out(new LsBaseList() { Bases = new List<lsBase>() { item } }) + "\r\n";
+                Return += "\t" + new PythonControler().Out(new LsBaseList() { Bases = new List<lsBase>() { item } });
             }
             return Return;
         }
 
-        public static LsIf Read(string One, ref LswPython.PythonPositions PythonPosition)
+        public static LsElseIf Read(string One, ref LswPython.PythonPositions PythonPosition)
         {
-            LsIf Two = new LsIf();
+            LsElseIf Two = new LsElseIf();
             Two.Tabindex = CountTabs(One);
-            string Three = "(" + One.Trim().Substring(3, One.Length - 4).Trim() +  ")";
+            string Three = "(" + One.Trim().Substring(5, One.Length - 6).Trim() +  ")";
             Two.Bracket = (LsBracket)new PythonControler().PartInRef(Three, ref PythonPosition);
             bool Continu = true;
             do
@@ -56,7 +56,7 @@ namespace LswPython
             return Two;
         }
 
-        public static bool CheckRepeate(string One, LsIf Two)
+        public static bool CheckRepeate(string One, LsElseIf Two)
         {
             return (CountTabs(One) == Two.Tabindex + 1);
         }

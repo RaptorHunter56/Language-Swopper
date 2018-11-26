@@ -5,7 +5,7 @@ namespace LswSql
 {
     public static class lswBracketPath
     {
-        public static string Write(object One, ref LswMySql.MySqlPositions MySqlPosition)
+        public static string Write(object One, ref LswSql.SqlPositions SqlPosition)
         {
             string Return = "";
             LsBracket Two = (LsBracket)One;
@@ -26,7 +26,7 @@ namespace LswSql
                     else if (ToAdd.GetType() == typeof(bool))
                         Return += ToAdd.ToString().ToLower();
                     else if (ToAdd.GetType() == typeof(LsBracket))
-                        Return += Write(ToAdd, ref MySqlPosition);
+                        Return += Write(ToAdd, ref SqlPosition);
                     Return += Seperater(Two.BracketType) + " ";
                 }
                 else if (Two.StringProperties.TryGetValue(Point, out ToAdd2))
@@ -67,7 +67,7 @@ namespace LswSql
             }
         }
 
-        public static LsBracket Read(string One, ref LswMySql.MySqlPositions MySqlPosition)
+        public static LsBracket Read(string One, ref LswSql.SqlPositions SqlPosition)
         {
             LsBracket Two = new LsBracket();
             string Three = One[0].ToString();
@@ -100,18 +100,18 @@ namespace LswSql
                 foreach (var item in Parts)
                 {
                     string itemT = item.Trim();
-                    var Four = new MySqlControler().PartInRef(itemT, ref MySqlPosition);
+                    var Four = new SqlControler().PartInRef(itemT, ref SqlPosition);
                     if (Four is string && (itemT[0] != '"' && itemT[0] != "'"[0]))
                         Two.AddString(new LsName() { Name = Four.ToString() });
                     else
                         Two.AddBase(Four);
                 }
-                MySqlPosition.Position++;
+                SqlPosition.Position++;
                 try
-                { One = MySqlPosition.InLine[MySqlPosition.Position]; }
+                { One = SqlPosition.InLine[SqlPosition.Position]; }
                 catch { }
             //} while(CheckRepeate(One, Two));
-            MySqlPosition.Position = MySqlPosition.Position - 1;
+            SqlPosition.Position = SqlPosition.Position - 1;
             return Two;
         }
 
@@ -129,7 +129,7 @@ namespace LswSql
                 //    else
                 //        break;
                 //}
-                //Seven = MySqlControler.requestLine();
+                //Seven = SqlControler.requestLine();
                 //int StartSeven = 0;
                 //foreach (var item in One)
                 //{
@@ -138,7 +138,7 @@ namespace LswSql
                 //    else
                 //        break;
                 //}
-                //MySqlControler.backLine();
+                //SqlControler.backLine();
                 //return (StartOne == StartSeven);
                 return false;
             }
