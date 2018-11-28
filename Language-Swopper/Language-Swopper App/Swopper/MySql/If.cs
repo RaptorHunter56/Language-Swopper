@@ -18,7 +18,7 @@ namespace LswMySql
             }
             Return.Trim("\r\n".ToCharArray());
             if (Two.EndIf)
-                Return += "END IF;";
+                Return += "END IF;\r\n";
             return Return;
         }
 
@@ -54,14 +54,18 @@ namespace LswMySql
                         Continu = false;
                         MySqlPosition.Position++;
                         MySqlPosition.Position++;
-                        Two.EndIf = true;
+                        Two.EndIf = false;
                     }
                     else
+                    {
+                        Two.EndIf = true;
                         Continu = false;
+                    }
                 }
                 catch
                 {
                     Continu = false;
+                    Two.EndIf = true;
                 }
             } while (Continu);
 

@@ -2,13 +2,13 @@
 
 namespace Base
 {
-    public class LsIf : lsBase
+    public class LsWhile : lsBase
     {
-        public LsIf()
-        { lsType = "LsIf"; }
+        public LsWhile()
+        { lsType = "LsWhile"; }
         public LsBracket Bracket;
         public List<lsBase> InerLines = new List<lsBase>();
         public int Tabindex = 0;
-        public bool EndIf = true;
+        public bool EndIf = false;
     }
 }
