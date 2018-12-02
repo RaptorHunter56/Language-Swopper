@@ -13,7 +13,7 @@
         ShowInTaskbar="False" 
         WindowStyle="None" 
         Background="#FFEDEDED"
-        ContentRendered="Window_ContentRendered">
+        ContentRendered="Window_ContentRendered" Icon="Images/icons8_Archers_Arrow.ico">
     <Window.Resources>
         <local:PercentToDecimalConverter x:Key="p2d"/>
     </Window.Resources>
