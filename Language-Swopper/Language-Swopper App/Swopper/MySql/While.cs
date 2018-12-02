@@ -17,8 +17,7 @@ namespace LswMySql
                 Return += "\t" + new MySqlControler().Out(new LsBaseList() { Bases = new List<lsBase>() { item } });
             }
             Return.Trim("\r\n".ToCharArray());
-            if (Two.EndWhile)
-                Return += "END While;";
+            Return += "END While;";
             return Return;
         }
 
@@ -42,7 +41,6 @@ namespace LswMySql
                         Continu = false;
                         MySqlPosition.Position++;
                         MySqlPosition.Position++;
-                        Two.EndWhile = true;
                     }
                     else if (CheckRepeate(Four, Two))
                     {
@@ -54,7 +52,6 @@ namespace LswMySql
                         Continu = false;
                         MySqlPosition.Position++;
                         MySqlPosition.Position++;
-                        Two.EndWhile = true;
                     }
                     else
                         Continu = false;
