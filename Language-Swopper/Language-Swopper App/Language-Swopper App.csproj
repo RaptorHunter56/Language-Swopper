@@ -138,6 +138,7 @@
     <Compile Include="Controls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Swopper\Python\Bool.cs" />
     <Compile Include="Tables\OpenFilePath.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
       <AutoGen>True</AutoGen>
