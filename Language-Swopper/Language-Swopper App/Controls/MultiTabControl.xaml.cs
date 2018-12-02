@@ -329,6 +329,7 @@ namespace Language_Swopper_App
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             bool next = false;
             TabButtonControl past = new TabButtonControl();
