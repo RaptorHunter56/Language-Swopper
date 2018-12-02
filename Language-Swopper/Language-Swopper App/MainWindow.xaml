@@ -5,14 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Language_Swopper_App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="250" Width="525" WindowStyle="None" AllowsTransparency="True" MinWidth="500" MinHeight="250" SizeChanged="Window_SizeChanged">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF686868" Offset="1"/>
-            <GradientStop Color="#FFF0F0F0" Offset="0.91"/>
-            <GradientStop Color="#FF686868" Offset="0.91"/>
-        </LinearGradientBrush>
-    </Window.Background>
+        Title="MainWindow" Height="250" Width="525" WindowStyle="None" AllowsTransparency="True" MinWidth="500" MinHeight="250" SizeChanged="Window_SizeChanged" Background="White">
     <WindowChrome.WindowChrome >
         <WindowChrome CaptionHeight="21" />
     </WindowChrome.WindowChrome>
@@ -42,7 +35,7 @@
         <local:MenuControl x:Name="MainMenuControl" Grid.Row="1"/>
         <!--<local:TextControl x:Name="MainTextControl" Grid.Row="2"/>-->
         <local:MultiTabControl x:Name="MainMultiTabControl" Grid.Row="2"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="3">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Background="#FF686868">
             <Button x:Name="testbutton" Content="Convert" Click="TestButton_Click" Margin="0,0,0,1" Padding="1,1,1,3" Background="#FF686868"></Button>
         </StackPanel>
     </Grid>

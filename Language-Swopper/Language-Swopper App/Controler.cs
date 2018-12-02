@@ -32,17 +32,17 @@ namespace Language_Swopper_App
         public void resetList()
         {
             dList.Clear();
-            DirectoryInfo d = new DirectoryInfo($@"...\...\Swopper\{In}");
+            DirectoryInfo d = new DirectoryInfo($@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Swopper\{In}");
             foreach (var file in d.GetFiles("*.cs"))
             {
                 dList.Add($@"{file.Directory.ToString()}\{file.Name}");
             }
-            d = new DirectoryInfo($@"...\...\Swopper\{Out}");
+            d = new DirectoryInfo($@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Swopper\{Out}");
             foreach (var file in d.GetFiles("*.cs"))
             {
                 dList.Add($@"{file.Directory.ToString()}\{file.Name}");
             }
-            d = new DirectoryInfo(@"...\...\Swopper\Base");
+            d = new DirectoryInfo($@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Swopper\Base");
             foreach (var file in d.GetFiles("*.cs"))
             {
                 dList.Add($@"{file.Directory.ToString()}\{file.Name}");

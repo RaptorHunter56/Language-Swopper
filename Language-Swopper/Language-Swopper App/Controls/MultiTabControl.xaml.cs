@@ -328,5 +328,145 @@ namespace Language_Swopper_App
                 buttonControl.Title = $"{buttonControl.DocumentName}{buttonControl.DocumentType}";
             }
         }
+
+        {
+            bool next = false;
+            TabButtonControl past = new TabButtonControl();
+            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
+            {
+                if (item.Open)
+                {
+                    foreach (var item2 in TopPanel.Children.OfType<TabButtonControl>())
+                    {
+
+                        if (item2.Open)
+                        {
+                            item2.GetTextControl = GroopGrid.Children.OfType<TextControl>().FirstOrDefault();
+                            item2.GetSplitTextControl = GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault();
+                        }
+                        item2.Open = false;
+                    }
+                    past.Open = true;
+                    try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault()); } catch { }
+                    try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault()); } catch { }
+                    TextControl textControl = past.GetTextControl;
+                    textControl.SetValue(Grid.RowProperty, 0);
+                    textControl.Margin = new Thickness(0, 1, 0, 0);
+                    textControl.SetValue(Panel.ZIndexProperty, 0);
+                    GroopGrid.Children.Add(past.GetTextControl);
+                    SplitTextControl splitTextControl = past.GetSplitTextControl;
+                    splitTextControl.SetValue(Grid.RowProperty, 1);
+                    splitTextControl.Margin = new Thickness(0, 1, 0, 0);
+                    splitTextControl.SetValue(Panel.ZIndexProperty, 0);
+                    GroopGrid.Children.Add(past.GetSplitTextControl);
+                    switch (past.IsSplit)
+                    {
+                        case true:
+                            GroopGrid.Children[0].Visibility = Visibility.Collapsed;
+                            GroopGrid.Children[1].Visibility = Visibility.Visible;
+                            break;
+                        case false:
+                        default:
+                            GroopGrid.Children[0].Visibility = Visibility.Visible;
+                            GroopGrid.Children[1].Visibility = Visibility.Collapsed;
+                            break;
+                    }
+                    break;
+                }
+                next = item.Open;
+                item.Open = false;
+                past = item;
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            bool next = false;
+            TabButtonControl past = new TabButtonControl();
+            foreach (var item in TopPanel.Children.OfType<TabButtonControl>())
+            {
+                if (item.Title == "+")
+                {
+                    foreach (var item2 in TopPanel.Children.OfType<TabButtonControl>())
+                    {
+
+                        if (item2.Open)
+                        {
+                            item2.GetTextControl = GroopGrid.Children.OfType<TextControl>().FirstOrDefault();
+                            item2.GetSplitTextControl = GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault();
+                        }
+                        item2.Open = false;
+                    }
+                    past.Open = true;
+                    try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault()); } catch { }
+                    try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault()); } catch { }
+                    TextControl textControl = past.GetTextControl;
+                    textControl.SetValue(Grid.RowProperty, 0);
+                    textControl.Margin = new Thickness(0, 1, 0, 0);
+                    textControl.SetValue(Panel.ZIndexProperty, 0);
+                    GroopGrid.Children.Add(past.GetTextControl);
+                    SplitTextControl splitTextControl = past.GetSplitTextControl;
+                    splitTextControl.SetValue(Grid.RowProperty, 1);
+                    splitTextControl.Margin = new Thickness(0, 1, 0, 0);
+                    splitTextControl.SetValue(Panel.ZIndexProperty, 0);
+                    GroopGrid.Children.Add(past.GetSplitTextControl);
+                    switch (past.IsSplit)
+                    {
+                        case true:
+                            GroopGrid.Children[0].Visibility = Visibility.Collapsed;
+                            GroopGrid.Children[1].Visibility = Visibility.Visible;
+                            break;
+                        case false:
+                        default:
+                            GroopGrid.Children[0].Visibility = Visibility.Visible;
+                            GroopGrid.Children[1].Visibility = Visibility.Collapsed;
+                            break;
+                    }
+                    break;
+                }
+                else if (next)
+                {
+                    foreach (var item2 in TopPanel.Children.OfType<TabButtonControl>())
+                    {
+
+                        if (item2.Open)
+                        {
+                            item2.GetTextControl = GroopGrid.Children.OfType<TextControl>().FirstOrDefault();
+                            item2.GetSplitTextControl = GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault();
+                        }
+                        item2.Open = false;
+                    }
+                    item.Open = true;
+                    try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<TextControl>().FirstOrDefault()); } catch { }
+                    try { GroopGrid.Children.Remove(GroopGrid.Children.OfType<SplitTextControl>().FirstOrDefault()); } catch { }
+                    TextControl textControl = item.GetTextControl;
+                    textControl.SetValue(Grid.RowProperty, 0);
+                    textControl.Margin = new Thickness(0, 1, 0, 0);
+                    textControl.SetValue(Panel.ZIndexProperty, 0);
+                    GroopGrid.Children.Add(item.GetTextControl);
+                    SplitTextControl splitTextControl = item.GetSplitTextControl;
+                    splitTextControl.SetValue(Grid.RowProperty, 1);
+                    splitTextControl.Margin = new Thickness(0, 1, 0, 0);
+                    splitTextControl.SetValue(Panel.ZIndexProperty, 0);
+                    GroopGrid.Children.Add(item.GetSplitTextControl);
+                    switch (item.IsSplit)
+                    {
+                        case true:
+                            GroopGrid.Children[0].Visibility = Visibility.Collapsed;
+                            GroopGrid.Children[1].Visibility = Visibility.Visible;
+                            break;
+                        case false:
+                        default:
+                            GroopGrid.Children[0].Visibility = Visibility.Visible;
+                            GroopGrid.Children[1].Visibility = Visibility.Collapsed;
+                            break;
+                    }
+                    break;
+                }
+                next = item.Open;
+                item.Open = false;
+                past = item;
+            }
+        }
     }
 }
