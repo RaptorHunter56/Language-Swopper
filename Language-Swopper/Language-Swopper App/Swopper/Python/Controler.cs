@@ -115,11 +115,11 @@ namespace LswPython
                     else if (((lsBase)item).lsType == "LsBracket")
                         Return += lswBracketPath.Write(item, ref PythonPositionRef) + "\r\n";
                     else if (((lsBase)item).lsType == "LsIf")
-                        Return += lswIfPath.Write(item, ref PythonPositionRef) + "\r\n";
+                        Return += lswIfPath.Write(item, ref PythonPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsElseIf")
-                        Return += lswElseIfPath.Write(item, ref PythonPositionRef) + "\r\n";
+                        Return += lswElseIfPath.Write(item, ref PythonPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsElse")
-                        Return += lswElsePath.Write(item, ref PythonPositionRef) + "\r\n";
+                        Return += lswElsePath.Write(item, ref PythonPositionRef) + "\r";
                     else if (((lsBase)item).lsType == "LsName")
                         try { Return += ((LsName)item).Lanaguage + " Doesn't Have a conversion file for this." + "\r"; } catch { Return += "{No_Type}" + "\r\n"; }
                     else
